@@ -1,0 +1,5 @@
+{
+  "spreadsheet_id": "12jm0IB84L5NjXh4DfLUQRZrL1xegbolsyX9Bibfae0I",
+  "gid": "0",
+  "_note": "This is the sheet Tally's 'Google Sheets' integration writes to. Delete this file (or clear spreadsheet_id) to stop pulling from it. The sheet must stay shared as 'Anyone with the link: Viewer' for the build to be able to read it."
+}
