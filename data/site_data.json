@@ -1,0 +1,1977 @@
+{
+ "categories": [
+  {
+   "id": 1,
+   "title": "Vehicle Transfers, Tagging & De-Tagging",
+   "short": "Transfers",
+   "icon": "🔄"
+  },
+  {
+   "id": 2,
+   "title": "Stock Types, Mandatory Stock & Launch / MI Vehicles",
+   "short": "Stock",
+   "icon": "🚗"
+  },
+  {
+   "id": 3,
+   "title": "Order Modifications, Amendments & Government Grants",
+   "short": "Order Mods",
+   "icon": "📝"
+  },
+  {
+   "id": 4,
+   "title": "Quotations, Pricing, P.O. Issues & Re-Pricing",
+   "short": "Pricing",
+   "icon": "💷"
+  },
+  {
+   "id": 5,
+   "title": "Demo Plans & Demo Funding",
+   "short": "Demo Funding",
+   "icon": "🧾"
+  },
+  {
+   "id": 6,
+   "title": "Registration, Blocks, Damage & Compliance (V55 / RaV / DVLA / IVA)",
+   "short": "Registration",
+   "icon": "🚧"
+  },
+  {
+   "id": 7,
+   "title": "Vehicle Delays, Status Codes, Shipping & Delivery Times",
+   "short": "Delays",
+   "icon": "🚚"
+  },
+  {
+   "id": 8,
+   "title": "Adoption & Un-Adoption Rules",
+   "short": "Adoption",
+   "icon": "🔓"
+  },
+  {
+   "id": 9,
+   "title": "Brand-Specific Notes (Audi, Skoda, SEAT / Cupra, VWCV, VW)",
+   "short": "Brand-Specific",
+   "icon": "🏷️"
+  },
+  {
+   "id": 10,
+   "title": "SLI / GIS / RAV — Step-by-Step System Procedures",
+   "short": "Procedures",
+   "icon": "💻"
+  },
+  {
+   "id": 11,
+   "title": "Contacts, Escalation Emails & Phone Numbers",
+   "short": "Contacts",
+   "icon": "📧"
+  },
+  {
+   "id": 13,
+   "title": "Reference Info & Terminology",
+   "short": "Reference",
+   "icon": "📖"
+  },
+  {
+   "id": 12,
+   "title": "Team & Conference Call Notes / Product & Supply Updates",
+   "short": "Call Notes",
+   "icon": "🗓️"
+  },
+  {
+   "id": 14,
+   "title": "Tools & Links",
+   "short": "Tools & Links",
+   "icon": "🪛"
+  },
+  {
+   "id": 15,
+   "title": "Training & Product Knowledge",
+   "short": "Training",
+   "icon": "🎓"
+  }
+ ],
+ "articles": [
+  {
+   "id": 1,
+   "cat": 3,
+   "title": "If the retailer calls in or sends an email and said they're…",
+   "tags": [
+    "Order Mods",
+    "Stock"
+   ],
+   "html": "<p>If the retailer calls in or sends an email and said they're getting that confirmation message while trying to place an order for a brand new vehicle and that is confusing them, that basically means the system has found that exact vehicle in the retailer's stock, and they should be fine with clicking the \"Convert\" button. you may also get a call before the retailer sends the email through</p>",
+   "images": [
+    "article_images/a1_1.png"
+   ]
+  },
+  {
+   "id": 2,
+   "cat": 3,
+   "title": "If the retailer is trying to tag the vehicle but it's showing…",
+   "tags": [
+    "Order Mods",
+    "Tagging",
+    "Quotation"
+   ],
+   "html": "<p>If the retailer is trying to tag the vehicle but it's showing that they've got no quota we just untick 'Counted against the quota system' box and they should be fine.</p><p>From ''Order modification\" tab, at the bottom left corner</p>",
+   "images": [
+    "article_images/a2_1.png"
+   ]
+  },
+  {
+   "id": 3,
+   "cat": 3,
+   "title": "In case the retailer asks for an amendment, and the vehicle is…",
+   "tags": [
+    "Order Mods",
+    "SLI",
+    "Grant",
+    "Status Code",
+    "Contact"
+   ],
+   "html": "<p>In case the retailer asks for an amendment, and the vehicle is in status: P, V, 00, and 10, and the retailer can't provide the config code, we can ask for the amendments that he wants to add to the vehicle, and we can make them from our side on SLI.</p><ul><li>If the retailer is asking to add grants to ID Polo models Status below (20) &gt;&gt;</li></ul><p>1- Right click &gt; Commission modification 2- X-SET : drop box and choose Basic Offer the first one 3-Set the required week to 202639 4- Double click on option code &gt; choose Government electric car grant from the drop box. 5- click on S2i on the left box and press &gt;&gt;Add 6- Apply and accept If the status is above 20 we cannot add grants so we need to email <code>GeneralistSales@vwg.co.uk</code> and ask them to add the grants themselves.</p><ul><li>Quick Log :</li></ul><p>Level 1: Group Operations - Brand Support Level 2: Product Marketing Level 3: OLEV Grant On E-Vehicles</p>",
+   "images": []
+  },
+  {
+   "id": 4,
+   "cat": 3,
+   "title": "When retailer is tagging a customer and getting \" Quota error on…",
+   "tags": [
+    "Order Mods",
+    "SLI",
+    "Tagging",
+    "Quotation"
+   ],
+   "html": "<p>When retailer is tagging a customer and getting \" Quota error on SLI\" Take order number go to order modification, unmark the box above \"SAVE\" they'll be able to Tag let them do it before ending the call</p>",
+   "images": []
+  },
+  {
+   "id": 5,
+   "cat": 1,
+   "title": "There is another type of the transfers call \"sales master transfer\" For…",
+   "tags": [
+    "Transfers",
+    "Audi",
+    "Transfer",
+    "Contact"
+   ],
+   "html": "<p>There is another type of the transfers call \"sales master transfer\" For Audi, if the retailer contacts us to follow up on a \"sales master transfer\" we need to check with UK team, as such requests will go through another queue we have no access to it yet and in case the retailer wants to resend the form, he can send it to Email address: <code>Audisalesoffice@audi.co.uk</code></p>",
+   "images": []
+  },
+  {
+   "id": 6,
+   "cat": 11,
+   "title": "Hiya Guys, if a retailer rings up saying my pricing is not…",
+   "tags": [
+    "Contacts",
+    "Pricing",
+    "Contact"
+   ],
+   "html": "<p>Hiya Guys, if a retailer rings up saying my pricing is not matching connect online , you need to refer them to GFS. They can contact them via the portal or <code>gfsagency@vwg-uk.co.uk</code></p><p>https://sem-uk.lightning.force.com/lightning/r/Knowledge__kav/ka0cj000000MMt7AAG/view</p><p>this is on knowledge base - contact list for retailers (000010472 - use this article ref instead try this no)</p>",
+   "images": []
+  },
+  {
+   "id": 7,
+   "cat": 12,
+   "title": "Call notes (PC):",
+   "tags": [
+    "Call Notes",
+    "Stock",
+    "Bulletin"
+   ],
+   "html": "<p>Call notes (PC):</p><ul><li>Product -Tiago closed for order stock only T-cross style opens today.</li><li>T-Roc MY27 is live today - Match trim only</li><li>Supply -- The stuck vehicles some are going to be moving week 33</li><li>Emden bridge repairs finish work next week wont impact sept</li><li>UK port still busy we are pushing cars to network and hopefully post september port should be ok.</li><li>Cathy Quinn has now retired and her replacement is Emma Thomas who starts 7th sept sales support managers now align and new inbox will be getting set up soon Bill will let us know when its live.</li></ul><p><code>VW0857-26</code>-Blue and grey paint options closed for ID.5</p>",
+   "images": []
+  },
+  {
+   "id": 8,
+   "cat": 1,
+   "title": "For De-tag request with Order type : 02/03/04/05/07 - Fleet Leasing, we…",
+   "tags": [
+    "Transfers",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<p>For De-tag request with Order type : 02/03/04/05/07 - Fleet Leasing, we gonna deal with it as \"Re-tail de-tag\" For De-tag request with Order type : 08/09 - Fleet Leasing, we gonna deal with it as \"Agency de-tag\"</p>",
+   "images": []
+  },
+  {
+   "id": 9,
+   "cat": 7,
+   "title": "If you find a delayed VWPC vehicle with a production point of…",
+   "tags": [
+    "Delays",
+    "VWPC",
+    "Shipping"
+   ],
+   "html": "<p>If you find a delayed VWPC vehicle with a production point of 7, instruct the retailer to check the VIP portal first. If the vehicle is not listed, it is due to the six-week summer shutdown that began at the end of July.</p><p>While the vehicle may already be built, factories are currently closed.</p><p>Once operations resume, all built vehicles will be shipped out immediately.</p>",
+   "images": []
+  },
+  {
+   "id": 10,
+   "cat": 2,
+   "title": "RAVALS= Cupra RAVALS (RAVALS IN MANDATORY - DO NOT TRANSFER THEM -…",
+   "tags": [
+    "Stock",
+    "Cupra",
+    "Transfer",
+    "Mandatory Stock"
+   ],
+   "html": "<p>RAVALS= Cupra RAVALS (RAVALS IN MANDATORY - DO NOT TRANSFER THEM - THERE ONLY IN MANDATORY DUE TO T/O BEEN BLOCKED</p>",
+   "images": []
+  },
+  {
+   "id": 11,
+   "cat": 6,
+   "title": "For VWPC Check this article on The Hub : VW3251-16 In case…",
+   "tags": [
+    "Registration",
+    "VWPC",
+    "Bulletin"
+   ],
+   "html": "<p>For VWPC Check this article on The Hub : <code>VW3251-16</code> In case retailer wanted to request V5 form</p>",
+   "images": []
+  },
+  {
+   "id": 12,
+   "cat": 7,
+   "title": "We might receive calls for Audi as well regarding the delayed on…",
+   "tags": [
+    "Delays",
+    "Audi",
+    "Status Code"
+   ],
+   "html": "<p>We might receive calls for Audi as well regarding the delayed on the status of 20 and all we have to do is to check the sheet I have shared via email with Audi team in Cairo and inform the retailer to keep his eye on the order as most of them have no estimated time from the factory</p>",
+   "images": []
+  },
+  {
+   "id": 13,
+   "cat": 3,
+   "title": "In case we receive a request from a retailer to add a…",
+   "tags": [
+    "Order Mods",
+    "SLI",
+    "Contact"
+   ],
+   "html": "<p>In case we receive a request from a retailer to add a dealer contribution number to his order on the SLI to send it as a request to <code>GFSagency@vwg.co.uk</code></p>",
+   "images": []
+  },
+  {
+   "id": 14,
+   "cat": 12,
+   "title": "Taigo to close for factory order on 4 August VW0835-26",
+   "tags": [
+    "Call Notes",
+    "Bulletin"
+   ],
+   "html": "<p>Taigo to close for factory order on 4 August <code>VW0835-26</code></p>",
+   "images": []
+  },
+  {
+   "id": 15,
+   "cat": 12,
+   "title": "Please see PC Conference call notes from 12/08/2026 Supply",
+   "tags": [
+    "Call Notes",
+    "Grant",
+    "Delivery",
+    "Stock",
+    "Bulletin"
+   ],
+   "html": "<p>Please see PC Conference call notes from 12/08/2026 Supply</p><ul><li>Simon confirmed that the Emden railway bridge repairs are now complete and deliveries are now returning to normal.</li><li>UK Ports continue to be at full capacity. Retailers are encouraged to call stock to site as soon as possible. Product</li><li>the ID.3 Neo will open for order (OFO) on Thursday 13 August, following approval of the vehicle's eligibility for the UK Government's ECG (Electric Car Grant).</li></ul><p>This will be eligible for the £1,500 grant, with all current batteries and trims eligible: <code>VW0756-26</code>. • New Match trim will be added to the T-Roc line up, opening for order (OFO) on Thursday 13 August. <code>VW0834-26</code></p>",
+   "images": []
+  },
+  {
+   "id": 16,
+   "cat": 1,
+   "title": "If a retailer submits a transfer request without specifying that they want…",
+   "tags": [
+    "Transfers",
+    "Transfer",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<p>If a retailer submits a transfer request without specifying that they want to transfer customer information, the transfer is processed and de-tagged by default.</p><p>This happens because the option to keep customer details is left unchecked unless explicitly requested.</p><p>In these instances, you should manually re-tag the account and remind the retailer to explicitly request to save the customer information for future transfer submissions.</p>",
+   "images": []
+  },
+  {
+   "id": 17,
+   "cat": 1,
+   "title": "To get the customer details from de-tagged vehicle, go to the yellow…",
+   "tags": [
+    "Transfers",
+    "SLI",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<p>To get the customer details from de-tagged vehicle, go to the yellow telephone and press this icon ↓↓↓</p><p>Open another SLI to follow Re-tagging Steps:</p><ul><li>Navigate to Order Modification &gt; Customer Entry.</li></ul><ul><li>Enter the Customer Type.</li></ul><ul><li>Input the contact information and click Find.</li></ul><ul><li>Click the Telephone Icon located on the middle-right of the SLI screen.</li></ul><ul><li>Enter the customer details.</li></ul><div class=\"callout\">⚠️ Note: Re-tagging is not our standard process, please complete it if your workload permits.</div><p>Once resolved, confirm with the retailer and ask them to verify the customer information in SLI.</p>",
+   "images": [
+    "article_images/a17_1.png"
+   ]
+  },
+  {
+   "id": 18,
+   "cat": 13,
+   "title": "Important notice Please refer to Audi and VWCV locations as Centers Ex.\"Can…",
+   "tags": [
+    "Reference",
+    "Audi",
+    "VWCV"
+   ],
+   "html": "<div class=\"callout\">⚠️ Important notice Please refer to Audi and VWCV locations as Centers Ex.\"Can I have your center number?\" All other brands remain classified as Retailers.</div>",
+   "images": []
+  },
+  {
+   "id": 19,
+   "cat": 7,
+   "title": "If the retailer has no access to Vision Portal where they can…",
+   "tags": [
+    "Delays",
+    "Contact",
+    "Bulletin"
+   ],
+   "html": "<p>If the retailer has no access to Vision Portal where they can check the delayed VW PC vehicles refer them to this bullet in : <code>FS0196-18</code> Hub article https://hub.vwg.co.uk/fs/reference/renew/2.1/renew-request-access-or-removal-form-fs0196-181 The process for requesting and de-activating access to Key2Key (K2K) is now easier. You should now download the form (below) and use it to email your request to VWFS sales support at reRENEW request access/removal <code>formtaileraccess@vwfs.co.uk.</code> The team will liaise with third parties to obtain your access to K2K and Vision.</p>",
+   "images": []
+  },
+  {
+   "id": 20,
+   "cat": 6,
+   "title": "If you checked SLI and found the vehicle profile shows red that…",
+   "tags": [
+    "Registration",
+    "SLI",
+    "Mandatory Stock",
+    "Stock",
+    "Contact"
+   ],
+   "html": "<p>If you checked SLI and found the vehicle profile shows red that means that the vehicle is reported Damaged so it can not go under mandatory stock.</p><p>Gather RDC: email, phone number, and email <code>cscdamageteam@vwg.co.uk</code> for further assistance and a damage specialist will reach out. We only have 1 damage specialist, her name is Shirley.</p>",
+   "images": [
+    "article_images/a20_1.png"
+   ]
+  },
+  {
+   "id": 21,
+   "cat": 6,
+   "title": "In case someone calls egarding an IVA block (as per Abbas from…",
+   "tags": [
+    "Registration",
+    "Audi",
+    "SLI",
+    "IVA"
+   ],
+   "html": "<p>In case someone calls egarding an IVA block (as per Abbas from the Audi team)</p><p>Regarding the IVA block and below u will see the official email we received, so in case u receive such request from the retailer u can advise him</p><p>Hi</p><p>The vehicle must remain blocked until the IVA application has been approved. Once this has happened, we will update SLI with the new type approval number and the blocks will be removed. At present we have no time frame for when the applications will be approved. This applies to all vehicles that have this block on them.</p><p>Centres were made aware that if these vehicles were not registered by 30th June they would be unsaleable until such time as the IVA process had been completed.</p>",
+   "images": [
+    "article_images/a21_1.png",
+    "article_images/a21_2.png"
+   ]
+  },
+  {
+   "id": 22,
+   "cat": 9,
+   "title": "if anyone gets a CV call relating to Transporter Commerce Pro S…",
+   "tags": [
+    "Brand-Specific",
+    "Bulletin"
+   ],
+   "html": "<p>if anyone gets a CV call relating to Transporter Commerce Pro S and Sportline, these models go to conversion, the info for this is on the Production &amp; Supply Update - <code>CV0505-23</code>, give this to the Van centre so they can check it out.</p>",
+   "images": []
+  },
+  {
+   "id": 23,
+   "cat": 7,
+   "title": "For PC",
+   "tags": [
+    "Delays"
+   ],
+   "html": "<p>For PC</p>",
+   "images": [
+    "article_images/a23_1.png"
+   ]
+  },
+  {
+   "id": 24,
+   "cat": 7,
+   "title": "Delivery times (CV) Transport to UK from Emden is within 10 working…",
+   "tags": [
+    "Delays",
+    "Delivery"
+   ],
+   "html": "<p>Delivery times (CV) Transport to UK from Emden is within 10 working days (up to 20 days during peak times of February/March and August/September) Transport from Turkey (Transporter) to UK port currently averages 37 days. 95 per cent of production arrives within 50 days Transport from UK port to Van Centre is within 10 working days from arrival in the UK after the transport order has been generated (providing the vehicle is at the port that serves your Van Centre, known as 'in zone') Transport orders are generated 10 working days before the required-by date. This will be extended during peak times of February/March and August/September so UK ports do not receive more vehicles than their capacity allows Transport orders for Transporter product will be generated once a vehicle has been at UK port for 10 days, regardless of required-by date, so UK ports do not receive more vehicles than their capacity</p>",
+   "images": []
+  },
+  {
+   "id": 25,
+   "cat": 7,
+   "title": "Tip 25",
+   "tags": [
+    "Delays"
+   ],
+   "html": "",
+   "images": [
+    "article_images/a25_1.png"
+   ]
+  },
+  {
+   "id": 26,
+   "cat": 6,
+   "title": "If u receive a call from a retailer regarding an error to…",
+   "tags": [
+    "Registration",
+    "SLI",
+    "Status Code"
+   ],
+   "html": "<p>If u receive a call from a retailer regarding an error to make a registration and u find 2 blocks on SLI and status is partially registered</p><ul><li>Guide him on the SLI to click on the yellow telephone and then right click - From the drop menu he will choose RFO contact information- and then he can enter the agreement number \"From the customer information he has\", then Apply and he will see that it has been submitted successfully After that confirm on him that the 2 blocks will be removed automatically from the system within the day</li></ul>",
+   "images": []
+  },
+  {
+   "id": 27,
+   "cat": 11,
+   "title": "If a retailer rings up saying my pricing is not matching connect…",
+   "tags": [
+    "Contacts",
+    "Pricing",
+    "Contact"
+   ],
+   "html": "<p>If a retailer rings up saying my pricing is not matching connect online , you need to refer them to GFS. They can contact them via the portal or <code>gfsagency@vwg-uk.co.uk</code></p>",
+   "images": []
+  },
+  {
+   "id": 28,
+   "cat": 2,
+   "title": "For PC",
+   "tags": [
+    "Stock",
+    "Demo",
+    "Transfer",
+    "De-Tag",
+    "Launch Cars"
+   ],
+   "html": "<p>For PC</p><p>ID. Polo MI cars as one has been transferred recently and we need to manage this carefully otherwise it could impact the launch weekend for the car in early November.</p><p>All retailers were allocated with 4 MI cars and these can be identified by SOC in option field. These cars have been designated to satisfy Brand standards and support the launch of the car so it's vital that you help with this by not removing any blocks or transferring the MI cars. Retailers have been informed but the recent example has shown they will still ask for this.</p><p>As a reminder, each retailer has the following MI cars in their stock:-</p><p>1 x Style LE -- this is dedicated for a display car so must not be transferred</p><p>3 x Life LE -- 2 of these are already tagged to demo and must not be detagged or transferred leaving 1 Life that can be treated as stock</p><p>Can you re-emphasise this to the entire team so that no more cars are transferred or blocks removed</p>",
+   "images": []
+  },
+  {
+   "id": 29,
+   "cat": 8,
+   "title": "If you are facing an adopted transfer please refer the retailer to…",
+   "tags": [
+    "Adoption",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<p>If you are facing an adopted transfer please refer the retailer to these bulletins:</p><p>VW : <code>VW1269-21</code></p><p>Skoda : <code>SK0976-21</code></p><p>Seat : <code>SE0945-21</code></p><p>Cupra : <code>CU0200-21</code></p><p>Audi : <code>AU1225-21</code></p><p>CV : <code>CV0315-23</code></p>",
+   "images": []
+  },
+  {
+   "id": 30,
+   "cat": 5,
+   "title": "What prevents a demo plan from going on funding:",
+   "tags": [
+    "Demo Funding",
+    "SLI",
+    "GIS",
+    "Demo",
+    "Funding"
+   ],
+   "html": "<p>What prevents a demo plan from going on funding:</p><p>1- SAC code in SLI (for WVPC only) , if this field has a code in it, it needs to be removed.</p><p>2- if there is no demo plan number (the retailer did not add it).</p><p>3- If the vehicle is not partially registered.</p><p>3- If the consignment status is not C.</p><p>4- If there's a GIS error.</p><p>5-If the invoice code is not zero (it means it's not invoicing as a demo plan).</p><ul><li>If there's a SAC code, the retailer needs to submit a form that will be directed to the tactical team and they will remove it.</li></ul><p>bulletin for the form: <code>VW1218-16</code>.</p><p>How to see on GIS if the vehicle is on demo funding</p><p>1-On GIS, go to documents- choose consignment\\\\invoices of chassis</p><p>2- Go to financial data tab</p><p>3- Scroll to the side to see the demo plan code</p><p>4- If two rows are filled with the demo plan code (just like the one shown in SLI) then it's on funding already</p><p>5- If not, then it's not on a demo funding</p>",
+   "images": []
+  },
+  {
+   "id": 31,
+   "cat": 5,
+   "title": "Tip 31",
+   "tags": [
+    "Demo Funding"
+   ],
+   "html": "",
+   "images": [
+    "article_images/a31_1.png"
+   ]
+  },
+  {
+   "id": 32,
+   "cat": 10,
+   "title": "When you have a call, ask if he pressed the wrong button…",
+   "tags": [
+    "Procedures",
+    "Status Code"
+   ],
+   "html": "<p>When you have a call, ask if he pressed the wrong button while taxing a car, so you need to:</p><ul><li>take the VIN number</li></ul><ul><li>open the vehicle icon, then go to COC request , choose queries</li></ul><ul><li>enter the VIN number, then accept</li></ul><ul><li>highlight the VIN and right-click</li></ul><ul><li>choose bulk COC management</li></ul><ul><li>change data status to standard and availability to Y</li></ul><ul><li>press accept</li></ul>",
+   "images": []
+  },
+  {
+   "id": 33,
+   "cat": 6,
+   "title": "If someone is having a reg block on SLI, the block must…",
+   "tags": [
+    "Registration",
+    "SLI",
+    "IVA"
+   ],
+   "html": "<p>If someone is having a reg block on SLI, the block must be remained on the vehicle ntil the IVA application has been approved. Once this has happened, Supply will update SLI with the new type approval number and the blocks will be removed. At present we have no time frame for when the applications will be approved. This applies to all vehicles that have this block on them.</p><p>Centres were made aware that if these vehicles were not registered by 30th June they would be unsaleable until such time as the IVA process had been completed.</p>",
+   "images": []
+  },
+  {
+   "id": 34,
+   "cat": 4,
+   "title": "Quotations",
+   "tags": [
+    "Pricing",
+    "Quotation"
+   ],
+   "html": "<p>Quotations</p><p>Order number:</p><p>Order type:</p><p>Customer contribution:</p><p>Customer type:</p><p>First RFO:</p><p>Second RFO:</p><p>--------------------</p><p>First RFO: 205675</p><p>Second RFO: 103709</p><p>MK145AN</p>",
+   "images": []
+  },
+  {
+   "id": 35,
+   "cat": 4,
+   "title": "Audi Shipping rules are as follows:",
+   "tags": [
+    "Pricing",
+    "Audi",
+    "Shipping",
+    "Stock"
+   ],
+   "html": "<p>Audi Shipping rules are as follows:</p><ul><li>All '06' Showroom and '07' Stock orders will remain in Emden until 60 days have elapsed, or until manually called off.</li></ul><ul><li>Please note that it may be necessary from time to time to ship vehicles prior to 60 days due to Emden storage restrictions and shipping utilisation.</li></ul><ul><li>All customer orders ('00' to '05' and '08','09' &amp; '11') will be automatically called-off and will be shipped if within 30 days of the required date -- known as 'Green Flagged'.</li></ul><ul><li>All A1 orders will be automatically shipped on the first available ship from Spain.</li></ul>",
+   "images": [
+    "article_images/a35_1.png"
+   ]
+  },
+  {
+   "id": 36,
+   "cat": 4,
+   "title": "Vehicle Re-pricing Steps",
+   "tags": [
+    "Pricing",
+    "SLI"
+   ],
+   "html": "<p>Vehicle Re-pricing Steps</p><ol><li>Log in to SLI.</li></ol><ol><li>Open the order using Vehicle Query.</li></ol><ol><li>Click the yellow phone icon.</li></ol><ol><li>Click the pound sign (£) icon.</li></ol><ol><li>Click the Re-pricing button on the pricing screen.</li></ol><ol><li>Amend the Val date to the requested date.</li></ol><p>(check price data || for basic/ requested price)</p><ol><li>Click the stimulation button then Save</li></ol>",
+   "images": []
+  },
+  {
+   "id": 37,
+   "cat": 7,
+   "title": "A little reminder :",
+   "tags": [
+    "Delays",
+    "VWPC",
+    "Delivery",
+    "Shipping",
+    "Status Code"
+   ],
+   "html": "<p>A little reminder :</p><ul><li>If you find a delayed VWPC status 38 or under with a production point of 7, instruct the retailer to check the Vision portal bulletin (<code>VW0095-26</code>).</li></ul><ul><li>Don't forget to tell the retailer : If the vehicle is not listed, it is due to the six-week summer shutdown that began at the end of July.</li></ul><ul><li>While the vehicle may already be built, factories are currently closed.</li></ul><ul><li>Once operations resume, all built vehicles will be shipped out immediately.</li></ul><ul><li>If it's status +40 with actual transport order check VIP Portal</li></ul><ul><li>Production point of 8 is a completed one and waiting to be delivered to UK</li></ul>",
+   "images": []
+  },
+  {
+   "id": 38,
+   "cat": 2,
+   "title": "You might get a call with retailers asking to transfer a SKDOA…",
+   "tags": [
+    "Stock",
+    "Skoda",
+    "Transfer",
+    "Contact"
+   ],
+   "html": "<p>You might get a call with retailers asking to transfer a SKDOA vehicle from 31959 account, those vehicles are only for contract hire deals, they can be transferred out as long as they're not already in another retailer's stock and tagged! So if its not showing in 31959 don't transfer it out.</p><p>There is only limited stock so we dont want to find ourselves in a situation where we can't replace the vehicle.</p><p>If you are unsure please reach out to me or tell them to email <code>VehicleSupport@skoda.co.uk</code></p>",
+   "images": []
+  },
+  {
+   "id": 39,
+   "cat": 6,
+   "title": "The DVLA's Register a Vehicle (RaV) service is generally closed on bank…",
+   "tags": [
+    "Registration",
+    "RaV",
+    "DVLA"
+   ],
+   "html": "<p>The DVLA's Register a Vehicle (RaV) service is generally closed on bank holidays. Standard online availability is limited to Monday through Saturday and excludes Sundays and bank holidays. \\[1, 2\\]</p><p>Service Hours</p>",
+   "images": [
+    "article_images/a39_1.png"
+   ]
+  },
+  {
+   "id": 40,
+   "cat": 8,
+   "title": "If you are unadopting to enable tagging to a funded demo or…",
+   "tags": [
+    "Adoption",
+    "Demo",
+    "Funding",
+    "Tagging"
+   ],
+   "html": "<p>If you are unadopting to enable tagging to a funded demo or Agency just forward sell for a couple of days to allow tagging. that's all they need it for.</p>",
+   "images": []
+  },
+  {
+   "id": 41,
+   "cat": 8,
+   "title": "As shown below, we cannot process adopted transfers. You can identify these…",
+   "tags": [
+    "Adoption",
+    "Transfer"
+   ],
+   "html": "<p>As shown below, we cannot process adopted transfers. You can identify these by the \"A\" next to the customer icon</p>",
+   "images": [
+    "article_images/a41_1.png",
+    "article_images/a41_2.png"
+   ]
+  },
+  {
+   "id": 42,
+   "cat": 3,
+   "title": "When retailer calls in to make any amendments for GTI 50 Limited…",
+   "tags": [
+    "Order Mods",
+    "Contact",
+    "Bulletin"
+   ],
+   "html": "<p>When retailer calls in to make any amendments for GTI 50 Limited Edition.</p><ul><li>They must fill out a specific form they can find in <code>VW1437-25</code></li><li>They must send the Confg Code \"<code>GeneralistSales@vwg.co.uk</code>\" as we have to keep a record and product &amp; supply team will keep an eye on the request</li></ul>",
+   "images": []
+  },
+  {
+   "id": 43,
+   "cat": 9,
+   "title": "In case you are de-tagging a Skoda vehicle and the status is…",
+   "tags": [
+    "Brand-Specific",
+    "Skoda",
+    "De-Tag",
+    "Tagging",
+    "Status Code"
+   ],
+   "html": "<p>In case you are de-tagging a Skoda vehicle and the status is from 36 to 40, you need to add a block for 24 hours <code>SK1009-18</code></p><p>Right-click on vehicle details</p><p>Go to Vehicle block/Author.Main</p><p>Choose from the left side (Protective from mandatory), and on the right side choose EDE</p>",
+   "images": [
+    "article_images/a43_1.png"
+   ]
+  },
+  {
+   "id": 44,
+   "cat": 1,
+   "title": "If a retailer asked you to transfer a vehicle to their stock…",
+   "tags": [
+    "Transfers",
+    "SLI",
+    "Transfer",
+    "Quotation",
+    "Stock"
+   ],
+   "html": "<p>If a retailer asked you to transfer a vehicle to their stock or showroom and he doesn't have an order number.</p><p>You took the VIN or Chassis , wrote it on SLI and found no order number , This will not allow you to right click and choose order modification to make the transfer.</p><p>In this case:</p><p>Open SLI</p><ul><li>Write the VIN</li><li>Right click and choose order entry from vehicle</li><li>Fill the yellow boxes with the info you have (retailer number and so on)</li><li>Remove the quota mark</li><li>Click save</li><li>An order number will appear</li><li>Take it and make the normal transfer from the order management</li></ul>",
+   "images": []
+  },
+  {
+   "id": 45,
+   "cat": 3,
+   "title": "When the retailer wants only to add the customer contribution number to…",
+   "tags": [
+    "Order Mods",
+    "De-Tag",
+    "Tagging",
+    "Quotation",
+    "P.O."
+   ],
+   "html": "<p>When the retailer wants only to add the customer contribution number to the order and did not ask for any quotation</p><p>1- The first step it to take the customer type- the first and second RFO</p><p>2- De-tagg it</p><p>3- Click on order modification and then click on Quot button and add the customer contribution number, then click on the PO and as normal process of the quotation just add the customer type and the first and the second RFO and that is called \"Re-tag\"</p><p>No need to provide the new quotation number, Just inform the retailer that you added the customer contribution number as per his request</p><p>Last thing, once you de-tag the order type will be as 07- in stock and once you re-tag it will be updated by the system to the original order type</p>",
+   "images": []
+  },
+  {
+   "id": 46,
+   "cat": 10,
+   "title": "(CV ) if there is no order num and the vehicle is…",
+   "tags": [
+    "Procedures"
+   ],
+   "html": "<p>(CV ) if there is no order num and the vehicle is not assigned to the retailer.</p><p>How to valuate a vehicle ?</p><ul><li>open vehicle detail</li><li>click it he paper with the green tick on the bottom left</li><li>press valuate</li></ul>",
+   "images": []
+  },
+  {
+   "id": 47,
+   "cat": 11,
+   "title": "n case you get a retailer calling about a concern that seems…",
+   "tags": [
+    "Contacts",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "VWCV"
+   ],
+   "html": "<p>n case you get a retailer calling about a concern that seems to be related to customer support and not brand support</p><p>Customer care numbers</p><p>Skoda - 03330037504</p><p>VWPC- 0800333666</p><p>Audi - 0800699888</p><p>VWCV - 08007834909</p><p>Seat --08085222222</p>",
+   "images": []
+  },
+  {
+   "id": 48,
+   "cat": 7,
+   "title": "Guys, if you get any queries relating to Lead times, these are…",
+   "tags": [
+    "Delays"
+   ],
+   "html": "<p>Guys, if you get any queries relating to Lead times, these are in the Production and Supply updates for each brand, these are calculated from the Acceptance date. so for Example if the acceptance date is 20.08, and its a lead time of say 17 weeks, they wont see that vehicle until the end of Nov beginning of Dec, thats barring no delays etc.</p>",
+   "images": []
+  },
+  {
+   "id": 49,
+   "cat": 9,
+   "title": "Regarding the skoda de-tag 24h block, take care guys if it has…",
+   "tags": [
+    "Brand-Specific",
+    "Skoda",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<p>Regarding the skoda de-tag 24h block, take care guys if it has a transport order, don'tmake this block</p>",
+   "images": []
+  },
+  {
+   "id": 50,
+   "cat": 5,
+   "title": "What prevents a demo plan from going on funding:",
+   "tags": [
+    "Demo Funding",
+    "SLI",
+    "GIS",
+    "Demo",
+    "Funding"
+   ],
+   "html": "<p>What prevents a demo plan from going on funding:</p><p>1- SAC code in SLI (for WVPC only) , if this field has a code in it, it needs to be removed.</p><p>2- if there is no demo plan number (the retailer did not add it).</p><p>3- If the vehicle is not partially registered.</p><p>3- If the consignment status is not C.</p><p>4- If there's a GIS error.</p><p>5-If the invoice code is not zero (it means it's not invoicing as a demo plan).</p><div class=\"callout\">⚠️ NOTE: If it's month's end it can take a little while to go on demo funding or for the system to process anything</div><ul><li>If there's a SAC code, the retailer needs to submit a form that will be directed to the tactical team and they will remove it.</li></ul><p>bulletin for the form: <code>VW1218-16</code>.</p>",
+   "images": []
+  },
+  {
+   "id": 51,
+   "cat": 7,
+   "title": "Customer wants know when vehicle build will start",
+   "tags": [
+    "Delays",
+    "Status Code"
+   ],
+   "html": "<p>Customer wants know when vehicle build will start</p><p>Until it is confirmed (status 20) we are unable to advise when build will start - we can advise the lead time at the time of ordering however, it has been on order for quite some time now so just looking on the hub to see if any updates for Enyaq as its nearly 2 months and still at status V</p><p>it was 16 weeks from accepting date</p>",
+   "images": []
+  },
+  {
+   "id": 52,
+   "cat": 7,
+   "title": "Is there a time frame for the vehicle to move from St:…",
+   "tags": [
+    "Delays",
+    "Shipping"
+   ],
+   "html": "<p>Is there a time frame for the vehicle to move from St: 38 to 40? i have a retailer saying it was released to ship on the 31st of last month, and its not showing on the Vehicles on factory hold in Emden</p><p>3 weeks Approx time from Emden arrival to UK arrival - this assumes the vehicle has been called off and is required within 30 days.</p>",
+   "images": []
+  },
+  {
+   "id": 53,
+   "cat": 9,
+   "title": "CV Team - UNR51 Sound Emission - Update - if the vehicle…",
+   "tags": [
+    "Brand-Specific",
+    "IVA"
+   ],
+   "html": "<p>CV Team - UNR51 Sound Emission - Update - if the vehicle has a NSSTA it is ok it does not need a IVA too</p>",
+   "images": []
+  },
+  {
+   "id": 54,
+   "cat": 1,
+   "title": "You can do transfers over the phone / no E-form only for…",
+   "tags": [
+    "Transfers",
+    "Skoda",
+    "Transfer",
+    "Stock"
+   ],
+   "html": "<p>You can do transfers over the phone / no E-form only for \"Tanya Smith 25079\".</p><p>While proceeding go to \"Order modification\" and make sure to confirm:</p><p>When they need the vehicle (required date and confirm which address check drop point)</p><p>she means transfers from stock list from Brand. Toniya has Skoda authority</p>",
+   "images": []
+  },
+  {
+   "id": 55,
+   "cat": 9,
+   "title": "Everyone Remember that 26079 - RRG is a Škoda retailer. Please refrain…",
+   "tags": [
+    "Brand-Specific",
+    "Transfer"
+   ],
+   "html": "<p>Everyone Remember that 26079 - RRG is a Škoda retailer. Please refrain from transferring cars from their account over the phone, specially when they've already been customer tagged.</p><p>Over the past two weeks, I've received a number of embarrassing responses from them regarding their cars being transferred without their permission.</p>",
+   "images": []
+  },
+  {
+   "id": 56,
+   "cat": 1,
+   "title": "While we process stock matching (stock replacement) for agencies, we do not…",
+   "tags": [
+    "Transfers",
+    "VWPC",
+    "De-Tag",
+    "Tagging",
+    "Pricing"
+   ],
+   "html": "<p>While we process stock matching (stock replacement) for agencies, we do not provide price protection for VWPC vehicles. Additionally, we verify that both SLIs share the same RFO before de-tagging the original order number, which is always listed first on the form.</p>",
+   "images": []
+  },
+  {
+   "id": 57,
+   "cat": 1,
+   "title": "if a retailer calls to tag a vehicle under his stock and…",
+   "tags": [
+    "Transfers",
+    "SLI",
+    "Tagging",
+    "Stock"
+   ],
+   "html": "<p>if a retailer calls to tag a vehicle under his stock and you only have the VIN and SLI is not providing an order number:</p><p>1) you go to order entry from vehicle</p><p>2) you add the retail code in the order retailer box in yellow</p><p>3) you ask the retailer for the required date</p><p>4) reason : CF</p>",
+   "images": []
+  },
+  {
+   "id": 58,
+   "cat": 2,
+   "title": "Do not transfer SKODA Mandatory unless it is for a customer order…",
+   "tags": [
+    "Stock",
+    "Skoda",
+    "Demo",
+    "Transfer",
+    "Mandatory Stock"
+   ],
+   "html": "<p>Do not transfer SKODA Mandatory unless it is for a customer order 00</p><p>Reject requests.</p><p>05-demo,</p><p>06-showroom</p><p>07-Stock</p>",
+   "images": []
+  },
+  {
+   "id": 99,
+   "cat": 1,
+   "title": "Tip 59",
+   "tags": [
+    "Transfers"
+   ],
+   "html": "",
+   "images": [
+    "article_images/a99_1.png"
+   ],
+   "label": "TIP 59 (SCREENSHOT)"
+  },
+  {
+   "id": 59,
+   "cat": 1,
+   "title": "If a retailer submits a transfer request without specifying that they want…",
+   "tags": [
+    "Transfers",
+    "SLI",
+    "Transfer",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<p>If a retailer submits a transfer request without specifying that they want to transfer customer information, the transfer is processed and de-tagged by default.</p><p>This happens because the option to keep customer details is left unchecked unless explicitly requested.</p><p>In these instances, you should manually re-tag the account and remind the retailer to explicitly request to save the customer information for future transfer submissions.</p><p>To get the customer details from de-tagged vehicle, go to the yellow telephone and press this icon ↓↓↓</p><p>Open another SLI to follow Re-tagging Steps:</p><ul><li>Navigate to Order Modification &gt; Customer Entry.</li></ul><ul><li>Enter the Customer Type.</li></ul><ul><li>Input the contact information and click Find.</li></ul><ul><li>Click the Telephone Icon located on the middle-right of the SLI screen.</li></ul><ul><li>Enter the customer details.</li></ul><div class=\"callout\">⚠️ Note: Re-tagging is not our standard process, please complete it if your workload permits.</div><p>Once resolved, confirm with the retailer and ask them to verify the customer information in SLI.</p>",
+   "images": []
+  },
+  {
+   "id": 60,
+   "cat": 13,
+   "title": "Tip 60",
+   "tags": [
+    "Reference"
+   ],
+   "html": "",
+   "images": [
+    "article_images/a60_1.png"
+   ]
+  },
+  {
+   "id": 61,
+   "cat": 6,
+   "title": "In case you want to cancel the V55 we do it from…",
+   "tags": [
+    "Registration",
+    "RaV",
+    "V55"
+   ],
+   "html": "<p>In case you want to cancel the V55 we do it from Rav.</p>",
+   "images": [
+    "article_images/a61_1.png"
+   ]
+  },
+  {
+   "id": 62,
+   "cat": 2,
+   "title": "You cant quote on these as its in 64006 stock which is…",
+   "tags": [
+    "Stock",
+    "Quotation"
+   ],
+   "html": "<p>You cant quote on these as its in 64006 stock which is CTP stock (holding stock account)</p>",
+   "images": [
+    "article_images/a62_1.png",
+    "article_images/a62_2.png"
+   ]
+  },
+  {
+   "id": 63,
+   "cat": 6,
+   "title": "In case a retailer wants to cancel the V55, we do it…",
+   "tags": [
+    "Registration",
+    "RaV",
+    "V55"
+   ],
+   "html": "<p>In case a retailer wants to cancel the V55, we do it from RAV</p>",
+   "images": [
+    "article_images/a63_1.png",
+    "article_images/a63_2.png",
+    "article_images/a63_3.png"
+   ]
+  },
+  {
+   "id": 64,
+   "cat": 8,
+   "title": "Un-adoption notes : (",
+   "tags": [
+    "Adoption",
+    "SLI",
+    "GIS",
+    "Demo",
+    "Tagging"
+   ],
+   "html": "<p>Un-adoption notes : (</p><ul><li>If the register status of the vehicle was partially pre-registered (Z) or partially registered (P) and the un-adopt form reason was to be tagged as a demo plan , in this case :</li></ul><p>1- We un-adopt the vehicle</p><p>2- Go to order modification and check the order type</p><p>3- If the order type was on a demo plan , you just remove the invoice block and DON'T</p><p>FORWARD SALE DATE.</p><p>4- If the vehicle was not on a demo plan , then reply back to the retailer asking them to tag it as a demo plan first after that go and remove the invoice block.</p><ul><li>In all cases of un-adopt if you found the reg. status (z) or (p) DON't FORWARD SALE DATE and only REMOVE THE INNVOICE BLOCK</li></ul><ul><li>If you received an un-adopt form , put the VIN or Chassis on the SLI then check..</li></ul><p>1- If it has a demo plan number on the upper top right sceen of the SLI, go to GIS and write the VIN</p><p>Click browse</p><p>Choose Financial Data</p><p>Scroll to the right</p><p>If you found a demo plan code (has numbers not empty)</p><ul><li>REJECT the form , reply back to the retailer and make them contact the support team related to the brand.</li></ul>",
+   "images": [
+    "article_images/a64_1.png"
+   ]
+  },
+  {
+   "id": 65,
+   "cat": 2,
+   "title": "Negotiated:",
+   "tags": [
+    "Stock",
+    "Skoda",
+    "SLI",
+    "Transfer",
+    "Tagging"
+   ],
+   "html": "<p>Negotiated:</p><ul><li>The vehicle belongs to another retailer.</li></ul><ul><li>The requesting retailer must contact the owning retailer to get permission for an internal transfer.</li></ul><ul><li>If they cannot transfer it directly, the owning retailer must submit a transfer form.</li></ul><p>Mandatory (National stock):</p><ul><li>The vehicle is in the owning retailer's account tagged as stock and will show as mandatory</li></ul><ul><li>If a consignment request is pending, the vehicle is locked until requested consignment is complete.</li></ul><ul><li>The retailer who asked for the mandatory car must tag the vehicle immediately upon consignment to secure it.</li></ul><ul><li>If it's fully consigned and untagged any one can take it from this retailer without a form or a permission as long as it shows mandatory</li></ul><p>For Škoda vehicles in the national stock where the RDC starts with a 3 (e.g., 31959), requests cannot be made via phone or e-forms. They must email these requests directly to <code>vehiclesupport@skoda.co.uk.</code></p><p>Mandatory will show available when doing a Stock query search in SLI, as long as it's 07-Stock, it's fine to transfer to their account.</p><p>If for any reason the RDC provides the VIN and the vehicle is 06-Showroom (Even if it shows Mandatory in SLI) this cannot be allocated to the retailer.</p><ul><li>The SLI Stock query search;</li></ul><p>Importer (free no owner), avaiable to take by anyone.</p><p>Mandatory (available to take for customer orders only in SKODA</p><p>Negotiated ( RDC can self manage this request) any issues/error with the transfer? The owning retailer must submit the e-form.</p>",
+   "images": []
+  },
+  {
+   "id": 66,
+   "cat": 2,
+   "title": "For Skoda we are temporally asking that all requests to allocate vehicles…",
+   "tags": [
+    "Stock",
+    "Skoda",
+    "Mandatory Stock",
+    "Contact"
+   ],
+   "html": "<p>For Skoda we are temporally asking that all requests to allocate vehicles from Fleet stock list 31959 are emailed to <code>vehiclesupport@skoda.co.uk</code> (no call or e-forms)</p><p>If it's in Mandatory and available under a regular retailer code for example: 2xxxx, you can do it over the phone for Customer Orders only</p><p>The email is only for Fleet stock list 31959</p>",
+   "images": []
+  },
+  {
+   "id": 67,
+   "cat": 7,
+   "title": "VWPC delayed vehicles",
+   "tags": [
+    "Delays",
+    "VWPC"
+   ],
+   "html": "<p>VWPC delayed vehicles</p><p>The brand has changed how delayed vehicles are managed and viewed. The delayed vehicle report is now available exclusively via the Vision portal, allowing retailers to view and manage their own delayed vehicles directly.</p><p>As part of this change, the Sales Office no longer has access to the delayed report, and we are therefore unable to escalate delayed vehicles to the Supply Team.</p><p>If you have any concerns regarding the information shown on the delayed report in Vision Portal, or any additional queries about the report, please contact your Sales Support Manager, who will be best placed to review and address any issues or escalation requests.</p>",
+   "images": []
+  },
+  {
+   "id": 68,
+   "cat": 3,
+   "title": "The agency e-form has been merged with the customer de-tag form, so…",
+   "tags": [
+    "Order Mods",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<p>The agency e-form has been merged with the customer de-tag form, so there is no longer a need to ask retailers to submit separate agency de-tag requests.</p>",
+   "images": [
+    "article_images/a68_1.png"
+   ]
+  },
+  {
+   "id": 69,
+   "cat": 8,
+   "title": "If a vehicle has a demo code in GIS under financial data…",
+   "tags": [
+    "Adoption",
+    "SLI",
+    "GIS",
+    "Demo",
+    "Stock"
+   ],
+   "html": "<p>If a vehicle has a demo code in GIS under financial data dont unadopt- send it to specialist inbox</p><p>This error means the vehicle was invoiced today and you have to wait till tomorrow to unadopt it.</p><p>If there is a reg on SLI (Z or P) and you are doing unadopt, it will not let you forward sell it , it will come up with error registration process has already started.</p><p>2 options:</p><ol><li>retailer aborts the reg, you forward sell it and remove the block.</li></ol><ol><li>retailer keeps the reg on, you must advise them to contact us back to remove the block.</li></ol><p>If you remove the invoicing block after unadopt form this will make the vehicle invoice it self again straight away</p><p>If a vehicle is in 31959 stock - email vehicle support</p>",
+   "images": []
+  },
+  {
+   "id": 70,
+   "cat": 7,
+   "title": "- (All brands) : Once a vehicle is at PSC 40, it…",
+   "tags": [
+    "Delays",
+    "SLI",
+    "Delivery",
+    "Status Code",
+    "DVLA"
+   ],
+   "html": "<ul><li>(All brands) : Once a vehicle is at PSC 40, it will take 10 days for the vehicle to get to the RDC.</li></ul><ul><li>(WVPC) : The VIP Portal will only allow you to track the delivery of a vehicle once you check the status code \"40\" , there's an actual transport order has been raised (TO), there's a compound entry date (from red truck at the bottom of the SLI).</li></ul><ul><li>(All brands) : The retailers has to provide Letter of confirmation from the DVLA in order to process a de-registration.</li></ul><ul><li>(All brands) : If the vehicle has been registered and the retailer wanna de-register it again he need to wait 7 days from the last registration date.</li></ul>",
+   "images": []
+  },
+  {
+   "id": 71,
+   "cat": 9,
+   "title": "AU0859-26",
+   "tags": [
+    "Brand-Specific",
+    "Bulletin"
+   ],
+   "html": "<p><code>AU0859-26</code></p>",
+   "images": [
+    "article_images/a71_1.png"
+   ]
+  },
+  {
+   "id": 72,
+   "cat": 5,
+   "title": "When the retailer wants to fund a vehicle on a demo plan:",
+   "tags": [
+    "Demo Funding",
+    "SLI",
+    "GIS",
+    "Demo",
+    "Funding"
+   ],
+   "html": "<p>When the retailer wants to fund a vehicle on a demo plan:</p><p>Verify that the vehicle meets all five of these exact criteria before proceeding:</p><ul><li>(WVPC only) SAC Code must be completely blank in SLI. If a code is present, it blocks the plan.</li></ul><ul><li>The retailer must add the demo plan number to the vehicle on SLI.</li></ul><ul><li>The vehicle must display as Partially Registered.</li></ul><ul><li>The status of the Consignment must show as C.</li></ul><ul><li>There must be no errors on GIS.</li></ul><p>If the checklist criteria are met but funding is stuck, check the Invoice Code box:</p><ul><li>If the Invoice Code is '0' so the system is correctly processing it as a demo plan.</li></ul><ul><li>If the Invoice Code box is empty Right-click on SLI ➡️ Select Invoice Order Entry ➡️ Click Accept.</li></ul><ul><li>If the vehicle has a \"request to consign\" status, the retailer must wait for bank clearance.</li></ul><ul><li>Remind them to ensure sufficient funds are available in their account for the bank to complete it.</li></ul><p>If a SAC code was found you can do the following:</p><ul><li>The retailer should submit the standard request form via Bulletin <code>VW1218-16</code>.</li></ul><ul><li>The form routes to the Tactical Team who will handle the removal.</li></ul><p>If you want to do it over the phone if it is the end of the month and you need to clear the code manually for them:</p><ol><li>In SLI, select Multibrand.</li></ol><ol><li>Go to Vehicle Details and search the Order / VIN Number.</li></ol><ol><li>Right-click the record.</li></ol><ol><li>Click Modify SAC Code (This option only appears if a code exists).</li></ol><ol><li>Delete the code and click Accept.</li></ol><p>To confirm the vehicle has successfully transitioned onto demo funding:</p><ol><li>In GIS, go to Documents ➡️ Select Consignment/Invoices of Chassis.</li></ol><ol><li>Open the Financial Data tab.</li></ol><ol><li>Scroll horizontally to the Demo Plan Code column.</li></ol><ol><li>Evaluate the rows:</li></ol><p>a. ✅ Funded: If two rows are completely filled with the demo plan code (matching the SLI code), funding is live.</p><p>b. ❌ Not Funded: If the rows are incomplete or empty, the vehicle is not yet on demo funding.</p><p>Quick log it as :</p><p>Brand support ➡️ Supply ➡️ Invoice query ➡️ ...</p>",
+   "images": []
+  },
+  {
+   "id": 73,
+   "cat": 12,
+   "title": "For PC",
+   "tags": [
+    "Call Notes",
+    "SLI",
+    "Demo",
+    "Transfer",
+    "De-Tag"
+   ],
+   "html": "<p>For PC</p><p>Supply</p><ul><li>Debra advised that some vehicles stored at Ahlhorn during the period of time Emden Bridge was being repaired have not yet transferred back. This is now being looked at.</li></ul><ul><li>She also advised that the new Extended Warranty although live on the configurator is missing costs for the Polo and ID.7 Tourer. Digital are working on this as a priority so no need to make contact please as they are aware. HUB <code>VW0217-26</code>.</li></ul><ul><li>To secure the allocated production volume for Golf GTi EDITION 50, Volkswagen UK will release all orders to the factory this week. All orders will be released by close of play (COP) on Friday 11 September, ready for production to be scheduled in the following week. HUB <code>VW1437-25</code>.</li></ul><ul><li>Simon advised the Port position is currently looking good.</li></ul><p>Product</p><ul><li>Selina advised of 1st October price increase.</li></ul><ul><li>Selina also asked that we chase the last MY26 4Motion that will not build as a MY27 reference SLI 36296605. We advised we will chase for a response immediately from the Retailer.</li></ul><ul><li>The ID. Polo Launch Editions have been closed for stock and showroom orders, to protect customer orders.</li></ul><p>See HUB bulletin <code>VW0937-26</code></p><p>Sales Support Managers</p><ul><li>Just to clarify again from Bill..... the ID. Polo MI cars have now been allocated -- the MI cars can be identified in SLI as having 'S0C -- Intro volume' in options box.</li></ul><p>These cars have designated purposes, and we (SSMs) are in the process of tagging 2 cars per retailer to demo. They will also have one car designated as the showroom display car leaving one car as stock.</p><p>The message to the team is PLEASE DO NOT detag or modify the spec of the MI cars -- if retailers are questioning this, refer them to the Believe in ID Guide on HUB using bulletin <code>VW0342-26</code> or they can speak to their SSM. Here is a breakdown of the MI allocation and the purpose for each one.</p><p>Market introduction cars</p><p>Retailers will be allocated with three to five market introductory (MI) cars. A typical allocation is as follows:-</p><p>1 x Style 52kWh Launch Edition</p><p>1 or 2 x Life 52kWh Launch Edition</p><p>1 x Life 37KWh Launch Edition</p><p>In addition, these cars will also have reg blocks on them which are aligned to the launch of the car and therefore should not be removed.</p><p>Demonstrator standards</p><p>Retailers will be required to run a minimum of two demonstrators at all times. These are stipulated and tagged by Volkswagen UK as:-</p><p>1 x Life 52kWh Launch Edition</p><p>1 x Life 37kWh Launch Edition</p><p>Showroom standards</p><p>Retailers will be required to display one ID. Polo in the showroom at all times. The showroom car will be stipulated by Volkswagen UK as:-</p><p>ID. Polo Style 52 kWh Launch Edition.</p><p>Lisa advised of the following changes.</p><p>As of today, 02/09/2026, please use <code>nationalsalessupportmanagers@volkswagen.co.uk</code> to contact your Sales Support Manager.</p><p>Following Cathy Quinn's retirement, <code>SalesSupportSouth@volkswagen.co.uk</code> will be closing shortly.</p><p>The new mailbox will be managed by Lisa Haddon, Bill Watton and Emma Thomas, who will be providing support to retailers across the UK. As part of this change, we will be operating as a national team, meaning there will no longer be a North/South split in support coverage.</p>",
+   "images": []
+  },
+  {
+   "id": 74,
+   "cat": 9,
+   "title": "When Retailers Ask About: Tiguan R-Line Stock / Showroom Delayed Orders :",
+   "tags": [
+    "Brand-Specific",
+    "Delivery",
+    "Delays",
+    "Status Code",
+    "Stock"
+   ],
+   "html": "<p>When Retailers Ask About: Tiguan R-Line Stock / Showroom Delayed Orders :</p><p>All retailer-ordered stock at Status 00 and 10, plus showroom cars (Order Types 06 and 07), will be automatically converted by the system, these vehicles will instead be built with the 20-inch 'Leeds' black/grey diamond-turned alloys (PJT) and there's no manual action required from the retailer for these specific stock/showroom orders.</p><p>Inform them that due to an extended supply restriction on the standard 20-inch 'York' Black diamond-turned alloys (PJU), the factory is automatically converting these orders to ensure the cars can be built and delivered to the network.</p><p>When Retailers Ask About: Tiguan Black Edition Delayed Orders :</p><p>To bypass the production bottleneck and prevent further delays, we strongly recommend that the retailer manually convert these orders.</p><p>They should update the specification to the 20-inch 'Leeds' black/grey diamond-turned alloys (PJT).</p><p>Advise them that the standard 20-inch 'York' black alloys (PJR) for the Black Edition are also heavily restricted. Unlike the R-Line, these will NOT be automatically converted by the factory, meaning these customer orders face significant, ongoing production delays.</p><p>For further guidance you can refer them to the bulletin : <code>VW0629-26</code>.</p>",
+   "images": []
+  },
+  {
+   "id": 75,
+   "cat": 9,
+   "title": "For Audi Stock Match :Audi stock replacements must belong to the exact…",
+   "tags": [
+    "Brand-Specific",
+    "Audi",
+    "Stock"
+   ],
+   "html": "<p>For Audi Stock Match :Audi stock replacements must belong to the exact same model group example : (Q4 SUV to Q4 Sportback, or A3 Sportback to A3 Saloon).</p>",
+   "images": []
+  },
+  {
+   "id": 76,
+   "cat": 7,
+   "title": "Script for delayed vehicles VWPC:",
+   "tags": [
+    "Delays",
+    "VWPC",
+    "Shipping",
+    "Status Code",
+    "Bulletin"
+   ],
+   "html": "<p>Script for delayed vehicles VWPC:</p><p>Let me explain what's happening and how you can track it.</p><p>For any vehicles that currently have no transport order, no compound entry date, and are under status 38, you'll want to check the Vision Portal for updates.</p><p>If you don't have access to the portal just yet, you can request it---just make sure to read bulletin <code>VW0967-21</code> first.</p><p>Now, if you check the portal and the vehicle isn't listed there at all, it's actually due to the six-week summer shutdown that started at the end of July. Because the factories are currently closed, some vehicles might actually be built already, but they are delayed from moving.</p><p>Once operations resume around September 15th, they will start shipping those built vehicles out immediately.</p><p>If you do see it on the delayed report in the portal and have any specific concerns or need to escalate it, your Sales Support Manager is the best person to contact.</p><p>They can review the report with you and handle any escalation requests directly.</p><p>Salesforce process :</p><p>Subject : VIN</p><p>Description : (Retailer's name) called to check on his vehicle's build status. I referred him to the Vision portal, noting that the vehicle is currently at status 30. I explained that if it is not listed there yet, it is due to the summer shutdown. Once operations resume around September 15th, they will begin shipping vehicles. While some units may already be built, they are also facing delays</p><p>L1 - Group Operations - Brand Support L2 - Vehicle Delay L3 - Vehicle delayed at factory L4</p>",
+   "images": []
+  },
+  {
+   "id": 77,
+   "cat": 7,
+   "title": "Just an FYI, if anyone is asking you about when they will…",
+   "tags": [
+    "Delays",
+    "Delivery",
+    "Shipping",
+    "Status Code"
+   ],
+   "html": "<p>Just an FYI, if anyone is asking you about when they will see a vehicle, or when it will be delivered, if that vehicle is not status 40 with a transport order raised, it will not show in VIP (we covered this in Training)so there is no use looking, SLA period's for shipping in September go up has this is a really busy month</p>",
+   "images": []
+  },
+  {
+   "id": 78,
+   "cat": 8,
+   "title": "I received a call and the retailer couldn't tag the vehicle because…",
+   "tags": [
+    "Adoption",
+    "SLI",
+    "Tagging"
+   ],
+   "html": "<p>I received a call and the retailer couldn't tag the vehicle because she wasn't the owner of the retailer and the vehicle was adopted</p><p>To tag a vehicle that's already adopted (To a retail\\\\customer)</p><p>1- Open SLI- click on the customer icon- choose \"Customer entry from a VIN\"</p><p>2- Fill in the requested details as follow:</p><ul><li>customer type:</li></ul><ul><li>title:</li></ul><ul><li>first name:</li></ul><ul><li>last name:</li></ul><ul><li>postcode:</li></ul><ul><li>door number or address:</li></ul><ul><li>mobile number:</li></ul><ul><li>email address:</li></ul><ul><li>marketing permissions:</li></ul><ul><li>Hand over committed date</li></ul><p>3- Click \"Accept\"</p><div class=\"callout\">⚠️ Note: If the retailer wants to tag it to agency, and the vehicle is adopted, tell them to submit an un-adopt form first to be able to tag it the right way- we cannot tag an adopted vehicle as agency.</div>",
+   "images": [
+    "article_images/a78_1.png",
+    "article_images/a78_2.png"
+   ]
+  },
+  {
+   "id": 79,
+   "cat": 12,
+   "title": "Golf performance stock orders currently suspended VW0643-26",
+   "tags": [
+    "Call Notes",
+    "Stock",
+    "Bulletin"
+   ],
+   "html": "<p>Golf performance stock orders currently suspended <code>VW0643-26</code></p>",
+   "images": []
+  },
+  {
+   "id": 80,
+   "cat": 9,
+   "title": "Audi -If we receive an error message (000496 the car is in…",
+   "tags": [
+    "Brand-Specific",
+    "Audi",
+    "Tagging",
+    "Quotation",
+    "Status Code"
+   ],
+   "html": "<p>Audi -If we receive an error message (000496 the car is in transit or at the retailership) while quotation and the status is 70, we get it back to status 40 and make a ticket to the business team to take it back :</p><p>1-the red truck icon-</p><p>2-right click-cancellation of arrival to retailer-cancellation of dispatch to retailer (click accept in both)</p><p>3-red car (front screen)-refresh till the status changes-</p><p>4-right click-order modification-tag it again to the original order (the order type and so on)</p><p>5-click on quot. (the normal quotation steps)</p><p>then submit a tkt</p>",
+   "images": [
+    "article_images/a80_1.png"
+   ]
+  },
+  {
+   "id": 81,
+   "cat": 6,
+   "title": "information regarding 26 reg plates Hi Kirsty,",
+   "tags": [
+    "Registration",
+    "RaV"
+   ],
+   "html": "<p>information regarding 26 reg plates Hi Kirsty,</p><p>What dealer number are they? I can manually remove them mark by mark from RAV, but this is very time consuming so isn't something we're going to be able to do regularly throughout Sept for multiple dealers &amp; can only be done when we have spare capacity in the team to work on it.</p><p>We are currently monitoring numbers of '26' marks still allocated to vehicles in RAV and will be removing all the '26' marks once the numbers get down to sufficient levels, but this is a bulk function that can't be done at dealer level and if we do it while there are still a lot of '26' marks allocated it will cause errors on those vehicles when dealers try to allocate '76' marks (hence waiting for the numbers allocated to drop to a low enough level not to cause too many issues). We do currently have a message on RAV (below) asking dealers to abort all their '26' marks:-</p><p>\"All VINs part registered with a 26 VRM must be aborted asap. Failure to do this will lead to an error message when you attempt to link the VIN to a 76 VRM at a later date.</p><p>The quickest way to identify any VINs linked to a 26 VRM is to select 'Search' on the RaV 'Select Vehicle to Register' screen, this will display all VINs available in RaV and the VRMs they are linked to. 26 format VRMs cannot be deleted from your Pools in RaV until the majority of vehicles part registered with a 26 VRM have been aborted.\"</p>",
+   "images": []
+  },
+  {
+   "id": 82,
+   "cat": 11,
+   "title": "VW bank contact details :",
+   "tags": [
+    "Contacts",
+    "Contact"
+   ],
+   "html": "<p>VW bank contact details :</p><p>01908485058 / 08451209931 <code>bsoperationsteam@vwbank.co.uk</code></p>",
+   "images": []
+  },
+  {
+   "id": 83,
+   "cat": 10,
+   "title": "Tip 83",
+   "tags": [
+    "Procedures"
+   ],
+   "html": "",
+   "images": [
+    "article_images/a83_1.png"
+   ]
+  },
+  {
+   "id": 84,
+   "cat": 10,
+   "title": "If the retailer asks how to resolve a WLTP mismatch, please provide…",
+   "tags": [
+    "Procedures"
+   ],
+   "html": "<p>If the retailer asks how to resolve a WLTP mismatch, please provide them with the following steps:</p><p>1- Go to Order Modification.</p><p>2- Click the yellow bell icon next to the WLTP icon.</p><p>3- Select Filter (top right) and change the column criteria to Order.</p><p>4- Enter the order number ..... in the Value field and press Accept.</p><p>5- Highlight the order line, then press Accept again to finish.</p>",
+   "images": []
+  },
+  {
+   "id": 85,
+   "cat": 10,
+   "title": "Tip 85",
+   "tags": [
+    "Procedures"
+   ],
+   "html": "",
+   "images": [
+    "article_images/a85_1.png"
+   ]
+  },
+  {
+   "id": 86,
+   "cat": 12,
+   "title": "PRODUCT --",
+   "tags": [
+    "Call Notes",
+    "SEAT",
+    "Cupra",
+    "Funding",
+    "Delivery"
+   ],
+   "html": "<p>PRODUCT --</p><p>Formentor -</p><p>launch of the ABT CUPRA Formentor VZ5 635PS, a truly exceptional model created to celebrate ABT Sportsline's 130th anniversary.</p><p>Combining enhanced performance, distinctive ABT styling and extreme exclusivity, this limited-edition vehicle represents a rare opportunity for a select group of customers to own one of the most exclusive CUPRA models ever produced.</p><p>Supply --</p><p>Shipping --</p><p>Prestige should be on time for Transport order deadline</p><p>If vehicles were ticked &amp; in forecast for September these more than likely will be delivered</p><p>If they were not in forecast no guarantee, and if there not ticked they won't be deliverable.</p><p>Funding issues -- Vindis SEAT / WJ King have some funding issues all stock cars have had consignment blocks put on. Do not remove for a stock car if this has been tagged since been blocked if they ask us to remove them, we can but don't take off without been asked to do so.</p>",
+   "images": []
+  },
+  {
+   "id": 87,
+   "cat": 10,
+   "title": "Everyone[و] These are the steps to follow when a retailer calls in…",
+   "tags": [
+    "Procedures",
+    "SLI",
+    "RaV",
+    "Pricing",
+    "P.O."
+   ],
+   "html": "<p>Everyone[و] These are the steps to follow when a retailer calls in saying they're trying to create CRD, but it keeps coming up saying P.O. Value Mismatch.</p><p>CRD refers to RaV process.</p><p>Steps:</p><p>1- Open the order.</p><p>2 - Go to the Yellow Telephone</p><p>3- Click on the P.O. button, copy the P.O. number and save it for later use.</p><ul><li>It's likely that the P.O. Amount will be different from the Total Price in the Pound sign page.</li></ul><p>4- Exit the pop-up window and click on the Pound sign, copy the Total Price and save it in your notes.</p><p>5- Copy the Val. Date too and save it to use later on.</p><p>6- Go to the new SLI window, Click Orders --&gt; Bulk Fleet Amendment --&gt;&gt; Fleet Amendment.</p><p>7- Go to Additional Criteria tab, type the Order No. twice in both fields and Accept.</p><p>8- Highlight the order, right click --&gt;&gt; Bulk Fleet Amendment.</p><p>9- Paste the Val. Date you copied earlier, Click P.O. button, and write the P.O. No. &amp; Total Price\\\\ you copied in Step 3 &amp; 4.</p><p>\\\\ The Total Price should be written in the P.O. Amount field.</p><p>10- Click Save.</p><p>Go back to the retailer and inform them that you've sorted it for them and they should expect it to reflect on SLI after an hour.</p><p>Recording 2026-08-14 114824.mp4</p>",
+   "images": []
+  },
+  {
+   "id": 88,
+   "cat": 4,
+   "title": "Brand: CV",
+   "tags": [
+    "Pricing",
+    "P.O.",
+    "Bulletin"
+   ],
+   "html": "<p>Brand: CV</p><p>Retailer is asking to amend the PO value to £28641.80 to match the invoice priceOrder: 35314731, <code>CV1390-20</code></p>",
+   "images": []
+  },
+  {
+   "id": 89,
+   "cat": 13,
+   "title": "1D7 is without trailer hitch",
+   "tags": [
+    "Reference"
+   ],
+   "html": "<p>1D7 is without trailer hitch</p><p>This option is 1D7 - Without trailer hitch and essentially means the vehicles comes without the Towbar preparation which results in a reduction to the cost</p>",
+   "images": [
+    "article_images/a89_1.png"
+   ]
+  },
+  {
+   "id": 90,
+   "cat": 12,
+   "title": "Supply",
+   "tags": [
+    "Call Notes",
+    "Pricing",
+    "Delays",
+    "Launch Cars",
+    "Stock"
+   ],
+   "html": "<p>Supply</p><ul><li>Debra advised there are approximately 100 or so vehicles still delayed due to the Emden bridge issues.</li></ul><p>Everything should be cleared by the end of this week.</p><ul><li>Port position is still good but transport orders are still being pushed to keep vehicles moving</li><li>We were also reminded not to contact Supply for POD's but to use the Tracking system.</li></ul><p>Product</p><ul><li>Extended Warranty inexistent option price issue is now corrected on the DOC.</li></ul><ul><li>ID. Polo Launch Edition trims will close for factory order from close of business on Wednesday 9th September. Customer-tagged orders will continue to be built, and derivatives will remain on the Volkswagen.co.uk configurator, allowing you to sell any stock. Hub <code>VW0803-26</code></li></ul><ul><li>The following ID. Polo derivatives will open OFO on Thursday 10 September:</li><li>ID. Polo Life 37kWh 135PS</li><li>ID. Polo Life 52kWh 211PS</li><li>ID. Polo Style 37kWh 135PS</li><li>ID. Polo Style 52kWh 211PS</li></ul><ul><li>T-Roc Match orders have been consigning at an incorrect price because of an error with our pricing system.</li></ul><p>We believe this issue has now been fixed, and vehicles should consign at the correct price going forward.</p><p>Contact the Sales and Generalist team at <code>generalistsales@vwg.co.uk</code> to action a de-con/re-con for any current vehicles that are still consigning incorrectly. Hub <code>VW0967-26</code>.</p>",
+   "images": []
+  },
+  {
+   "id": 91,
+   "cat": 10,
+   "title": "P.O mismatch fix (made simple) for RDC coaching. Please give a thumbs…",
+   "tags": [
+    "Procedures",
+    "RaV",
+    "Quotation",
+    "Pricing",
+    "P.O."
+   ],
+   "html": "<p>P.O mismatch fix (made simple) for RDC coaching. Please give a thumbs up if you understand, and make sure to educate retailers on how to self-manage these RAV error.</p><ul><li>When the PO amount is wrong or missing like in this case.</li></ul><ul><li>Simply copy the Total Price from the Quotation screen.</li></ul><ul><li>Go back to the front screen of the order, select Order Modification</li></ul><ul><li>And update the P.O box with the total price, Accept, Save.</li></ul><p>Done and dusted.</p>",
+   "images": []
+  },
+  {
+   "id": 92,
+   "cat": 13,
+   "title": "Factory Codes",
+   "tags": [
+    "Reference",
+    "Audi",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<p>Factory Codes</p><p>49: Martorell, Spain (SEAT / Cupra / Audi production)</p><p>11: Wolfsburg, Germany (Main Volkswagen headquarters and assembly plant)</p><p>10: Emden, Germany</p><p>25: Hannover, Germany (VW Commercial Vehicles / California)</p><p>40: Bratislava, Slovakia (VW Touareg, Porsche Cayenne, Audi Q7)</p><p>80: Pamplona, Spain (VW Polo / T-Cross)</p>",
+   "images": [
+    "article_images/a92_1.png"
+   ]
+  },
+  {
+   "id": 93,
+   "cat": 13,
+   "title": "September Agency readiness: 10 checks to protect month-end delivery",
+   "tags": [
+    "Reference",
+    "Audi",
+    "Cupra",
+    "Delivery",
+    "Delays"
+   ],
+   "html": "<p>September Agency readiness: 10 checks to protect month-end delivery</p><p>A few early checks can make a big difference at month end. Use these 10 actions to reduce avoidable delays, keep Agency transactions moving and give every vehicle the best chance of a smooth handover.</p><ul><li><code>VW0948-26</code> | PC</li></ul><ul><li><code>CV0717-26</code> | CV</li></ul><ul><li><code>CU0801-26</code> | CUPRA</li></ul><ul><li><code>SK0864-26</code> } ŠKODA</li></ul><ul><li><code>AU0930-26</code> | Audi</li></ul>",
+   "images": []
+  },
+  {
+   "id": 94,
+   "cat": 12,
+   "title": "Any delay has been caused by the bridge repairs, this has now…",
+   "tags": [
+    "Call Notes",
+    "Shipping",
+    "Delays"
+   ],
+   "html": "<p>Any delay has been caused by the bridge repairs, this has now been repaired but has cause a little bit of a backlog.</p><p>Supply have advised that these should be shipped and meet the transport order deadline for this month.</p><p>The next ships are due to leave on the dates below:</p><p>13/09/2026</p><p>15/09/2026</p><p>17/09/2026</p>",
+   "images": []
+  },
+  {
+   "id": 95,
+   "cat": 13,
+   "title": "A SAC (Services Accounting Code) is a 6-digit identifier native to the…",
+   "tags": [
+    "Reference",
+    "VWPC",
+    "Demo"
+   ],
+   "html": "<p>A SAC (Services Accounting Code) is a 6-digit identifier native to the Indian tax framework (GST).</p><p>In the context of VWPC, SAC codes appear exclusively on local dealership or workshop service invoices. And they need to add it in case of the following:</p><p>1- SAC 00998729: Is used on invoices from Volkswagen dealers to classify \"Labor / General Vehicle Repair Services''.</p><p>2- SAC 01500060: Is used on service invoices to classify (Guided Fault Finding (GFF) / Diagnostic Labor).</p><p>The retailers knows that they must keep or add the correct SAC code on their commercial tax invoice so that the local VW finance team can process their payment and claim Input Tax Credit (ITC) correctly under GST rules.</p><p>And We remove the SAC code when retailers invoice a vehicle on a demo plan.</p>",
+   "images": []
+  },
+  {
+   "id": 97,
+   "cat": 11,
+   "title": "If the retailer called and asked for VW IT department, they can…",
+   "tags": [
+    "Contacts",
+    "Contact"
+   ],
+   "html": "<p>If the retailer called and asked for VW IT department, they can reach out to <code>VWG.ServiceDesk@cgi.com</code>, 0800 046 8178</p>",
+   "images": []
+  },
+  {
+   "id": 98,
+   "cat": 3,
+   "title": "PC",
+   "tags": [
+    "Order Mods",
+    "Grant",
+    "Contact",
+    "Bulletin"
+   ],
+   "html": "<p>PC</p><p>If the retailer asked to add a governmental grant to the vehicle, he needs to fill out the form through OZEV portal vw0929-25 and after then send an email to <code>generalistsales@vwg.co.uk</code></p>",
+   "images": []
+  },
+  {
+   "id": 1000,
+   "cat": 4,
+   "title": "Handling Status 70 Error (Drop Point Issue) During Quotation",
+   "tags": [
+    "Pricing",
+    "System Utilization",
+    "Tagging",
+    "Quotation",
+    "P.O.",
+    "Status Code"
+   ],
+   "html": "<h3>Overview</h3><p>A Status 70 - Drop Point Issue typically occurs when the vehicle is already in transit or at the retailer. This usually happens when the standard quotation process is attempted first.</p><p>To successfully process the quotation, the vehicle must temporarily be moved back to Status 40, the quotation completed, and then Business Support should be contacted to update the vehicle status as required.</p><h3>Prerequisites</h3><p>Before starting:</p><ul><li>Confirm the vehicle is showing Status 70.</li><li>Ensure you have the required RFO details available.</li><li>Follow the steps below in the exact order.</li></ul><h3>Step 1: Change the Vehicle Back to Status 40</h3><h4>1. Open Vehicle Status Management</h4><p>Select the Red Truck icon to access the vehicle status functions.</p><p>[screenshot in Notion]</p><h4>2. Cancel the Arrival Date</h4><ul><li>Right-click within the status management area.</li><li>Select Cancellation of Arrival Date.</li></ul><p>[screenshot in Notion]</p><h4>3. Cancel Dispatch to Retailer</h4><p>After cancelling the arrival date:</p><ul><li>Select Cancellation of Despatch to Retailer.</li></ul><p>[screenshot in Notion]</p><h4>4. Verify Status Change</h4><ul><li>Return to the Red Car icon (Vehicle Details).</li><li>Refresh the vehicle repeatedly until the status updates (using the binoculars icon).</li></ul><p>The vehicle should now display Status 40.</p><h3>Step 2: Prepare the Vehicle for Quotation</h3><h4>1. Open Order Modification</h4><p>Once the vehicle is at Status 40:</p><ul><li>Right-click the vehicle.</li><li>Select Order Modification.</li></ul><p>[screenshot in Notion]</p><h4>2. Re-Tag the Vehicle</h4><ul><li>Re-tag the vehicle as required to enable quotation processing.</li></ul><h4>3. Refresh the Record</h4><p>After re-tagging, refresh the vehicle.</p><p>The vehicle will usually revert to Status 07.</p><p>For quotation processing, it must be Status 08/09. Update the Del. Add (Retailer location) to prepare for quotation.</p><p>[screenshot in Notion]</p><h4>4. Change Order Type</h4><p>Update the order type from 07 to 08.</p><p>Once updated, click the Yellow Quote button.</p><h3>Step 3: Create the Quotation</h3><h4>1. Select Purchase Order Option</h4><p>Within the quotation screen, choose TBC from the PO dropdown/menu.</p><h4>2. Enter RFO Information</h4><p>Complete the required fields: First RFO, Second RFO. Then click the Search icon.</p><p>[screenshot in Notion]</p><h4>3. Continue the Standard Quotation Process</h4><p>Once the search results are returned, proceed with the normal quotation workflow. All remaining quotation steps should be completed as per standard process.</p><h3>Final Action</h3><p>After the quotation has been successfully completed: Email Business Support and request that the vehicle status be updated appropriately following the quotation process.</p><h3>Notes</h3><p>Note: Always revert the vehicle to Status 40 before attempting the quotation when a Status 70 Drop Point Issue is encountered. After re-tagging, ensure the order is moved back to Status 08 before generating the quote. Do not proceed with quotation while the vehicle remains in Status 70.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3aed9243060c8069bf30e395513c9145"
+  },
+  {
+   "id": 1001,
+   "cat": 1,
+   "title": "Agency Steps to De-Tag",
+   "tags": [
+    "Transfers",
+    "System Utilization",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<p>For the de-tag step-by-step workflow, see Steps to De-Tag A Vehicle.</p><h3>SLI - Agency Steps to De-Tag &amp; Deallocate</h3><p>Module Objective: Master the Agency De-Tag procedures based on status codes, brand rules, deallocation steps, handling date error workarounds, and cancelling commissions.</p><h3>Brand &amp; Status Code De-Tag Matrix</h3><p>VWPC: Status 0-10: Detag, Deallocate &amp; cancel commission. Status 20-38: Detag, Deallocate - DONT cancel commission. Status 38-40 (without Transport Order): Detag &amp; Deallocate. Status 40-70 (with Transport Order): Forward sell the vehicle 150 days from the date arrived in the UK first, then Detag. Evidence for Status 20+: RDC must provide at least one: Cancellation document, Original order/Motability cancellation screenshot, VWFS finance decline letter, or Original agreement form.</p><p>VWCV: All statuses: Detag but DONT de-allocate. Status 40-70: Forward sell 150 days from UK arrival, then Detag. Status 10 or below: No evidence needed. Status 20+: Order form or Cancellation form. Reject ID.BUZZ at any status and ask them to fill in the correct form.</p><p>SKODA: Status 0-10: Detag, Deallocate &amp; cancel commission. Status 20-38: Detag, Deallocate - DONT cancel commission. Status 38-40: Detag &amp; Deallocate. Status 40-70: Forward sell 150 days from UK arrival, then Detag. Refer to HUB article <code>SK1009-18</code>.</p><p>SEAT/CUPRA: Same pattern as Skoda. Refer to HUB article <code>SE0187-22</code>.</p><p>Audi: Order types 08, 09, 11 - Status 0-10: Detag and Transfer to 64001. Status 20-38: Detag, Transfer to 64001 for status 30 and under. Status 38-40: Detag and add Mandatory Block EDE for 24 hours. Status 40-70: Detag and leave a note. No evidence needed.</p><h3>Forward Sale Date Process (Status 40-70 with Transport Order)</h3><p>When de-tagging vehicles with an active transport order (status 40-70), apply a forward sale date set 150 days after the arrival in the UK date.</p><h4>Standard Process</h4><ol><li>Right-click on the grey area and select Inform Forward Sale Date. [screenshot in Notion]</li><li>Open a date calculator and enter the arrival in the UK date from SLI as the start date.</li><li>Add 150 days to derive the new date.</li><li>Input the calculated date into the Forward Sale Date Entry pop-up box and click Accept. [screenshot in Notion]</li><li>Proceed with the standard de-tag procedure.</li></ol><h4>Handling the \"Date Out of Range\" Error</h4><p>If SLI displays: Operation Result - CAR: [VIN] Forward Sale Date [YYYYMMDD] out of range [screenshot in Notion]</p><ol><li>Click Accept to dismiss the alert.</li><li>In the Forward Sale Date Entry field, enter today's date first and click Accept.</li><li>Open the menu again, re-select \"Inform Forward Sale Date\", and now enter \"Today's Date + 150 days\".</li><li>Click Accept to save the forward sale date, then complete the De-Tag.</li></ol><h3>How to Deallocate a Vehicle Order</h3><p>When your brand/status matrix specifies Deallocate:</p><ol><li>Open the vehicle record in SLI.</li><li>Right-click in the top section of the screen to bring up the context menu.</li><li>Click on Vehicle order deallocation. [screenshot in Notion]</li><li>Select the appropriate unassigned reason (e.g., CUSTOMER CANCELLATION). [screenshot in Notion]</li><li>Configure Options: At the bottom row of the screen, check both the Cancel order and Cancel commission checkboxes (if you want to remove the commission). [screenshot in Notion]</li><li>Initiate Deallocation: Click the Deallocation button at the bottom right. [screenshot in Notion]</li><li>Select Order Cancellation Reason: In the Choose Reason for Order Cancellation window, select CC - CUSTOMER CANCELLATION and click Accept. [screenshot in Notion]</li><li>Select Commission Cancellation Reason: In the Choose a reason for the commissions' cancellation window, select BK - Commission cancellation and click Accept to finalize the process. [screenshot in Notion]</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3add9243060c80d8a845db3a3b546c21"
+  },
+  {
+   "id": 1002,
+   "cat": 1,
+   "title": "Steps to De-Tag A Vehicle",
+   "tags": [
+    "Transfers",
+    "System Utilization",
+    "SLI",
+    "De-Tag",
+    "Tagging",
+    "Status Code"
+   ],
+   "html": "<h3>Step-by-Step De-Tag Process</h3><h4>Step 1: Locate Order &amp; Open Customer Details</h4><ol><li>Search using either the customer order number or the vehicle VIN to bring up the vehicle detail information screen.</li><li>Click the customer icon (an icon featuring a person next to a document/file). [screenshot in Notion]</li></ol><h4>Step 2: Initiate Customer Entry Cancellation</h4><ol><li>Review and verify the customer's details on the screen.</li><li>Right-click anywhere in the top section of the screen to display the action menu.</li><li>Select 'Customer Entry Cancellation' from the context menu. [screenshot in Notion]</li></ol><h4>Step 3: Confirm De-Tagging</h4><ol><li>Click 'Accept' on the first confirmation pop-up window (\"Are you sure you want to cancel the selected customer's entry?\").</li><li>Click 'Accept' on the second pop-up notification confirming \"Customer cancelled\".</li><li>The background of the screen will turn yellow, indicating that the vehicle has been successfully de-tagged.</li></ol><h4>Step 4: Return &amp; Verify Status</h4><ol><li>Click on the red vehicle icon located in the bottom section of the screen to return to the main vehicle detail screen.</li><li>Verify that the Customer Tab is now greyed out and no longer accessible. [screenshot in Notion]</li></ol><h3>Logging Mandatory De-Tag Notes</h3><p>Note: Mandatory Rule - when de-tagging a vehicle, you must always record notes on SLI explaining the exact reason for the de-tag.</p><h4>How to Add Notes:</h4><ol><li>From the main vehicle detail screen, click the 'Dates' tab at the top.</li><li>Click the Pen &amp; Paper icon on the right side of the Dates tab. If the pen &amp; paper icon is already green, previous notes exist for this vehicle. [screenshot in Notion]</li><li>In the Order-Vehicle Notes pop-up box, input the following inside the Order Notes section: Date (e.g., 23.03.23), Action/Reason (e.g., De-tagged), Your Initials (e.g., GP).</li><li>Click 'Modify' at the bottom of the window.</li><li>Click 'Accept' on the 'Process ended successfully' prompt.</li><li>Confirm that the pen &amp; paper icon has now turned green, indicating the note has been saved. [screenshot in Notion]</li></ol><h3>Quick Check</h3><ul><li>The screen background turns yellow.</li><li>The pen &amp; paper icon under the 'Dates' tab turns green.</li><li>Date, Action taken (De-tagged), Your Initials are recorded.</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3acd9243060c806e9bc1ce6d8ef0a9fb"
+  },
+  {
+   "id": 1003,
+   "cat": 11,
+   "title": "VIP and ECM Credentials",
+   "tags": [
+    "Contacts",
+    "Videos And References",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "VWCV"
+   ],
+   "html": "<h3>System Logins</h3><p>This page lists shared login credentials for the ECM tracking portal and the VIP (Vehicle Information Portal), organized by brand (Skoda, VWPC, Audi, SEAT, VWCV).</p><p>For security, live usernames and passwords are not reproduced here — open the original Notion page to view current credentials for each brand.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3acd9243060c80028f03eab3e01bd884"
+  },
+  {
+   "id": 1004,
+   "cat": 7,
+   "title": "Transportation & Shipping",
+   "tags": [
+    "Delays",
+    "System Utilization",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<h3>What You'll Learn</h3><p>After this module: accurately read a Shipping Plan, list the uses for Shipping Plans, identify the different types of transportation, state the timescales for transportation.</p><h3>The Three Stages of Transportation</h3><p>Once a vehicle completes the Build phase and is ready to leave the factory, it moves through three stages on its way to the UK:</p><ol><li>Factory to Port of Exit (PSC 30-38): the vehicle travels to the ship on a vehicle transportation truck. Takes approximately 20 working days (maximum).</li><li>Port of Exit to UK Port (PSC 38-39): this leg happens by ship. The timeframe varies depending on where the vehicle is leaving from.</li><li>Port to Retailer (PSC 40-60): a vehicle transportation company delivers the car to the RDC. Can take up to 14 working days from the point the Transport Order is raised.</li></ol><p>Note: Many factors can impact the full journey. A compound entry date needs to be raised. If a Transport Order is raised before the compound entry date, this can cause an issue. If a retailer calls asking where their car is, call the port to check if it's on their transport list. If the Transport Order is older than 10 days, escalate to a specialist.</p><h3>Shipping Plans</h3><p>A Shipping Plan lists every vessel leaving the port of exit, including departure dates, expected arrival dates at the port of entry, ship names, and the number of vehicles onboard.</p><ul><li>International Plan: updated weekly, found on The Hub.</li><li>European Plan: updated daily, sent to the Specialist Inbox and shared with everyone.</li></ul><p>RDCs use these plans as a guide to know when a vehicle is likely to arrive, or what stage of transportation it's at, and to set customers' expectations around their handover date.</p><h3>Shipping Plan Status Codes</h3><ul><li>00: Assigned to Factory, no production week scheduled</li><li>10: Factory ordered with production week</li><li>20: Factory ordered with production week confirmed</li><li>30: In transit from Factory</li><li>36: Vehicle in port of exit, not released</li><li>38: Vehicle in port of exit, released to shipping</li><li>39: Vehicle on ship</li><li>40: Vehicle landed in UK, Transport order raised</li><li>60: Dispatched to Retailer</li><li>70: At Retailer</li><li>P: Not accepted by factory</li><li>V: Accepted by factory, awaiting build week assignment</li></ul><p>Tools to use: VIP or ECM Portal. In ECM Portal, go to the Commission tab, load the VC OR Detail screen to view the ship's name. Alternatively, use the Road Icon from the Vehicle Detailed Information Screen.</p><h3>Where to Find Shipping Plans by Brand</h3><p>Production &amp; Supply updates, including shipping plans, are on The Hub under these reference numbers:</p><ul><li>Volkswagen Passenger Cars: <code>VW0037-26</code></li><li>Volkswagen Commercial Vehicles: <code>VW0037-26</code></li><li>Audi: <code>AU0903-22</code></li><li>SEAT: <code>SE0022-26</code></li><li>Skoda: <code>SK0200-19</code></li><li>CUPRA: <code>CU0023-26</code></li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3acd9243060c80fb9cace00cf5a1f355"
+  },
+  {
+   "id": 1005,
+   "cat": 1,
+   "title": "Change of Funder: Step-by-Step Guide",
+   "tags": [
+    "Transfers",
+    "System Utilization",
+    "SLI",
+    "Funding",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<h3>What Is a Change of Funder?</h3><p>If a Fleet Company is purchasing a vehicle, it will have its own RFO code in SLI. If the vehicle is not going to that fleet company and requires de-tagging instead, this is treated as a Change of Funder request. This is a similar process to standard De-tagging - the key difference is that the Detag reason on the E-form must state it is a Change of Funder request.</p><h3>Steps</h3><ol><li>Select the correct brand in SLI.</li><li>Enter the Order number under Vehicle information.</li><li>Check the RDC matches on both the E-form and SLI.</li><li>Right-click on the grey area of the screen and select Order Modification.</li><li>Select the Customer Entry tab, then check the current RFO and compare it to the information on the E-form (End user tab). [screenshot in Notion]</li><li>Identify which RFO to change: usually only the second RFO number under the End User tab, as the Leasing Company usually stays the same.</li><li>Update the RFO number under the End User tab to the one mentioned in the E-form.</li><li>Select Save.</li><li>Under the Dates tab, select the pen and scroll icon to leave a note. The note must include: Change of Funder (type of request, e.g. Agency/Leasing), the date, your initials. Select Modify to save the note.</li><li>Confirm completion: respond to the RDC's email stating the request has been completed.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3abd9243060c80a097d6ef0cfdf71e5e"
+  },
+  {
+   "id": 1006,
+   "cat": 2,
+   "title": "How to Perform a Stock Match",
+   "tags": [
+    "Stock",
+    "System Utilization",
+    "Audi",
+    "Skoda",
+    "SLI",
+    "De-Tag"
+   ],
+   "html": "<h3>What Is a Stock Match?</h3><p>A stock match happens when an RDC finds a different vehicle for a customer than the one they originally ordered, usually because a comparable vehicle is already further along in the build process, so the customer can take delivery sooner.</p><p>When an RDC locates a stock match, they should tag the customer to the new vehicle and complete the Stock Match Form on The Hub. Both orders, old and new, should now be tagged to the customer. Once the stock match form comes in, open the order in SLI and check that both orders are tagged to the same customer. From there: de-tag the old vehicle, price back the new vehicle to reflect the original pricing.</p><h3>Brand-Specific Rules</h3><ul><li>Volkswagen Commercial Vehicles &amp; Volkswagen Passenger Cars: the Stock Match can be for a different vehicle, as long as the customer stays the same. The replacement can be further forward or further back in build status than the original, e.g. if the customer wants to delay delivery.</li><li>Audi: stricter rules apply - the replacement must be the same model and trim (color can differ), and its build status must be further forward than the original order. Customer details must match.</li><li>Skoda: per the Matrix, if the replacement vehicle is further back in the build process (e.g. the customer wants to delay delivery), a letter or email is required as proof.</li></ul><h3>Step-by-Step: Performing a Stock Match in SLI</h3><ol><li>Open two SLI windows side by side, one showing the original order and one showing the new (stock match) order.</li><li>Click the Customer Tab on each order to confirm the same customer is listed on both. Make a note of the date the original vehicle was tagged (the input date) - needed in step 3. Note: if the new car's registration status is Partially (P/z/c), the process cannot continue.</li><li>On the new order, click the yellow telephone icon, then click the pound sign to jump into pricing. Click the Re-pricing tab and change the VAL date to the original input date from step 2. This keeps the pricing shown to the customer matched to what they originally agreed to, not today's price.</li><li>Click Simulation to run the updated pricing, then click Save to confirm. Once the new vehicle is priced back, go to the original vehicle's order and de-tag it using the standard de-tag process, keeping the evidence.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3abd9243060c80cdbb81edb662f9ac5d"
+  },
+  {
+   "id": 1007,
+   "cat": 7,
+   "title": "VIP (Vehicle Information Portal) Guide",
+   "tags": [
+    "Delays",
+    "System Utilization",
+    "SLI",
+    "Delivery",
+    "Status Code",
+    "Stock"
+   ],
+   "html": "<h3>What is the VIP Portal?</h3><p>VIP is the tracking system used to monitor vehicle delivery once a unit has arrived at a UK port.</p><ul><li>Stock Pot Visibility: while retailers have access to the VIP portal, they cannot view full details for vehicles held within the stock pot. If they require this information, they may contact the Customer Service Centre (CSC).</li><li>Key information available in VIP: Vehicle Status, Original ETA, Reforecast ETA, Vehicle Model, Dealer Code, Haulier Name (e.g., ECM, GBA, BCA), Port/Site Location (e.g., GBA Grimsby).</li></ul><h3>SLI Prerequisites for VIP Access</h3><p>A vehicle will not appear in VIP until all three of the following conditions are met in SLI: Status Code 40 (vehicle arrived at UK port); an actual transport order has been raised (viewable under the Dates tab); the Compound Entry Date is populated (indicates the vehicle is at the UK port and ready for hauler collection, viewable via the Red Truck icon).</p><p>Delivery Timeline: once a vehicle shows as Status 40 in SLI, it typically takes approximately 10 working days to arrive at the Retailer.</p><h3>Accessing and Navigating VIP</h3><ol><li>Logging in: portal at portal.gbagroup.com/Account/Login. Log in using the brand access email/password provided by your trainer or team lead.</li><li>Searching Pending Orders (in-transit vehicles): hover over Order Viewer, select Pending Orders, enter the VIN into the search bar, click the Magnifying Glass icon to search. Reforecast ETA turns green when the vehicle is ready to dispatch from site, indicating the date is at its highest accuracy.</li><li>Searching Delivered Vehicles: hover over Order Viewer, select Vehicles Delivered, input the VIN and click the magnifying glass. View historic delivery data including Date Delivered, Model, Dealer Code, Haulier, and Port Site.</li></ol><h3>Order Cancellations &amp; Delivery Stages</h3><p>When an order is cancelled, actions depend on the vehicle's current status in VIP: before/at 'Called Off'/'In Load Lane' - transportation can still be halted; past 'Called Off' - transportation cannot be cancelled. Always contact Group Logistics to notify them of the cancellation. 'Called Off' means the vehicle has been selected from its held position at the UK Port to move into the load lane for transport.</p><h3>Port &amp; Haulier Contact Directory</h3><ul><li>Grimsby Port (general port inquiries): 01472 242 500, <code>vwg.humberadmin@gbagroup.com</code></li><li>Tyne Port (general port inquiries): 0191 259 2005, <code>Christine.pringle@gbagroup.com</code> / <code>david.pringle@gbagroup.com</code></li><li>Sheerness Port (general port inquiries): 0179 558 0384, <code>customer.services@bcaautomotive.com</code> / <code>sam.abramides@gbagroup.com</code></li><li>GBA Haulier (delivers from Grimsby, Yorkshire area): 0142 787 2981, <code>transportrequests@gbagroup.com</code></li><li>ECM Haulier (delivers from Tyne all, Grimsby outside Yorkshire): 0122 871 3903, <code>traffic@ecmvds.co.uk</code> (traffic), <code>podadmin@ecmvds.co.uk</code> (PODs)</li><li>BCA Haulier (delivers from Sheerness, all): 0843 658 1566, <code>customerserviceshelpdesk@bca.com</code></li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3abd9243060c80359d12dae26cc8d7c3"
+  },
+  {
+   "id": 1008,
+   "cat": 1,
+   "title": "Vehicle Transfers Guide",
+   "tags": [
+    "Transfers",
+    "System Utilization",
+    "SLI",
+    "Demo",
+    "Transfer",
+    "Tagging"
+   ],
+   "html": "<h3>What is a Vehicle Transfer?</h3><p>Brand Support agents receive requests from the RDC network to transfer a vehicle from one site to another. This occurs when a vehicle is at an RDC location or on order by one retailer, and another retailer negotiates and agrees to take ownership of the vehicle.</p><h4>Common Reasons for Transfers</h4><ul><li>Demo Vehicle Request: one RDC has a vehicle on site as a demo unit that is needed for a customer at another RDC.</li><li>Build Order Progression: an RDC has a vehicle on order further along in the build process, and another RDC's customer requires a vehicle sooner.</li><li>Customer Relocation: a customer moves house and prefers to collect their vehicle from a different site.</li></ul><p>Important policy notes: transfers are not limited to the same investor group. A completed Transfer Form is mandatory from the RDC releasing the vehicle. It is strictly prohibited to perform a vehicle transfer action over the phone.</p><h3>Processing the Transfer Form</h3><p>When an RDC submits a transfer request, an e-form arrives in the team inbox.</p><p>Verification checklist: locate the vehicle in SLI using the VIN number; verify the origin/releasing RDC number and destination RDC number on the e-form match SLI; check the form notes to confirm whether customer tagging/details should remain attached during the transfer.</p><h3>Step-by-Step SLI Transfer Procedure</h3><ol><li>Retrieve the order details: open the vehicle detail screen in SLI, enter the VIN number to display the order, copy the Order Number.</li><li>Access Order Management &amp; Query: go to the Yellow Phone icon at the top menu, right-click, select Order Management. From the Order's Query Selection window, click Bulk Transfer under System Queries, then click Accept.</li><li>Filter Order Criteria: click the Additional Criteria tab, enter the Order Number into both the From and To fields under the Order No box, click Accept.</li><li>Execute Bulk Order Transfer: highlight the order line returned in the query results, right-click on the grey header area at the top of the grid, select Bulk order transfer.</li><li>Assign New RDC &amp; Finalize: in the Bulk Order Transfer pop-up, input the new RDC number into both the Destination Retailer and Delivery Retailer fields; check the box for Transfer Customer Information if specified on the e-form to retain customer details (if the car already has customer information, check the box; if not, skip this step); click Accept. Reply to the transfer form email confirming the transfer action has been completed, and log the interaction in your logging system.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3abd9243060c804284c4d9b75f203714"
+  },
+  {
+   "id": 1009,
+   "cat": 6,
+   "title": "Identifying RaV (Register a Vehicle) Errors Guide",
+   "tags": [
+    "Registration",
+    "System Utilization",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "VWCV"
+   ],
+   "html": "<h3>What is a RAV error?</h3><p>Retailer Development Centres (RDCs) occasionally contact the Customer Service Centre (CSC) for support in identifying and resolving Register a Vehicle (RaV) errors encountered during the registration process. Each RaV error is assigned a specific numerical or system error code. Error resolution paths are indexed within the RaV Error List document. Escalations are handled via brand inboxes if an error is unlisted.</p><h3>How to Identify and Resolve RaV Errors</h3><ol><li>Search the RaV error list: open the RAV System Error List and use CTRL+F to search for the specific error code or key error words provided by the RDC.</li><li>Navigate to the resolution page: click or scroll to the page number indicated in the table of contents to view the cause and fix.</li><li>Provide a solution/execute a fix: follow the detailed resolution steps or advise the RDC on how to complete the fix.</li></ol><p>Note on unlisted errors: if the error is not on the error list, ask the RDC to send a screenshot of the exact error message to the brand's inbox so it can be escalated to the Business Support Team.</p><h3>Brand Product Team Contacts (for LPC Error 2.5)</h3><p>If you encounter Error 2.5, email the relevant brand product team with the VIN/order number and SLI vehicle screen screenshot:</p><ul><li>Volkswagen: <code>vwprodmktg@volkswagen.co.uk</code></li><li>Audi: <code>product@audi.co.uk</code></li><li>Volkswagen Commercial Vehicles (VWCV): <code>product.marketing@vwcv.co.uk</code></li><li>SEAT: <code>seatproduct@seatcars.co.uk</code></li><li>Skoda: <code>productmarketing@skoda.co.uk</code></li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3abd9243060c803d9912dcf45d936b32"
+  },
+  {
+   "id": 1010,
+   "cat": 10,
+   "title": "GIS (Global Invoicing System) Error Handling Guide",
+   "tags": [
+    "Procedures",
+    "System Utilization",
+    "SLI",
+    "GIS"
+   ],
+   "html": "<h3>What is GIS used for?</h3><ul><li>Search for errors associated with an order</li><li>Confirm generation of successful invoices</li><li>Resolve and remove specific invoicing/consignment blocks (errors) from orders</li></ul><h3>How to search for errors in GIS</h3><ol><li>Copy the vehicle VIN from SLI (or use the VIN from retailer/customer communications).</li><li>Open NVS - (GIS) Global Invoicing System from your GRP applications.</li><li>In the top menu bar, select Orders then Query of Blocked Orders.</li><li>Paste the VIN into the Nº Chassis field and click Browse.</li><li>Review the results: any active errors for that VIN will appear in the bottom table under the Error Codes column.</li></ol><h3>Using the GIS Error Excel Spreadsheet</h3><p>Once you have identified an error code (e.g., E01), use the GIS Error Excel Spreadsheet to determine the resolution. Open the spreadsheet, press CTRL+F and search for the specific error code, then review the Cause, Fix, and Notes columns to find the required resolution path.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3abd9243060c80d9b8cac85d8ccd226c"
+  },
+  {
+   "id": 1011,
+   "cat": 14,
+   "title": "Tools Links",
+   "tags": [
+    "Tools & Links",
+    "Helpful Links"
+   ],
+   "html": "<h3>Internal Tool Links</h3><ul><li>Empower: empower-prod.ttec.com/mymetrics</li><li>Genesys: login.euw2.pure.cloud (org volkswagengroupuk)</li><li>Outlook: outlook.office.com</li><li>Teams: teams.microsoft.com</li><li>Mosaic (intranet): teletechinc.sharepoint.com/sites/mosaicIntranetProdHome</li><li>TTEC Talent: ttectalent.com</li><li>VW.litmos (training): volkswagengroupuk.litmos.com</li><li>Citrix: applicationsa.vwguk.emea.vwg</li><li>VW GRP: grp.volkswagenag.com</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3aad9243060c805e8283cf6ee6ad29c1"
+  },
+  {
+   "id": 1012,
+   "cat": 14,
+   "title": "How To Find a Retailer (All Brands)",
+   "tags": [
+    "Tools & Links",
+    "Helpful Links",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<h3>Find-a-Retailer Links by Brand</h3><ul><li>Volkswagen Passenger Cars: volkswagen.co.uk/en/find-a-volkswagen-retailer.html</li><li>Volkswagen Commercial Vehicles: volkswagen-vans.co.uk/en/find-a-volkswagen-van-centre.html</li><li>Skoda: skoda.co.uk/apps/retailers/</li><li>Audi: audi.co.uk/en/dealers/</li><li>SEAT: seat.co.uk/car-dealers-locator</li><li>CUPRA: cupraofficial.co.uk/owners/retailer-information/find-a-retailer</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c808aa9c2f7e73d0eacd5"
+  },
+  {
+   "id": 1013,
+   "cat": 15,
+   "title": "Electric Vehicle Charging: A Simple Guide",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "EV"
+   ],
+   "html": "<p>Charging an EV isn't as complicated as it might first seem, though it does introduce a few new concepts and routines compared to filling up with petrol or diesel. This guide covers how EV batteries operate, where you can power up, the mechanics of AC versus DC charging, and the key factors affecting your overall range.</p><h3>Types of Electrified Vehicles</h3><ul><li>Mild Hybrid: small electric motor assists the combustion engine; motor-generator provides boosts using stored electricity. Not plug-in.</li><li>Full Hybrid: combines combustion engine + battery electric motor; can drive short distances on electric power; recharges via driving and regenerative braking. Not plug-in.</li><li>Plug-in Hybrid (PHEV): like a full hybrid but with a larger battery that can be charged from an external power source. Plug-in.</li><li>Battery Electric Vehicle (BEV): fully electric, no combustion engine, fuel tank, or tailpipe emissions. Plug-in.</li><li>Fuel Cell Electric Vehicle (FCEV): generates electricity onboard by combining hydrogen and oxygen, emits water vapour; refuelling infrastructure is limited. Hydrogen refuel, not plug-in.</li></ul><h3>Battery Technology &amp; Driving Range</h3><p>Lithium-Ion Battery Design: high-voltage systems (like VW's MEB platform) use modular pouch cells with stacked/folded layers in a flexible outer film. Core benefits: no memory effect, high cyclical resistance, low self-discharge, high energy density, zero mechanical maintenance.</p><p>Battery Degradation: over time, all batteries experience slight capacity loss from usage, age, and charge cycles. Accelerating factors: extreme temperatures, frequent rapid charging, aggressive driving.</p><p>Second Life Applications: when no longer suitable for driving, EV batteries are repurposed for dealer energy storage - cutting overhead by storing cheap overnight grid power, lowering carbon footprint by up to 50%, supporting fast chargers without costly grid transformer upgrades, and supporting fleet &amp; solar integration.</p><p>Factors Impacting Driving Range: high impact - cold outside temperatures, high speeds/acceleration, uphill terrain, extra vehicle weight, battery age. Minor impact - climate control (heating/AC), electronics like radios/wipers/headlights.</p><h3>AC vs. DC Charging</h3><p>AC (Alternating Current): current changes direction periodically; slower charging limited by the car's on-board charger; typical locations home/workplace/supermarkets/destination car parks; generally cheaper per session.</p><p>DC (Direct Current): flows in one direction at constant voltage; fast to ultra-rapid charging; typical locations motorway service stations/dedicated charging hubs; more expensive per session.</p><p>Typical charging speeds: AC Type 1 - 3.7kW/7kW. AC Type 2 - 3.7kW/7kW/22kW (three-phase). DC CHAdeMO - 100kW/150kW. DC CCS - 50kW/150kW/350kW. DC Type 2 - 150kW/250kW.</p><p>What determines actual charging speed: the vehicle can never charge faster than the lower capacity of either the charger or the car's internal maximum limit; larger physical battery sizes require more time to fill; cold weather and heavy climate control usage while plugged in will throttle charging speeds.</p><h3>Where Can You Charge?</h3><p>At Home: home charging is the most convenient option. An EV can plug into a standard 3-pin domestic socket in an emergency (requires prior inspection by an electrician), but a dedicated home wallbox is the safest and most efficient choice for overnight replenishment.</p><p>In Public: the UK public charging infrastructure features over 121,000 public EV chargers across more than 46,731 locations, managed by various charge point operators (CPOs) including BP Pulse, GRIDSERVE, Pod Point, OHME, InstaVolt, FastNed, Osprey, and Shell Recharge. Ultra-rapid hubs (150kW+) are the fastest-growing segment.</p><h3>Making Charging Affordable</h3><ul><li>Smart Tariffs: energy providers offer specialized EV tariffs with heavily discounted overnight electricity rates.</li><li>Charging Habits: treat your EV like a phone - top up overnight at home, use public AC destinations during the day when necessary.</li><li>Cost Efficiency: home charging is vastly cheaper per mile than public rapid charging, a fraction of the per-mile cost of petrol or diesel.</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c8097b464f80e61f16d02"
+  },
+  {
+   "id": 1014,
+   "cat": 15,
+   "title": "Understanding Transmission Types: A Simple Guide",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "Transmission"
+   ],
+   "html": "<p>Every car needs a way to send power from the engine to the wheels - that's the job of the transmission, a set of gears connecting the engine to the drive shaft.</p><h3>Key Terms</h3><ul><li>Gear: a set of toothed wheels that work together to alternate the speed of a vehicle.</li><li>Clutch: the mechanism that connects and disconnects the engine from the transmission, allowing gears to be changed smoothly.</li><li>Pferdestarke (PS): a German unit of power still used in car specs, measuring the power the engine can generate from turning fuel into energy.</li><li>Torque: expressed in Newton-metres (Nm), the amount of force the engine can produce to pull the vehicle forward.</li><li>Engine Displacement: the combined volume capacity of all cylinders, expressed in cc. Generally, higher = more power.</li><li>Powertrain: where power from the engine is sent - FWD, RWD, or 4WD.</li></ul><h3>Manual Transmission</h3><p>Driver changes gears using a clutch pedal and gear stick. Advantages: cheaper to buy, lower maintenance costs, more direct control. Disadvantages: fewer vehicles available, tiresome in heavy traffic, requires precise clutch control on hills.</p><h3>Automatic Transmission</h3><p>Changes gears on its own without a clutch pedal. Advantages: easier in stop-and-go traffic, more variants available, smoother/quicker shifts. Disadvantages: generally more expensive, higher maintenance costs; in the UK, drivers who pass their test in an automatic must retake the test in a manual to earn a full unrestricted licence.</p><h3>The Four Main Types of Automatic-Style Transmission</h3><ul><li>Traditional Automatic (Torque Converter Automatic): uses a fluid coupling (torque converter) between engine and gearbox instead of a mechanical clutch, giving smooth, gentle gear changes.</li><li>Direct Shift Gearbox (DSG): a dual-clutch transmission with two separate clutches handling alternating gears (odd/even); the next gear is pre-selected so shifts happen almost instantly. Blends manual fuel efficiency/control with automatic ease. Note: VWG only uses DSG transmissions among its automatic-style options today.</li><li>Continuous Variable Transmission (CVT): uses a belt-and-pulley system providing a single, variable gear ratio that adjusts smoothly and continuously - no distinct gear changes.</li><li>Automated Shift Gearbox (ASG): an automated manual transmission - automatic (Drive position) or manual (nudge +/-). Combines manual fuel economy with automatic ease. Note: this technology has been phased out of production.</li></ul><h3>All-Wheel Drive: 4Motion</h3><p>Separate from the gearbox, 4Motion is Volkswagen's all-wheel-drive system. Distributes power between front and rear axles, activates the rear axle automatically when loss of traction occurs, continuously adjusts power distribution depending on driving conditions (wet roads, loose surfaces).</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c8057a243f13aa2e5c23d"
+  },
+  {
+   "id": 1015,
+   "cat": 15,
+   "title": "Understanding the VWG Warranty: A Complete Guide",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<p>Volkswagen Group United Kingdom (VWG), covering Volkswagen, Audi, SEAT, Skoda, CUPRA, Volkswagen Commercial Vehicles, and Volkswagen Passenger Cars, offers a layered warranty structure protecting customers against manufacturing defects, body corrosion, workmanship issues, and breakdowns.</p><h3>1. Standard Warranty</h3><p>Vehicles purchased new from a VWG Authorised Retailer in the UK qualify for a comprehensive three-year warranty: Years 1 &amp; 2 unlimited mileage, Year 3 limited to 60,000 miles.</p><p>How warranty repairs work: any defect must be reported to the Authorised Repairer network as soon as discovered; rectification work is carried out exclusively by the Authorised Repairer network; any part replaced during a warranty repair becomes the property of VWG; replaced parts are covered for the remaining unexpired period of the vehicle's original warranty; the customer completes any required forms/documentation. Overseas repairs in Year 3: work must be done by a VWG-approved foreign repairer, and the invoice must be presented to an approved UK repairer within 14 days for a refund.</p><h3>2. Wear and Tear Policy</h3><p>Parts whose lifespan is heavily influenced by driving style and external factors are limited to a six-month or 6,500-mile window: brake linings, disc pads, clutch release bearings, clutch pressure/centre plates (braking &amp; drivetrain); light bulbs, key fob and alarm batteries (electrical &amp; lighting); seat and backrest covers, floor coverings (cabin &amp; interior); wiper blades, shock absorbers, tyres, spark plugs (visibility &amp; ride).</p><h3>3. Body Protection Warranty (Perforation Corrosion)</h3><p>VWG guarantees the structural integrity of the vehicle's bodywork against perforation corrosion for 12 years from the date of first registration. Unlike surface corrosion, perforation corrosion starts inside a panel and works outward due to manufacturing origins.</p><p>Preconditions for a claim: must be reported to the Authorised Repairer network as soon as discovered, within the warranty period; the perforation must not have been caused by damage, neglect, insufficient care/maintenance, or external corrosion; all body repairs must be carried out promptly using manufacturer specifications, approved parts and procedures.</p><h3>4. Authorized Network Workmanship Warranty</h3><p>Separately from the vehicle's manufacturing warranty, VWG's Authorised Repairer network guarantees its own repair and servicing work for one year or 12,000 miles from the date the work was carried out. A workmanship repair is free when: the repair is a direct result of faulty workmanship by the Authorised Repairer; the issue is not due to normal wear and tear or exclusions; it's reported to the original repairing retailer immediately; the vehicle has not been investigated or repaired by any other mechanic.</p><h3>5. Roadside Assistance Coverage by Brand</h3><ul><li>Audi: 36 months</li><li>SEAT: 12 months</li><li>Skoda: 36 months (sold pre-1 May 2025), 12 months (sold after 1 May 2025)</li><li>Volkswagen Commercial Vehicles: 36 months</li><li>Volkswagen Passenger Cars: 12 months (36 months for Touareg and ID. Range)</li><li>CUPRA: 12 months</li></ul><p>Note: coverage for used vehicles varies by brand and is available via each brand's official website.</p><h3>6. Electric Vehicle Battery Warranty</h3><p>Fully electric Audi vehicles carry additional protection against battery degradation down to 70 per cent over a period of eight years or 100,000 miles. Buyer's tip: used EV buyers should note that original new-car performance figures do not always reflect real-world performance with older batteries.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c8096acbcc9b8ab0d419d"
+  },
+  {
+   "id": 1016,
+   "cat": 15,
+   "title": "Service Campaign vs. Recall Comparison",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "DVLA"
+   ],
+   "html": "<h3>Comparison</h3><ul><li>Trigger: Service Campaign - technical issues of the product. Recall - problems resulting in fatalities or severe harm to vehicle occupants/public.</li><li>Safety relation: Service Campaign - not directly related to safety or compliance. Recall - directly related to safety or compliance.</li><li>Notification: Service Campaign - customers are not notified. Recall - VWG UK sends notifications to registered owners of affected vehicles.</li><li>Action taken: Service Campaign - the retailer (RDC) addresses issues on the vehicle's next workshop visit. Recall - a definitive and urgent response to address the safety concern.</li><li>Data source: Service Campaign - not applicable. Recall - notified using information from the Driver and Vehicle Licensing Agency (DVLA).</li></ul><h3>Definitions</h3><ul><li>Service campaign: addresses technical issues not directly related to safety or compliance. Customers are not notified; issues are addressed by the RDC during the vehicle's next workshop visit.</li><li>Recall: issued when a vehicle problem could result in fatalities or severe harm to those in the vehicle or on the road. VWG UK notifies registered owners based on DVLA data.</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c807a880ce6aa1b12ce8a"
+  },
+  {
+   "id": 1017,
+   "cat": 15,
+   "title": "Understanding Vehicle Architecture: Body Styles, Pillars, and Powertrains",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "Audi"
+   ],
+   "html": "<h3>Roof Pillars</h3><p>A: Windshield sides. B: Mid-cabin. C: Rear door. D: Extended rear (Estates/SUVs).</p><h3>Core Styles</h3><ul><li>Saloon: 3-box design (4 doors, separate boot).</li><li>Hatchback: 2-box design (shared cabin/cargo area).</li><li>Estate (Avant): extended roofline to D-pillar for maximum cargo space (Audi calls this \"Avant\").</li><li>Coupe &amp; Cabriolet: 2-door fixed roof vs. retractable soft-top.</li></ul><h3>Utility &amp; Commercial</h3><ul><li>SUV: high ground clearance, rugged chassis.</li><li>MPV: people carrier (3 seating rows, 7+ seats).</li><li>Pickup/Crew Cab: open rear cargo bed (Crew Cab adds a 2nd row of seats).</li><li>Combi &amp; High-Top: flexible passenger/cargo van vs. extended high-roof commercial van.</li></ul><h3>Powertrains</h3><ul><li>BEV (All-Electric): battery-only power.</li><li>PHEV (Plug-in Hybrid): switches between battery &amp; combustion engine.</li><li>HEV (Hybrid): self-charges small battery while driving.</li><li>FCEV (Fuel Cell): generates electricity onboard from hydrogen.</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80218d2cf874eea72fc5"
+  },
+  {
+   "id": 1018,
+   "cat": 15,
+   "title": "Vehicle Life Cycle (Full Process)",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "Pricing",
+    "Delivery",
+    "Shipping",
+    "Stock"
+   ],
+   "html": "<p>The end-to-end journey of a vehicle - from initial customer inquiry through manufacturing, logistics, and final handover.</p><h3>Phase 1: Customer Engagement &amp; Ordering</h3><ol><li>Initial Enquiry: customer reaches out to request vehicle details and specifications.</li><li>Retailer Visit: the customer visits the dealership showroom to inspect models and discuss pricing.</li><li>Test Drive: customer evaluates the vehicle's performance on a road test.</li><li>Order Placement: customer officially places the order and pays the required deposit.</li></ol><h3>Phase 2: Sourcing &amp; Manufacturing</h3><ol><li>Vehicle Availability Check: the retailer checks inventory in order - Retailer Stock, National Stock, Factory Stock.</li><li>Vehicle Build: if stock is unavailable, the order is transmitted to the factory production department for manufacturing.</li></ol><h3>Phase 3: Transit &amp; Quality Inspections</h3><ol><li>Departure from Place of Origin: the completed vehicle leaves the factory and travels to the primary departure port.</li><li>Arrival in Emden, Germany: the vehicle arrives at the hub in Emden. Inspection check: 1st Vehicle Damage Report (VDR) inspection.</li><li>Transportation to the UK: the vehicle is loaded onto cargo vessels and shipped across to the United Kingdom.</li><li>UK Port Arrival: the vehicle offloads at the designated UK port terminal.</li></ol><h3>Phase 4: Preparation &amp; Delivery</h3><ol><li>Transportation to the Retailer: the vehicle is loaded onto a carrier and delivered directly to the destination dealership.</li><li>Arrival at the Retailer: the vehicle is offloaded at the retailer site. Inspection check: 3rd Vehicle Damage Report (VDR) inspection.</li><li>Pre-Delivery Inspection (PDI): technicians verify custom factory specifications and perform technical checks - oil level verification, tyre pressure adjustments, programming service intervals in the Electronic Control Units (ECUs).</li><li>Vehicle Registration &amp; Policy Activation: official vehicle registration is completed, and warranty/service policies are activated.</li><li>Vehicle Handover: documentation, keys, and vehicle are presented to the customer, who signs off confirming the vehicle has been received in good condition.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c805f80dfd6fefdfebc48"
+  },
+  {
+   "id": 1019,
+   "cat": 1,
+   "title": "Vehicle De-Tag & Deregistration Guide",
+   "tags": [
+    "Transfers",
+    "System Utilization",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "VWCV"
+   ],
+   "html": "<p>For the de-tag steps, see Steps to De-Tag A Vehicle.</p><h3>Overview</h3><p>A \"de-tag\" is the administrative process of unlinking a specific vehicle from one customer in SLI so it can be reassigned to another customer or converted for stock-ordering purposes. Primary rule: a vehicle can only be de-tagged if it has not yet been registered.</p><h3>Vehicle Deregistration Rules</h3><p>If a retailer needs to make a formal request to deregister a vehicle, the application must be submitted within 7 working days of the registration date. Note: deregistration is an extra-statutory concession and is never guaranteed.</p><p>Automatic disqualification criteria - deregistration will strictly not be allowed if: the vehicle was registered directly in the retailer's name; the vehicle was registered to an associated, parent, or subsidiary company (including associated leasing companies or car hire firms); the vehicle has been used (e.g., driven off the retailer's forecourt).</p><p>Reasons for rejecting de-tag: incorrect process (did not follow the correct de-tag rules); no proof/evidence/insufficient evidence; WLTP mismatch (error received when de-tagging); pre part reg (part registered vehicle); over 7 days (Motability must not be over 7 days).</p><p>Deregistration process: only the original registering retailer may apply; submit DVLA Form V996 (downloadable via GOV.UK).</p><h3>Brand-Specific De-Tag Requirements</h3><h4>Volkswagen Commercial Vehicles (VWCV)</h4><p>Required documentation: Status 10 or below - no documentation required. Status 20 or above - requires one of: Original Order Form, Formal Cancellation Letter.</p><p>Special handling for ID. Buzz &amp; ID. Buzz Cargo: because of crossover with VW Passenger Cars, these models do not use standard forms. Direct the RDC to complete HUB form <code>CV0678-22</code> (ID. Buzz De-Tag Request Form). Reject all other form submissions.</p><h4>Audi</h4><p>General rules: Status 36-40 (without Transport Order) - must add a protected from mandatory block EDE for 24 hours. Order Types 03, 09, &amp; 11 (Status 30 and under) - transfer the vehicle to 64001. Critical: ensure the call-off is cancelled prior to transferring, or a Transport Order will raise automatically upon UK arrival and ship the vehicle on-site.</p><p>Restricted &amp; special models: RS &amp; GT E-tron models always require formal cancellation documents. Exclusive Paint vehicles may be de-tagged but must remain at the centre. Escalate to Supply Team (<code>SLTQUESTIONS@AUDI.co.uk</code>) for RS 4 Avant Competition and RS3 Competition - CSC cannot de-tag these directly (note: if a customer pulls out of the sale, the Centre will be charged £2,000.00 + VAT).</p><h4>Volkswagen Passenger Cars</h4><p>Required documentation: Status 10 or below - no documentation required. Status 20 or above - RDC must supply at least one of: cancellation document, original order or Motability cancellation screenshot, VWFS finance decline letter or original agreement form.</p><p>Block &amp; status procedures: Status 36-40 - de-tag to Status 07, then apply both the Protected From Mandatory Block and EDE block for 24 hours. This prevents the vehicle from returning to the general stockholding pot and holds it for customer reallocation.</p><p>ID. Models (BEV) Grant Option Checks: before de-tagging any ID model, check the Options Box for codes W25, S7C, SV7. If any of these codes are present, email the order number to <code>VWPRODMKTG@Volswagen.co.uk</code> to remove the grant option before executing the de-tag.</p><h3>De-tag on Hub - Reference Codes</h3><ul><li>Audi: <code>AU0844-22</code></li><li>Skoda: <code>SK1009-18</code></li><li>SEAT: <code>SE0187-22</code></li><li>VWC: <code>CV1200-21</code></li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c8006a31ef3f35eadcb81"
+  },
+  {
+   "id": 1020,
+   "cat": 14,
+   "title": "VW Charging Times Simulator",
+   "tags": [
+    "Tools & Links",
+    "Helpful Links",
+    "EV"
+   ],
+   "html": "<p>Link to the official Volkswagen EV charging time simulator: volkswagen.co.uk/en/electric-and-hybrid/charging-and-range/charging/charging-time.html</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c808cad10cc2aceb31310"
+  },
+  {
+   "id": 1021,
+   "cat": 3,
+   "title": "How To Submit a Block Request Before Creating a Quotation",
+   "tags": [
+    "Order Mods",
+    "System Utilization",
+    "De-Tag",
+    "Tagging",
+    "Quotation",
+    "Pricing"
+   ],
+   "html": "<h3>How to raise a block before creating a quotation</h3><p>Make sure the PSC is at status 40.</p><ol><li>Go to Vehicle.</li><li>Enter the order number.</li><li>Right-click and select Block/Auth.</li><li>Add three blocks: Pending Trans. (PT) -&gt; EDE -&gt; tomorrow's date; PT -&gt; EAC -&gt; tomorrow's date; PT -&gt; 071 -&gt; tomorrow's date.</li><li>Exit.</li><li>Create the quotation (see Quoting Process).</li><li>Provide the prices to the retailer.</li><li>De-tag.</li><li>Remove the blocks (delete each one separately).</li></ol><p>Set the block for only 24 hours to ensure automatic removal.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c803888f8ebb2c1a7a5a7"
+  },
+  {
+   "id": 1022,
+   "cat": 14,
+   "title": "Our Official Tools",
+   "tags": [
+    "Tools & Links",
+    "Helpful Links",
+    "SLI",
+    "GIS",
+    "RaV",
+    "Delivery"
+   ],
+   "html": "<h3>System Tools Reference</h3><ul><li>SLI: order/track a vehicle build and delivery status.</li><li>GIS: correct consignment issues and adoptions.</li><li>ElsaPro: check PR codes.</li><li>RAV: register a vehicle.</li><li>EDM: used for invoicing.</li><li>VIP: track the vehicle after it has left the port in Emden.</li><li>HUB: knowledge base, providing the latest updates and processes for each brand.</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c806bbee1dae5c7bdb961"
+  },
+  {
+   "id": 1023,
+   "cat": 4,
+   "title": "Quoting Process",
+   "tags": [
+    "Pricing",
+    "System Utilization",
+    "Audi",
+    "SLI",
+    "De-Tag",
+    "Tagging"
+   ],
+   "html": "<h3>Purpose of Vehicle Quotations</h3><p>Retailer Development Centres (RDCs) contact the Customer Service Centre (CSC) to request price quotes. While the majority of quotation calls originate from Audi, other brands occasionally request quotes too. Price Verification: RDCs request quotes after taking an order to ensure accurate pricing to their end customer. Stock Checks: retailers may see a vehicle in another retailer's stock and wish to verify if the pricing figures are correct.</p><h3>Quoting Process</h3><ol><li>Enter the order number on the Vehicle Details screen.</li><li>If the order is at status 40 without a transport order, apply three blocks to the order to prevent a transportation order from being raised (removed at the end of the quotation).</li><li>Right-click on the Vehicle Details screen and select Order Modification.</li><li>Ask the retailer for the order type, then select the relevant option (most likely 09 or 08).</li><li>Complete the details under the yellow Quote button.</li><li>Enter 12 in the Months section and 0 in the Weeks section, then save.</li><li>In the PO button, enter TBA.</li><li>Click the Customer Entry tab at the top of SLI.</li><li>Ask the retailer for the customer type, as well as the first RFO and second RFO.</li><li>When adding the second RFO, you may be prompted to enter COMP details - set the company to N/A.</li><li>Enter the POS postcode as MK14 5AN.</li><li>Set the telephone details to 0 and save the screen - this is a default address.</li><li>Set the handover date to the end of the month, then save.</li><li>Once all details are added, click the yellow telephone, then click the pound sign.</li><li>Provide the total price and quotation number to the retailer. Once the pricing details have been shared, de-tag the vehicle.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80adb8c9c613c88d4645"
+  },
+  {
+   "id": 1024,
+   "cat": 10,
+   "title": "How to Submit a Technical/Business Support Ticket",
+   "tags": [
+    "Procedures",
+    "System Utilization",
+    "SLI",
+    "GIS",
+    "RaV",
+    "Status Code"
+   ],
+   "html": "<h3>When to raise a ticket</h3><p>Two specific reasons to raise a ticket: (1) if you provided the retailer with the GIS/RAV error steps and the same error still occurs; (2) if you want to change the order status where there is any conflict.</p><h3>How to Submit a Technical Support Ticket</h3><p>Use these steps when an SLI status code fails to move:</p><ol><li>Launch Citrix and open Firefox.</li><li>In your portal, navigate to Item 26 (IT SSP).</li><li>From the top menu, select Service Catalog.</li><li>Click Systems Requests.</li><li>Select the appropriate SLI from the drop-down menu.</li><li>Fill out the ticket details (VIN) and add a short, clear message explaining that the SLI status has not moved as expected.</li><li>(Optional) Add an attachment.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80e6b783cc0a1b67de88"
+  },
+  {
+   "id": 1025,
+   "cat": 4,
+   "title": "Vehicle Repricing Steps",
+   "tags": [
+    "Pricing",
+    "System Utilization",
+    "SLI"
+   ],
+   "html": "<h3>Vehicle Repricing Steps</h3><ol><li>Log in to SLI.</li><li>Open the order via vehicle query.</li><li>Select the yellow phone icon.</li><li>Select the pound sign (£) icon.</li><li>On the pricing screen, click Re-pricing.</li><li>Update the Val date to the requested date.</li><li>Click Save.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c809f85d6fabd846d8407"
+  },
+  {
+   "id": 1026,
+   "cat": 8,
+   "title": "Vehicle Unadoption Process",
+   "tags": [
+    "Adoption",
+    "System Utilization",
+    "SLI",
+    "GIS",
+    "Demo",
+    "Funding"
+   ],
+   "html": "<h3>Overview</h3><p>The Unadopt process (only unadopt a vehicle if it's getting tagged to a demo or agency + Quotation process) is used when a retailer needs to be refunded for a vehicle so they can access additional funding discounts - for example, putting it on a funded demo plan, getting discounted terms on an agency/fleet vehicle, or transferring it to another RDC while still adopted with the current retailer. Brand Support agents process these requests as they arrive from the RDC network for vehicles physically on-site.</p><h3>1. Receiving the Request</h3><p>Requests arrive as an E-form, submitted via the Volkswagen Hub, landing in Brand Support's Outlook. Key fields on the E-form: Requestor, Centre name/number, Full VIN, Model, Request reason, Explanation. Tip: the Explanation field is where transfer instructions and destination retailer numbers usually live - read it closely.</p><h3>2. Eligibility Checks - Rules</h3><p>Always check: the reason stated on the E-form; retailer numbers match between the E-form and SLI.</p><p>Do NOT unadopt if: transfer type shows A (already transferred while adopted); vehicle invoiced (adopted) today (must wait until the next day); partially/fully registered with no demo plan number (RDC must abort &amp; resubmit first).</p><h3>3. Process the Unadopt - SLI</h3><ol><li>Read the E-form - confirm RDC number + reason (note any transfer request).</li><li>In SLI: Vehicle -&gt; Vehicle Detail.</li><li>Copy the VIN into SLI.</li><li>Check the order status: Adopted (screen turns yellow, code shown in Retailer Inv. box) - continue; Not adopted - stop, see next section.</li></ol><p>If NOT adopted: reply to the RDC declining the request; move the E-form to <code>unadopts@vwg.co.uk</code> marked Rejected.</p><p>If adopted, continue in GIS: log in to GIS; click Documents; select Consignment/Invoices of chassis; enter VIN then Browse; tick line 'I' then Return Invoice; complete cancellation fields (Currency code GBP, Cancellation reason CRIR, GIS action RC, SLI Action B, Type of location 0=stays put/2=transferring, New Location if transferring = new 5-digit retailer number); click Perform cancelation.</p><h3>4. Transfer the Vehicle (if requested)</h3><ol><li>Yellow phone icon -&gt; Order Management.</li><li>Bulk Transfer -&gt; Accept.</li><li>Additional Criteria tab.</li><li>Enter the Order number in both From and To.</li><li>Accept.</li><li>Select the order line (turns blue).</li><li>Right-click grey area -&gt; Bulk Order Transfer.</li><li>Enter 5-digit destination RDC code.</li><li>Tick \"Transfer Customer Information\".</li><li>Accept.</li><li>Yes.</li><li>Vehicle is now unadopted &amp; transferred.</li></ol><p>Critical: skipping step 9 will automatically de-tag the customer, and a price change may apply. Never skip this tick box. (For transfer steps, see Vehicle Transfers Guide.)</p><h3>5. Add an Order Note</h3><ol><li>SLI -&gt; vehicle order -&gt; Dates tab.</li><li>Click the scroll and pen icon.</li><li>Add a note, e.g. \"Vehicle unadopted and transferred, ZH 26/6/2026\".</li></ol><h3>6. Set the Forward Sale Date</h3><p>Set to end of current month. Worked example: E-form received 26 June 2026; Type Stock (untagged); Consignment date 26 February 2026; Rtlr. Inv. Date 24 June 2026; New forward sale date 26 July 2026.</p><h3>7. Remove the Invoice Block</h3><p>Returning the invoice auto-triggers a block - this always needs manual removal.</p><ol><li>Right-click grey area on main Vehicle screen.</li><li>Vehicle block / Author Maint.</li><li>Select Invoice block.</li><li>Delete.</li><li>Accept.</li></ol><h3>Quick Checklist</h3><ul><li>Reason &amp; retailer numbers match E-form + SLI</li><li>No disqualifying conditions apply</li><li>Vehicle confirmed adopted (yellow + Retailer Inv. code)</li><li>Return invoice processed in GIS with correct fields</li><li>Transfer completed - Transfer Customer Information ticked</li><li>Order note added in SLI</li><li>Forward sale date recalculated</li><li>Invoice block deleted</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3acd9243060c8084bef3d4f292bcc40c"
+  },
+  {
+   "id": 1027,
+   "cat": 3,
+   "title": "Making a vehicle amendment",
+   "tags": [
+    "Order Mods",
+    "System Utilization",
+    "SLI",
+    "Status Code"
+   ],
+   "html": "<h3>When Can an Amendment Be Made?</h3><p>Vehicle amendments can only be made up to a specific stage in the order process: permitted while the vehicle order is in its early stages (before Status 20); cut-off point is Status 20 - once an order reaches Status 20, amendments are no longer possible, because the vehicle is typically scheduled for production with a confirmed build week, so no further specification or order adjustments can be processed by the factory.</p><p>Vehicle amendments will not be completed over the telephone unless a valid configuration code is provided by the RDC. If the RDC cannot provide a configuration code (e.g. technical issues), they must email the UK specialist team so the order can be adjusted manually.</p><p>Rule summary: before Status 20 - process amendment normally in SLI. Status 20 or later (confirmed build week) - locked, refuse amendment. Phone request with a valid configuration code - execute requested adjustments over the phone. Phone request with no code/system issue - do not process over the phone, direct RDC to email the UK specialist team.</p><h3>Step-by-step (SLI)</h3><ol><li>Ask for the order number. In SLI, select the brand first, then enter the order number.</li><li>Check the status code: if before 20, proceed; if 20 and above, reject the request.</li><li>Once you have found the order, right-click on the screen.</li><li>From the menu, navigate to Order Modification. The screen will change to show the current vehicle specification.</li><li>Enter the configuration code in the Config. Code field.</li><li>Click the magnifying glass icon.</li><li>To save the order changes, click Save.</li></ol><p>Final check: after saving the amendment, ask the RDC to confirm the changes before ending the call.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c800187dce842795ab85f"
+  },
+  {
+   "id": 1028,
+   "cat": 3,
+   "title": "Guide to Searching for an Order Amendment",
+   "tags": [
+    "Order Mods",
+    "System Utilization",
+    "SLI"
+   ],
+   "html": "<h3>Guide to Searching for an Order Amendment</h3><ol><li>Open the vehicle order in the SLI system.</li><li>Click the audit trail icon (the small folder-and-chart graphic).</li><li>Estimate a rough timeframe for when the amendment was made.</li><li>On the history screen, locate the Movement Description column.</li><li>Scan the list for Vehicle Specification Entry.</li><li>Click the Detail button at the bottom of the screen.</li><li>Review the new window that shows the exact changes made.</li><li>Use the blue arrow icons to scroll and view the information on the far right of the list.</li><li>Locate the User column that contains the dealer portal number.</li><li>Note the specific user ID number assigned to that movement.</li><li>Cross-reference that number with the dealer portal user list provided by your facilitator.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80298583fe6b3bfaa75a"
+  },
+  {
+   "id": 1029,
+   "cat": 6,
+   "title": "How To Handle RAV ERROR CALL",
+   "tags": [
+    "Registration",
+    "System Utilization",
+    "RaV"
+   ],
+   "html": "<h3>RAV Error Call Process</h3><ol><li>The retailer calls about a RAV error.</li><li>Ask for the error code they received.</li><li>Take the error code and search for it in the RAV System Error List. If the code isn't on the list, proceed to the next step.</li><li>Ask the retailer for a screenshot and have them email it.</li></ol><p>If none of the above resolves the error, inform the Business Support team to review the error and solve the problem.</p><ol><li>After receiving the Brand Support team's answer, reply to the retailer and inform them that the problem has been solved.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80c58a2de3dd87f26255"
+  },
+  {
+   "id": 1030,
+   "cat": 3,
+   "title": "Vehicle Order Modification Guide",
+   "tags": [
+    "Order Mods",
+    "System Utilization",
+    "SLI"
+   ],
+   "html": "<h3>Vehicle Order Modification Guide</h3><ol><li>Get the correct order number and make sure to choose the right brand first.</li><li>Right-click on the screen.</li><li>Select \"Order / Commission Modification\" from the pop-up menu.</li><li>Wait for the vehicle specification screen to load.</li><li>Input the configuration in the Config. Code field.</li><li>Click the magnifying glass icon to update the details.</li><li>Click the green \"Save / Accept\" button at the bottom. If you get a refusal box, it cannot be changed.</li><li>If changed, go to the 2nd tab of SLI to compare the changes with the original code.</li><li>Refresh SLI.</li><li>Tell the RDC to verify the changes before hanging up.</li></ol>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c8027ae5bc29a9980b9e2"
+  },
+  {
+   "id": 1031,
+   "cat": 15,
+   "title": "Electric Mobility (E-Mobility) & EV Fundamentals",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "Funding",
+    "Delivery",
+    "EV"
+   ],
+   "html": "<h3>Overview &amp; Environmental Impact</h3><p>E-Mobility refers to electric powertrain technologies and the connected infrastructure that enable the electric propulsion of vehicles and fleets.</p><ul><li>Zero Direct Emissions: fully electric vehicles emit 0 grams of CO2, directly reducing greenhouse gases.</li><li>Urban Air Quality: reduces local exhaust pollution, helping improve air quality in densely populated cities.</li><li>Sustainable Energy: EVs can be powered using 100% renewable energy sources.</li></ul><h3>The EV Spectrum (Vehicle Types)</h3><ul><li>mHEV (Mild Hybrid Electric Vehicle): features a 48V electrical network to support the internal combustion engine.</li><li>HEV (Hybrid Electric Vehicle / Full Hybrid): combines an engine with a self-charging electric motor system.</li><li>PHEV (Plug-in Hybrid Electric Vehicle): switches between battery and combustion power, with a battery that recharges via an external plug.</li><li>BEV (Battery Electric Vehicle): 100% fully electric, powered solely by high-voltage batteries.</li></ul><h3>Technical Advantages &amp; Efficiency</h3><ul><li>High Energy Efficiency: electric motors achieve 90-95% efficiency, compared to only 25-30% efficiency in internal combustion engines (ICE).</li><li>Instant Torque: delivers maximum torque immediately from a standstill, enabling strong acceleration.</li><li>Regenerative Braking: recovers energy during deceleration to recharge the high-voltage battery, improving efficiency in city traffic.</li><li>30% Lower Maintenance: service and maintenance costs are roughly 30% lower than those for ICE vehicles.</li></ul><h3>VWG Strategy: \"The Future Drives Electrically\"</h3><p>Global Leader Ambition: Volkswagen Group (VWG) has launched the world's largest EV offensive to become the global market leader in e-mobility.</p><ul><li>35 Billion Euro Investment committed to e-mobility development.</li><li>Delivery Goals: following 572,100 fully electric vehicles delivered in 2022, VWG is on track for a 20% BEV market share.</li><li>50 New BEVs by 2030: around 50 brand-new fully electric models will be launched by 2030.</li><li>60 Hybrid Portfolio: expanding to around 60 hybrid models by the end of the decade (over half are already in production).</li></ul><h4>Myth vs Fact</h4><ul><li>Myth: \"EVs are complex to maintain.\" Fact: reduced complexity - removes mechanical components like oil systems, exhausts, and clutches.</li><li>Myth: \"EVs require frequent servicing.\" Fact: fewer moving parts - far fewer routine service items compared to petrol vehicles.</li><li>Myth: \"EV downtime is unpredictable.\" Fact: predictable schedules - preventative software checks and fewer wear components support consistent maintenance schedules.</li></ul><h3>Ownership &amp; Customer Experience</h3><ul><li>Effortless &amp; Calm Driving: a smoother, whisper-quiet drive that reduces stress during rush-hour commutes and school runs.</li><li>Enjoyment &amp; Personal Satisfaction: a sense of pride in driving a modern, rewarding vehicle aligned with personal values.</li><li>Reliability &amp; Purpose: confidence in advanced technology while contributing to a cleaner future for the next generation.</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80e2a77ee148d08480e6"
+  },
+  {
+   "id": 1032,
+   "cat": 6,
+   "title": "PSC Physical Status Codes",
+   "tags": [
+    "Registration",
+    "System Utilization",
+    "Shipping",
+    "Status Code"
+   ],
+   "html": "<h3>PSC Physical Status Codes</h3><ul><li>P: Not accepted by the factory yet</li><li>V: Accepted by the factory (waiting to be assigned a build week)</li><li>00: Assigned to factory (no production week scheduled yet)</li><li>10: Factory ordered with production week</li><li>20: Production week confirmed</li><li>30: In transit from factory</li><li>36: Vehicle in port of exit, NOT released</li><li>38: Released to shipping</li><li>39: Vehicle on ship</li><li>40: Vehicle landed in the UK</li><li>60: Dispatched to the retailer</li><li>70: At retailer</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80e0a583ee94248fa1b5"
+  },
+  {
+   "id": 1033,
+   "cat": 6,
+   "title": "Registration Process Codes",
+   "tags": [
+    "Registration",
+    "System Utilization"
+   ],
+   "html": "<h3>Registration Codes</h3><ul><li>Z: Partially pre-registered</li><li>P: Partially registered</li><li>T: Totally registered</li><li>D: De-registered</li><li>C: Registration removed</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c807b8c63d9d3018cd6f6"
+  },
+  {
+   "id": 1034,
+   "cat": 13,
+   "title": "VWG Key Locations",
+   "tags": [
+    "Reference",
+    "General Info",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<h3>Headquarters / Main Plants</h3><ul><li>Audi: Ingolstadt, Germany</li><li>SEAT: Martorell, Spain</li><li>Skoda: Mlada Boleslav, Czech Republic</li><li>Volkswagen (VW): Wolfsburg, Germany</li><li>Volkswagen Commercial Vehicles (VWCV): Hanover, Germany</li><li>CUPRA: Martorell, Spain</li></ul><h3>Port Terminals &amp; Regions</h3><ul><li>Emden (Germany): primary origin port for overseas vehicle shipments leaving Germany.</li><li>Port of Tyne: serves as the Northern/Scotland entry gateway (often routing vehicles toward Glasgow and Northern regions).</li><li>Port of Sheerness: serves the Southern entry gateway (routing vehicles toward London and the South).</li><li>Grimsby: serves the Central/Midlands entry gateway (major UK car import terminal).</li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c801fb042e7fecb0ecd19"
+  },
+  {
+   "id": 1035,
+   "cat": 15,
+   "title": "EV Battery Systems",
+   "tags": [
+    "Training",
+    "Litmos Content",
+    "EV"
+   ],
+   "html": "<h3>Key Components of EV Battery Systems</h3><h4>Battery Architecture (Hierarchy)</h4><p>An electric vehicle (EV) battery is built in layers, moving from individual units up to the full power system.</p><ul><li>Cell: the foundational unit of a lithium-ion battery. Core components: Cathode (+), Anode (-), and Electrolyte.</li><li>Module: a clustered group of cells connected in series and parallel to achieve the targeted voltage and energy capacity.</li><li>Pack: the final, complete assembly installed in the vehicle. Contains: battery modules/cells, control software, structural housing, and environmental systems.</li></ul><h3>Control &amp; Management Systems</h3><h4>1. Battery Management System (BMS)</h4><p>Function: the onboard computer responsible for real-time monitoring and regulation. Key tasks: ensures safe, balanced, and optimal charging and discharging across all cells.</p><h4>2. Thermal Management System</h4><p>Function: regulates the physical operating environment of the battery. Key tasks: provides targeted heating and cooling to maintain optimal performance and prolong battery life.</p><h3>Safety Systems</h3><h4>Safety Disconnect</h4><p>Function: high-voltage circuit breaker mechanism. Key tasks: automatically or manually isolates power from the battery during severe faults, accidents, or maintenance to prevent fires and electrical hazards.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80e5baf9ed0af4369359"
+  },
+  {
+   "id": 1036,
+   "cat": 13,
+   "title": "E-Forms / De-tag on Hub — Reference Codes",
+   "tags": [
+    "Reference",
+    "Videos And References",
+    "Audi",
+    "Skoda",
+    "SEAT",
+    "Cupra"
+   ],
+   "html": "<h3>E-Forms on Hub</h3><ul><li>Audi: <code>AU0766-16</code></li><li>VW: <code>VW3251-16</code></li><li>Skoda: <code>SK2016-16</code></li><li>SEAT: <code>SE0657-11</code>, <code>SE3017-16</code></li><li>VWC: <code>CV3037-16</code></li><li>CUPRA: <code>CU00126-21</code></li></ul><h3>De-tag on Hub</h3><ul><li>Audi: <code>AU0844-22</code></li><li>Skoda: <code>SK1009-18</code></li><li>SEAT: <code>SE0187-22</code></li><li>VWC: <code>CV1200-21</code></li></ul>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c808db57cce754d0d4734"
+  },
+  {
+   "id": 1037,
+   "cat": 13,
+   "title": "GIS System Error List",
+   "tags": [
+    "Reference",
+    "Files",
+    "GIS"
+   ],
+   "html": "<p>This page holds an attached spreadsheet (GIS_Error_List.xlsx) listing every GIS consignment/invoicing error code with its cause, fix, and notes — used alongside the GIS (Global Invoicing System) Error Handling Guide. Open the original Notion page to view or download the spreadsheet directly.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80de9591da3a12dec5cf"
+  },
+  {
+   "id": 1038,
+   "cat": 13,
+   "title": "RAV System Error List",
+   "tags": [
+    "Reference",
+    "Files",
+    "RaV"
+   ],
+   "html": "<p>This page holds an attached PDF (RAV_ERROR_LIST.pdf) indexing every Register a Vehicle (RaV) error code with its cause and fix — used alongside the Identifying RaV (Register a Vehicle) Errors Guide. Open the original Notion page to view or download the PDF directly.</p>",
+   "images": [],
+   "source": "notion",
+   "source_url": "https://app.notion.com/p/3a9d9243060c80a9bb41c2c3bf1cec22"
+  }
+ ]
+}
