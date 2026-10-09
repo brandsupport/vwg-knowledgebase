@@ -120,27 +120,45 @@ def load_local_image(name, images_dir, warnings, row_label):
     return f'data:{IMAGE_EXTS[ext]};base64,{b64}'
 
 
-def fetch_remote_image(url, warnings, row_label, timeout=15):
-    """Downloads an image URL (e.g. a Tally file-upload link) and returns a data: URI, or None.
-    Only usable where outbound network access exists (a GitHub Action runner) -
-    returns None with a warning if the fetch fails for any reason (no network,
-    expired link, wrong content type, too large)."""
+def _image_mime_from_bytes(data):
+    """Identify supported image formats by their file signatures, not HTTP headers."""
+    if data.startswith(b'\\x89PNG\\r\\n\\x1a\\n'):
+        return 'image/png'
+    if data.startswith(b'\\xff\\xd8\\xff'):
+        return 'image/jpeg'
+    if data.startswith((b'GIF87a', b'GIF89a')):
+        return 'image/gif'
+    if len(data) >= 12 and data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        return 'image/webp'
+    return None
+
+
+def fetch_remote_image(url, warnings, row_label, timeout=20):
+    """Download a Tally image URL and return a data URI after validating its bytes."""
     import urllib.request
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        req = urllib.request.Request(url, headers={
+            'User-Agent': 'Mozilla/5.0',
+            'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+        })
         with urllib.request.urlopen(req, timeout=timeout) as resp:
-            ctype = resp.headers.get('Content-Type', '').split(';')[0].strip().lower()
-            if ctype not in IMAGE_EXTS.values():
-                warnings.append(f'{row_label}: file at {url} is not a supported image type ({ctype}) - skipped')
-                return None
+            # Read one byte beyond the limit so oversized files are detected.
             data = resp.read(8_000_000 + 1)
             if len(data) > 8_000_000:
-                warnings.append(f'{row_label}: image at {url} is over 8MB - skipped')
+                warnings.append(f'{row_label}: image at {url} exceeds the 8MB limit - skipped')
+                return None
+            mime = _image_mime_from_bytes(data)
+            if not mime:
+                ctype = resp.headers.get('Content-Type', '').split(';')[0].strip().lower()
+                warnings.append(
+                    f'{row_label}: URL did not return a supported image (detected {ctype or "unknown content type"}); '
+                    'check that the Tally upload link is accessible - skipped'
+                )
                 return None
             b64 = base64.b64encode(data).decode('ascii')
-            return f'data:{ctype};base64,{b64}'
+            return f'data:{mime};base64,{b64}'
     except Exception as e:
-        warnings.append(f'{row_label}: could not download image from {url} ({e}) - skipped')
+        warnings.append(f'{row_label}: could not download image from Tally URL ({e}) - skipped')
         return None
 
 
