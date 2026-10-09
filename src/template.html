@@ -323,25 +323,26 @@ button{font-family:inherit;}
 
 /* ---------- Featured ---------- */
 
-/* Neon spinning accent for the featured article */
-.featured-card{position:relative; isolation:isolate; border:1px solid transparent;}
-.featured-card::before{
+/* Match the logo and search fields' travelling neon edge highlight */
+.featured-card{position:relative;}
+.featured-card::after{
   content:"";
   position:absolute;
   inset:0;
-  z-index:2;
-  padding:2px;
-  border-radius:inherit;
+  z-index:3;
   pointer-events:none;
-  background:conic-gradient(from 0deg, transparent 0deg, var(--neon-1) 55deg, var(--neon-2, #c24dff) 115deg, transparent 170deg, transparent 220deg, var(--neon-1) 285deg, transparent 360deg);
-  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-  animation:featured-neon-spin 6s linear infinite;
-  filter:drop-shadow(0 0 5px rgba(0,229,255,.32));
+  border-radius:inherit;
+  background:conic-gradient(from var(--spin), transparent 0 70%, var(--neon-1) 86%, var(--neon-2) 96%, transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  padding:2px;
+  opacity:.75;
+  animation:markspin 6s linear infinite;
+  transition:opacity .25s ease;
+  filter:drop-shadow(0 0 4px var(--neon-1));
 }
-@keyframes featured-neon-spin{to{transform:rotate(360deg);}}
-@media (prefers-reduced-motion: reduce){.featured-card::before{animation:none;}}
+.featured-card:hover::after{opacity:1; animation-duration:2.6s;}
+@media (prefers-reduced-motion: reduce){.featured-card::after{animation:none;}}
 
 .featured-card{
   display:grid;
