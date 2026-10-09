@@ -218,3 +218,8 @@ handles that).
 **Manually, without the Action:** run `python3 build.py` and upload/commit
 `dist/index.html` yourself — it's a single static file, so it can be hosted
 anywhere that serves static files.
+
+
+## Feature documentation
+
+See **[FEATURES.md](FEATURES.md)** for the complete feature guide, including the knowledgebase interface, article publishing and formatting, search and filtering, accessibility/responsive behaviour, the chatbot index and Worker integration, and the automated deployment pipeline.
