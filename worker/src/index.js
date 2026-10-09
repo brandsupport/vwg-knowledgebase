@@ -59,9 +59,13 @@ export default {
     try {
       const length = Number(request.headers.get("Content-Length") || 0);
       if (length > 4096) return json({ error: "Request too large" }, 413, headers);
-      body = await request.json();
+      const rawBody = await request.text();
+      if (new TextEncoder().encode(rawBody).byteLength > 4096) {
+        return json({ error: "Request too large" }, 413, headers);
+      }
+      body = JSON.parse(rawBody);
     } catch {
-      return json({ error: "Expected a JSON request" }, 400, headers);
+      return json({ error: "Expected a small JSON request" }, 400, headers);
     }
     const question = typeof body?.question === "string" ? body.question.trim() : "";
     if (!question) return json({ error: "Please enter a question" }, 400, headers);
