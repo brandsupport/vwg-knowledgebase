@@ -918,7 +918,7 @@ document.getElementById('themeToggle').addEventListener('click', () => {
 });
 applyStoredTheme();
 
-/* Local retrieval only: this prototype does not send questions to a server. */
+/* Set CHAT_API_URL after deploying worker/; empty keeps privacy-friendly local search. */
 (() => {
   const launcher = document.getElementById('kbChatLauncher');
   const panel = document.getElementById('kbChatPanel');
@@ -927,6 +927,7 @@ applyStoredTheme();
   const input = document.getElementById('kbChatInput');
   const messages = document.getElementById('kbChatMessages');
   let indexPromise;
+  const CHAT_API_URL = 'https://white-feather-df3a.mohamed-elqabbany.workers.dev';
 
   function setOpen(open) {
     panel.classList.toggle('open', open);
@@ -1021,11 +1022,61 @@ applyStoredTheme();
     input.value = '';
     const waiting = addBubble('Searching the article index…');
     try {
-      const articles = await loadIndex();
-      waiting.remove();
-      addResults(findMatches(articles, query));
+      if (CHAT_API_URL) {
+        const response = await fetch(CHAT_API_URL, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({question: query})
+        });
+        const data = await response.json();
+        if (!response.ok || data.error) throw new Error(data.error || 'Chat service unavailable');
+        waiting.remove();
+        addBubble(data.answer || 'I could not generate an answer for that question.');
+        if (Array.isArray(data.sources) && data.sources.length) {
+          const sourceBubble = document.createElement('div');
+          sourceBubble.className = 'kb-chat-bubble';
+          sourceBubble.appendChild(document.createTextNode('Sources from the knowledgebase:'));
+          const list = document.createElement('div');
+          list.className = 'kb-chat-results';
+          data.sources.forEach(source => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'kb-chat-result';
+            button.dataset.articleId = String(source.id);
+            const title = document.createElement('strong');
+            title.textContent = source.title || 'Open source article';
+            const meta = document.createElement('span');
+            meta.textContent = source.category || 'Knowledgebase';
+            button.append(title, meta);
+            list.appendChild(button);
+          });
+          sourceBubble.appendChild(list);
+          messages.appendChild(sourceBubble);
+          messages.scrollTop = messages.scrollHeight;
+        }
+      } else {
+        const articles = await loadIndex();
+        waiting.remove();
+        addResults(findMatches(articles, query));
+      }
     } catch (error) {
-      waiting.textContent = 'The article index could not be loaded. Please use the regular site search for now.';
+      if (CHAT_API_URL) {
+        waiting.textContent = 'The AI assistant is unavailable right now. Please try the local site search.';
+        const fallback = document.createElement('button');
+        fallback.type = 'button';
+        fallback.className = 'kb-chat-result';
+        fallback.textContent = 'Search articles locally instead';
+        fallback.addEventListener('click', async () => {
+          fallback.remove();
+          try {
+            const articles = await loadIndex();
+            addResults(findMatches(articles, query));
+          } catch (_) {}
+        });
+        waiting.appendChild(fallback);
+      } else {
+        waiting.textContent = 'The article index could not be loaded. Please use the regular site search for now.';
+      }
     }
   });
   messages.addEventListener('click', event => {
