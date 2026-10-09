@@ -1,0 +1,11 @@
+name = "vwg-knowledgebase-chat"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[ai]
+binding = "AI"
+
+# Replace both placeholders with the exact deployed site origin.
+[vars]
+ALLOWED_ORIGIN = "https://YOUR-GITHUB-PAGES-OR-CUSTOM-DOMAIN"
+KB_INDEX_URL = "https://YOUR-GITHUB-PAGES-OR-CUSTOM-DOMAIN/chatbot-index.json"
