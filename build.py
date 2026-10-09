@@ -8,13 +8,14 @@ Combines
     data/articles.xlsx         OPTIONAL - articles submitted through a form into Excel
     data/gsheet_config.json    OPTIONAL - points at a live Google Sheet (Tally's
                                  Google Sheets integration) to pull articles from
-into one self-contained, deployable file.
+into one self-contained, deployable file, plus a small text-only chatbot index.
 
 Usage:
     pip install -r requirements.txt
-    python3 build.py          -> writes dist/index.html
+    python3 build.py          -> writes dist/index.html and dist/chatbot-index.json
 """
 import base64
+import html
 import json
 import os
 import re
@@ -27,9 +28,12 @@ GSHEET_CONFIG_PATH = os.path.join(ROOT, "data", "gsheet_config.json")
 IMAGES_DIR = os.path.join(ROOT, "data", "images")
 OUT_DIR = os.path.join(ROOT, "dist")
 OUT_PATH = os.path.join(OUT_DIR, "index.html")
+CHATBOT_INDEX_PATH = os.path.join(OUT_DIR, "chatbot-index.json")
 
 EXT_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
             ".gif": "image/gif", ".webp": "image/webp"}
+HTML_TAG_RE = re.compile(r"<[^>]+>")
+WHITESPACE_RE = re.compile(r"\s+")
 
 
 def resolve_images(article):
@@ -52,8 +56,34 @@ def resolve_images(article):
 
 def ensure_search_text(article):
     if not article.get("search_text"):
-        plain = re.sub(r"<[^>]+>", " ", article["html"])
+        plain = HTML_TAG_RE.sub(" ", article["html"])
         article["search_text"] = (article["title"] + " " + plain + " " + " ".join(article["tags"])).lower()
+
+
+def build_chatbot_index(data):
+    """Return a compact text-only index for retrieval; never include image payloads."""
+    categories = {c["id"]: c.get("title", c.get("short", "Other"))
+                  for c in data.get("categories", [])}
+    entries = []
+    for article in data.get("articles", []):
+        # This receives the already-filtered/approved article list from the build pipeline.
+        plain = html.unescape(HTML_TAG_RE.sub(" ", article.get("html", "")))
+        plain = WHITESPACE_RE.sub(" ", plain).strip()
+        title = str(article.get("title", "")).strip()
+        tags = [str(tag).strip() for tag in article.get("tags", []) if str(tag).strip()]
+        if not title or not plain and not tags:
+            continue
+        article_id = article["id"]
+        entries.append({
+            "id": article_id,
+            "title": title,
+            "category": categories.get(article.get("cat"), "Other"),
+            "tags": tags,
+            "text": plain[:12000],
+            "excerpt": plain[:240],
+            "url": f"#/article/{article_id}",
+        })
+    return {"version": 1, "articles": entries}
 
 
 def main():
@@ -118,7 +148,10 @@ def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write(final_html)
+    with open(CHATBOT_INDEX_PATH, "w", encoding="utf-8") as f:
+        json.dump(build_chatbot_index(data), f, ensure_ascii=False, separators=(",", ":"))
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
+    print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
 
 if __name__ == "__main__":
