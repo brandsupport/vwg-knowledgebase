@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>VWG Brand Support Knowledgebase</title>
+<link rel="icon" type="image/png" sizes="64x64" href="__FAVICON__">
+<link rel="apple-touch-icon" sizes="180x180" href="__APPLE_ICON__">
+<meta name="theme-color" content="#090C16">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Sora:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
+  --vw-logo:url("__VW_LOGO__");
   --bg:#090C16;
   --bg-blob-1:rgba(0,229,255,0.16);
   --bg-blob-2:rgba(194,77,255,0.14);
@@ -113,20 +117,56 @@ button{font-family:inherit;}
   cursor:pointer;
   flex:0 0 auto;
 }
-.brand-logo{
-  width:32px;height:32px;
-  border-radius:8px;
-  object-fit:contain;
+.brand-mark{
+  position:relative;
+  width:46px; height:46px;
   flex:0 0 auto;
-  background:rgba(255,255,255,0.9);
-  padding:3px;
+  border-radius:14px;
+  background:linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+  border:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 0 22px -6px var(--neon-1);
+  display:flex; align-items:center; justify-content:center;
+  transition:box-shadow .25s ease, transform .25s ease, border-color .25s ease;
 }
-.brand-logo.placeholder{
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-weight:700;font-size:13px;
-  background:linear-gradient(135deg, var(--neon-1), var(--neon-2));
-  color:var(--accent-ink);
+.brand-block:hover .brand-mark{
+  transform:translateY(-1px) scale(1.04);
+  border-color:var(--neon-1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 0 26px -2px var(--neon-1), 0 0 40px -10px var(--neon-2);
 }
+@property --spin{ syntax:"<angle>"; initial-value:0deg; inherits:false; }
+.brand-mark::after{          /* neon highlight that travels around the tile edge */
+  content:""; position:absolute; inset:-1px; border-radius:inherit; pointer-events:none;
+  background:conic-gradient(from var(--spin), transparent 0 72%, var(--neon-1) 88%, var(--neon-2) 96%, transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  padding:1.5px; opacity:.9;
+  animation:markspin 5s linear infinite;
+}
+@keyframes markspin{ to{ --spin:360deg; } }
+.logo-glow{ display:block; width:30px; height:30px; filter:drop-shadow(0 0 5px var(--neon-1)) drop-shadow(0 0 12px rgba(194,77,255,0.45)); }
+.logo-glyph{
+  display:block; width:100%; height:100%;
+  background:linear-gradient(135deg, var(--neon-1) 10%, var(--neon-2) 95%);
+  -webkit-mask:var(--vw-logo) center/contain no-repeat;
+  mask:var(--vw-logo) center/contain no-repeat;
+}
+/* neon edge highlight on the search boxes (same effect as the logo tile) */
+.header-search input, .hero-search input{display:block;}
+.header-search::after, .hero-search::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  border-radius:9px;
+  background:conic-gradient(from var(--spin), transparent 0 70%, var(--neon-1) 86%, var(--neon-2) 96%, transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  padding:1.5px; opacity:.75;
+  animation:markspin 6s linear infinite;
+  transition:opacity .25s ease;
+  filter:drop-shadow(0 0 4px var(--neon-1));
+}
+.hero-search::after{border-radius:13px; padding:2px;}
+.header-search:focus-within::after, .hero-search:focus-within::after{opacity:1; animation-duration:2.6s;}
+.footer-brand-row{display:flex; align-items:center; gap:10px;}
+.footer-brand-row .logo-glow{width:22px; height:22px; filter:drop-shadow(0 0 4px var(--neon-1));}
 .brand-title{
   font-family:var(--font-display);
   font-weight:700;
@@ -432,7 +472,10 @@ button{font-family:inherit;}
 .article-body ul, .article-body ol{margin:0 0 15px; padding-left:22px;}
 .article-body li{margin-bottom:7px;}
 .article-body strong{color:var(--ink);}
-.article-body img{max-width:100%; border:1px solid var(--line); border-radius:10px; margin:8px 0 18px; display:block;}
+.article-body img, .article-detail > img{max-width:100%; height:auto; border:1px solid var(--line); border-radius:10px; margin:8px 0 18px; display:block;}
+.article-detail{min-width:0;}
+.article-body{overflow-wrap:anywhere;}
+.article-body table, .article-body pre{max-width:100%; overflow-x:auto; display:block;}
 .callout{background:var(--callout-bg); border:1px solid var(--callout-line); border-radius:10px; padding:12px 15px; margin:0 0 15px; font-size:14px;}
 code{font-family:var(--font-mono); background:var(--code-bg); color:var(--code-ink); padding:1px 6px; border-radius:5px; font-size:0.88em;}
 .detail-tags{display:flex; flex-wrap:wrap; gap:6px; margin:24px 0 10px;}
@@ -480,7 +523,7 @@ code{font-family:var(--font-mono); background:var(--code-bg); color:var(--code-i
 <header class="site-header">
   <div class="header-inner">
     <div class="brand-block" onclick="navigate('home')">
-      <span id="brandLogoSlot"><span class="brand-logo placeholder">VW</span></span>
+      <span class="brand-mark" aria-hidden="true"><span class="logo-glow"><span class="logo-glyph"></span></span></span>
       <span class="brand-title"><span class="grad">VWG</span> Brand Support<br>Knowledgebase</span>
     </div>
     <nav class="main-nav" id="mainNav">
@@ -504,7 +547,7 @@ code{font-family:var(--font-mono); background:var(--code-bg); color:var(--code-i
 <footer class="site-footer">
   <div class="footer-inner">
     <div>
-      <div class="footer-brand">VWG Brand Support Knowledgebase</div>
+      <div class="footer-brand footer-brand-row"><span class="logo-glow" aria-hidden="true"><span class="logo-glyph"></span></span><span>VWG Brand Support Knowledgebase</span></div>
       <div class="footer-tagline">Internal reference for Retailer Development Centre support — searchable tips, processes, and brand guidance.</div>
     </div>
     <div class="footer-links">
@@ -612,9 +655,12 @@ function renderHeaderState(){
   document.getElementById('footerMeta').textContent = `${ARTICLES.length} articles indexed`;
 }
 
-const FEATURED_TITLE = "Vehicle Transfers Guide";
+// Pick one featured article per page load so the feature stays stable while browsing.
+const FEATURED_ARTICLE = ARTICLES.length
+  ? ARTICLES[Math.floor(Math.random() * ARTICLES.length)]
+  : null;
 function getFeatured(){
-  return ARTICLES.find(a => a.title === FEATURED_TITLE) || ARTICLES[0];
+  return FEATURED_ARTICLE || ARTICLES[0];
 }
 
 function renderHome(){
