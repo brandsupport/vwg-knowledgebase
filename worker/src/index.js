@@ -21,27 +21,46 @@ function corsHeaders(origin, allowedOrigin) {
 function json(body, status, headers) {
   return new Response(JSON.stringify(body), { status, headers });
 }
+const STOP_WORDS = new Set(("a an and are as at be by for from how i in is it of on or the to was what when where which who why with you your").split(" "));
 function termsFor(value) {
-  return String(value || "").toLowerCase().normalize("NFKD")
+  return [...new Set(String(value || "").toLowerCase().normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
-    .split(/[^a-z0-9]+/).filter((term) => term.length > 1).slice(0, 40);
+    .split(/[^a-z0-9]+/)
+    .filter((term) => term.length > 1 && !STOP_WORDS.has(term)))].slice(0, 40);
+}
+function wordSet(value) {
+  return new Set(String(value || "").toLowerCase().normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "").split(/[^a-z0-9]+/).filter(Boolean));
 }
 function retrieve(articles, question) {
-  const terms = [...new Set(termsFor(question))];
+  const terms = termsFor(question);
+  if (!terms.length) return [];
   return articles.map((article) => {
-    const title = String(article.title || "").toLowerCase();
-    const tags = (article.tags || []).join(" ").toLowerCase();
-    const category = String(article.category || "").toLowerCase();
-    const text = String(article.text || "").toLowerCase();
+    const title = wordSet(article.title);
+    const tags = wordSet((article.tags || []).join(" "));
+    const category = wordSet(article.category);
+    const text = wordSet(article.text);
     let score = 0;
+    let matchedTerms = 0;
+    let strongMatches = 0;
     for (const term of terms) {
-      if (title.includes(term)) score += 8;
-      if (tags.includes(term)) score += 6;
-      if (category.includes(term)) score += 2;
-      score += Math.min(text.split(term).length - 1, 3);
+      const inTitle = title.has(term);
+      const inTags = tags.has(term);
+      const inCategory = category.has(term);
+      const inText = text.has(term);
+      if (inTitle || inTags || inCategory || inText) matchedTerms += 1;
+      if (inTitle) { score += 8; strongMatches += 1; }
+      if (inTags) { score += 6; strongMatches += 1; }
+      if (inCategory) score += 2;
+      if (inText) score += 1;
     }
-    return { article, score };
-  }).filter((item) => item.score > 0).sort((a, b) => b.score - a.score).slice(0, MAX_MATCHES);
+    const coverage = matchedTerms / terms.length;
+    return { article, score, matchedTerms, strongMatches, coverage, termCount: terms.length };
+  }).filter((item) => item.score >= 7 &&
+      item.coverage >= 0.6 &&
+      (item.matchedTerms >= 2 || (item.termCount === 1 && item.strongMatches > 0)))
+    .sort((a, b) => b.score - a.score || b.coverage - a.coverage)
+    .slice(0, MAX_MATCHES);
 }
 export default {
   async fetch(request, env) {
