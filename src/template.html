@@ -540,6 +540,28 @@ code{font-family:var(--font-mono); background:var(--code-bg); color:var(--code-i
 
 :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
 @media (prefers-reduced-motion: reduce){*{transition:none !important; animation:none !important;}}
+
+/* Knowledgebase chatbot — local article retrieval prototype */
+.kb-chat-launcher{position:fixed;right:22px;bottom:22px;z-index:1000;border:0;border-radius:999px;padding:13px 18px;background:linear-gradient(120deg,var(--neon-1),var(--neon-2));color:#07111b;font-weight:700;box-shadow:var(--glow-1);cursor:pointer}
+.kb-chat-panel{position:fixed;right:22px;bottom:82px;z-index:1000;width:min(390px,calc(100vw - 28px));max-height:min(620px,calc(100dvh - 115px));display:none;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:var(--surface-solid);backdrop-filter:blur(var(--blur));box-shadow:0 18px 60px rgba(0,0,0,.35)}
+.kb-chat-panel.open{display:flex}
+.kb-chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line)}
+.kb-chat-title{font-family:var(--font-display);font-weight:700}
+.kb-chat-subtitle{font-size:11px;color:var(--ink-soft)}
+.kb-chat-close{border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);padding:4px 9px;cursor:pointer}
+.kb-chat-messages{padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.kb-chat-bubble{max-width:95%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.kb-chat-bubble.user{align-self:flex-end;background:var(--code-bg)}
+.kb-chat-results{display:flex;flex-direction:column;gap:8px;margin-top:9px}
+.kb-chat-result{display:block;width:100%;text-align:left;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);cursor:pointer}
+.kb-chat-result:hover{border-color:var(--neon-1)}
+.kb-chat-result strong{display:block;font-size:12px;margin-bottom:3px}
+.kb-chat-result span{display:block;color:var(--ink-soft);font-size:11px}
+.kb-chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.kb-chat-input{flex:1;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:13px}
+.kb-chat-send{border:0;border-radius:10px;padding:0 14px;background:var(--neon-1);color:#07111b;font-weight:700;cursor:pointer}
+@media(max-width:520px){.kb-chat-launcher{right:14px;bottom:14px}.kb-chat-panel{right:10px;bottom:70px;max-height:calc(100dvh - 90px)}}
+
 </style>
 </head>
 <body>
@@ -567,6 +589,22 @@ code{font-family:var(--font-mono); background:var(--code-bg); color:var(--code-i
 <div class="menu-scrim" id="menuScrim" onclick="closeMegaMenu()"></div>
 
 <div id="content"></div>
+
+
+<button class="kb-chat-launcher" id="kbChatLauncher" type="button" aria-expanded="false" aria-controls="kbChatPanel">💬 Ask the Knowledgebase</button>
+<section class="kb-chat-panel" id="kbChatPanel" aria-label="Knowledgebase chat" aria-hidden="true">
+  <div class="kb-chat-head">
+    <div><div class="kb-chat-title">Knowledgebase Assistant</div><div class="kb-chat-subtitle">Find relevant articles from the knowledgebase</div></div>
+    <button class="kb-chat-close" id="kbChatClose" type="button" aria-label="Close chat">✕</button>
+  </div>
+  <div class="kb-chat-messages" id="kbChatMessages" aria-live="polite">
+    <div class="kb-chat-bubble">Hi! Tell me what you’re trying to do, or enter a system, brand, status code or bulletin reference. I’ll look for relevant articles.</div>
+  </div>
+  <form class="kb-chat-form" id="kbChatForm">
+    <input class="kb-chat-input" id="kbChatInput" type="text" maxlength="500" placeholder="e.g. vehicle grant on SLI" autocomplete="off" aria-label="Ask a knowledgebase question" required>
+    <button class="kb-chat-send" type="submit">Find</button>
+  </form>
+</section>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -879,6 +917,129 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   try{ localStorage.setItem('rsm-theme', next); }catch(e){}
 });
 applyStoredTheme();
+
+/* Local retrieval only: this prototype does not send questions to a server. */
+(() => {
+  const launcher = document.getElementById('kbChatLauncher');
+  const panel = document.getElementById('kbChatPanel');
+  const close = document.getElementById('kbChatClose');
+  const form = document.getElementById('kbChatForm');
+  const input = document.getElementById('kbChatInput');
+  const messages = document.getElementById('kbChatMessages');
+  let indexPromise;
+
+  function setOpen(open) {
+    panel.classList.toggle('open', open);
+    panel.setAttribute('aria-hidden', String(!open));
+    launcher.setAttribute('aria-expanded', String(open));
+    if (open) input.focus();
+  }
+  function addBubble(text, kind) {
+    const bubble = document.createElement('div');
+    bubble.className = 'kb-chat-bubble' + (kind ? ' ' + kind : '');
+    bubble.textContent = text;
+    messages.appendChild(bubble);
+    messages.scrollTop = messages.scrollHeight;
+    return bubble;
+  }
+  function loadIndex() {
+    if (!indexPromise) {
+      indexPromise = fetch(new URL('chatbot-index.json', document.baseURI).toString())
+        .then(response => {
+          if (!response.ok) throw new Error('Index unavailable');
+          return response.json();
+        })
+        .then(data => {
+          if (!data || data.version !== 1 || !Array.isArray(data.articles)) throw new Error('Invalid index');
+          return data.articles;
+        });
+    }
+    return indexPromise;
+  }
+  function termsFor(query) {
+    return query.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+      .split(/[^a-z0-9]+/).filter(word => word.length > 1);
+  }
+  function findMatches(articles, query) {
+    const terms = [...new Set(termsFor(query))];
+    if (!terms.length) return [];
+    return articles.map(article => {
+      const title = String(article.title || '').toLowerCase();
+      const tags = (article.tags || []).join(' ').toLowerCase();
+      const category = String(article.category || '').toLowerCase();
+      const text = String(article.text || '').toLowerCase();
+      let score = 0;
+      for (const term of terms) {
+        if (title.includes(term)) score += 7;
+        if (tags.includes(term)) score += 5;
+        if (category.includes(term)) score += 2;
+        const occurrences = text.split(term).length - 1;
+        score += Math.min(occurrences, 4);
+      }
+      const phrase = query.trim().toLowerCase();
+      if (phrase.length > 2 && title.includes(phrase)) score += 8;
+      return {article, score};
+    }).filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 4);
+  }
+  function addResults(matches) {
+    const bubble = document.createElement('div');
+    bubble.className = 'kb-chat-bubble';
+    if (!matches.length) {
+      bubble.textContent = 'I couldn’t find a close match in the indexed articles. Try a brand name, system, status code, bulletin reference, or a shorter phrase.';
+      messages.appendChild(bubble);
+      messages.scrollTop = messages.scrollHeight;
+      return;
+    }
+    bubble.appendChild(document.createTextNode('These articles look most relevant. Open one to read the full guidance:'));
+    const list = document.createElement('div');
+    list.className = 'kb-chat-results';
+    matches.forEach(({article}) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'kb-chat-result';
+      button.dataset.articleId = String(article.id);
+      const title = document.createElement('strong');
+      title.textContent = article.title;
+      const meta = document.createElement('span');
+      meta.textContent = (article.category || 'Knowledgebase') + ((article.tags || []).length ? ' · ' + article.tags.slice(0, 3).join(', ') : '');
+      button.append(title, meta);
+      list.appendChild(button);
+    });
+    bubble.appendChild(list);
+    messages.appendChild(bubble);
+    messages.scrollTop = messages.scrollHeight;
+  }
+  launcher.addEventListener('click', () => setOpen(!panel.classList.contains('open')));
+  close.addEventListener('click', () => setOpen(false));
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const query = input.value.trim();
+    if (!query) return;
+    addBubble(query, 'user');
+    input.value = '';
+    const waiting = addBubble('Searching the article index…');
+    try {
+      const articles = await loadIndex();
+      waiting.remove();
+      addResults(findMatches(articles, query));
+    } catch (error) {
+      waiting.textContent = 'The article index could not be loaded. Please use the regular site search for now.';
+    }
+  });
+  messages.addEventListener('click', event => {
+    const button = event.target.closest('button[data-article-id]');
+    if (!button) return;
+    const idText = button.dataset.articleId;
+    const article = ARTICLES.find(item => String(item.id) === idText);
+    if (article) {
+      setOpen(false);
+      navigate('article', {articleId: article.id});
+    }
+  });
+})();
+
 
 const initial = parseHash();
 state = { route:initial.route, articleId:initial.articleId??null, query:initial.query??'', activeCat:initial.catId??null, activeTag:null };
