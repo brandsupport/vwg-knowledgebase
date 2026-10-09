@@ -14,8 +14,10 @@ Usage:
     pip install -r requirements.txt
     python3 build.py          -> writes dist/index.html
 """
+import base64
 import json
 import os
+import re
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_PATH = os.path.join(ROOT, "src", "template.html")
@@ -25,6 +27,33 @@ GSHEET_CONFIG_PATH = os.path.join(ROOT, "data", "gsheet_config.json")
 IMAGES_DIR = os.path.join(ROOT, "data", "images")
 OUT_DIR = os.path.join(ROOT, "dist")
 OUT_PATH = os.path.join(OUT_DIR, "index.html")
+
+EXT_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+            ".gif": "image/gif", ".webp": "image/webp"}
+
+
+def resolve_images(article):
+    """Images in site_data.json are stored as file paths under data/ (e.g.
+    "article_images/a59_1.png"); the built page needs them inlined as data: URIs."""
+    out = []
+    for ref in article.get("images", []):
+        if ref.startswith("data:"):
+            out.append(ref)
+            continue
+        path = os.path.join(ROOT, "data", ref)
+        ext = os.path.splitext(ref)[1].lower()
+        if not os.path.isfile(path) or ext not in EXT_MIME:
+            print(f"  WARNING: article {article['id']}: image {ref} not found - skipped")
+            continue
+        with open(path, "rb") as f:
+            out.append(f"data:{EXT_MIME[ext]};base64," + base64.b64encode(f.read()).decode("ascii"))
+    article["images"] = out
+
+
+def ensure_search_text(article):
+    if not article.get("search_text"):
+        plain = re.sub(r"<[^>]+>", " ", article["html"])
+        article["search_text"] = (article["title"] + " " + plain + " " + " ".join(article["tags"])).lower()
 
 
 def main():
@@ -57,6 +86,16 @@ def main():
     else:
         print("Google Sheet: data/gsheet_config.json not found - skipping")
 
+    for a in data["articles"]:
+        resolve_images(a)
+        ensure_search_text(a)
+
+    seen, dupes = set(), set()
+    for a in data["articles"]:
+        (dupes if a["id"] in seen else seen).add(a["id"])
+    if dupes:
+        raise SystemExit(f"Duplicate article ids {sorted(dupes)} - every article needs a unique id")
+
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         shell = f.read()
     if "__SITE_DATA__" not in shell:
@@ -65,6 +104,16 @@ def main():
     # Escape "</" so the JSON can't close the surrounding <script> tag.
     safe_json = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     final_html = shell.replace("__SITE_DATA__", safe_json)
+    for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"), ("__FAVICON__", "favicon.png"),
+                                  ("__APPLE_ICON__", "apple-touch-icon.png")):
+        path = os.path.join(ROOT, "src", filename)
+        if os.path.exists(path):
+            with open(path, "rb") as f:
+                uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
+        else:
+            print(f"  WARNING: src/{filename} not found - logo/favicon will be blank")
+            uri = ""
+        final_html = final_html.replace(placeholder, uri)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:

@@ -22,14 +22,18 @@ whenever something relevant changes.
 ├── .github/workflows/
 │   └── deploy.yml               # rebuilds + deploys to GitHub Pages on every push
 ├── src/
-│   └── template.html            # the app shell: all CSS + all JS
+│   ├── template.html            # the app shell: all CSS + all JS
+│   ├── vw-logo.png              # header/footer logo (used as a mask, coloured by CSS)
+│   ├── favicon.png              # browser-tab icon
+│   └── apple-touch-icon.png     # iPhone/Android home-screen icon
 ├── data/
 │   ├── site_data.json           # base content: the original Tips & Tricks doc
 │   │                             #   + the Notion import (137 articles)
 │   ├── gsheet_config.json       # which Google Sheet to pull from (live pipeline)
 │   ├── articles.xlsx            # Microsoft Forms responses land here (manual pipeline)
+│   ├── article_images/          # screenshots for the base articles (referenced from site_data.json)
 │   ├── images/                  # screenshots referenced by filename from either sheet
-│   └── notion_pages_raw/        # original per-page Notion pulls, for reference
+│   └── notion_pages_raw.json    # original Notion pulls, for reference
 └── dist/
     └── index.html                # OUTPUT — the deployable file (don't hand-edit)
 ```
@@ -189,8 +193,9 @@ publicly, duplicate IDs), then writes `dist/index.html`.
 ## Data model
 
 `site_data.json` has `categories` (`{id, title, short, icon}`) and
-`articles` (`{id, cat, title, tags, html, images, source, source_url,
-search_text}`). `import_excel.py` and `import_gsheet.py` both produce
+`articles` (`{id, cat, title, tags, html, images, source, source_url}`; `images`
+are file paths under `data/`, inlined into the page at build time, and
+`search_text` is generated at build time). `import_excel.py` and `import_gsheet.py` both produce
 objects in the same shape (`source: "excel"` or `"gsheet"`, ids offset so
 neither can collide with the base data or each other), and `build.py`
 merges all three lists at build time — `data/site_data.json` itself is
