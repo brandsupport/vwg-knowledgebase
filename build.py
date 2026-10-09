@@ -33,7 +33,7 @@ CHATBOT_INDEX_PATH = os.path.join(OUT_DIR, "chatbot-index.json")
 EXT_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
             ".gif": "image/gif", ".webp": "image/webp"}
 HTML_TAG_RE = re.compile(r"<[^>]+>")
-WHITESPACE_RE = re.compile(r"\\s+")
+WHITESPACE_RE = re.compile(r"\s+")
 
 
 def resolve_images(article):
