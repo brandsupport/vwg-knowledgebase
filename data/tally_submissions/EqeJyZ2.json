@@ -1,0 +1,18 @@
+{
+  "response_id": "EqeJyZ2",
+  "title": "What do you do if there's no actual transport order on SLI",
+  "body": "If there's no actual transport order on SLI, the required date is set for future's date, and the retailer is asking to raise a transport order.
+ 
+To fix this, please ask the retailer to cancel the current call-off and re-call it off with today's date.
+ 
+Once he call it off and raise the transport order, the vehicle will appear on RAV for normal vehicle registration.
+ 
+Alternatively, we can raise the transport order manually after the retailer re-call it off.
+ 
+But he needs to confirm the correct delivery address.
+ 
+We will create it after the retailer re-call it off.",
+  "category": "Delays",
+  "tags": "Transport-order, Delays",
+  "source_url": ""
+}
