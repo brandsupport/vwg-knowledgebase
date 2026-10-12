@@ -81,6 +81,50 @@ def _normalise_submission(item, filename):
     return normalized
 
 
+def _escape_control_chars_in_json_strings(raw):
+    """Escape literal control characters found inside quoted JSON strings.
+
+    Some webhook-to-GitHub mappings insert article body newlines verbatim into
+    a JSON string. That makes the file invalid JSON before the importer sees it.
+    Repair only control characters inside strings; leave structural whitespace
+    outside strings untouched.
+    """
+    out = []
+    in_string = False
+    escaped = False
+    for char in raw:
+        code = ord(char)
+        if in_string and code < 0x20:
+            if char == "\n":
+                out.append("\\n")
+            elif char == "\r":
+                out.append("\\r")
+            elif char == "\t":
+                out.append("\\t")
+            else:
+                out.append(f"\\u{code:04x}")
+            escaped = False
+            continue
+        out.append(char)
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+        elif char == '"':
+            in_string = True
+    return "".join(out)
+
+
+def _load_submission_json(raw):
+    """Load normal JSON, retrying after escaping literal control chars in strings."""
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        return json.loads(_escape_control_chars_in_json_strings(raw))
+
 def load_tally_articles(categories):
     """Load each JSON submission once; deterministic IDs make Zapier retries safe."""
     if not os.path.isdir(SUBMISSIONS_DIR):
@@ -96,7 +140,7 @@ def load_tally_articles(categories):
         path = os.path.join(SUBMISSIONS_DIR, filename)
         try:
             with open(path, "r", encoding="utf-8") as f:
-                item = json.load(f)
+                item = _load_submission_json(f.read())
         except (OSError, ValueError) as exc:
             warnings.append(f"{filename}: invalid JSON ({exc}) - skipped")
             continue

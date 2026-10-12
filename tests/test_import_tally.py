@@ -24,6 +24,10 @@ class TallyImporterTests(unittest.TestCase):
         with open(os.path.join(self.submissions_dir, filename), "w", encoding="utf-8") as f:
             json.dump(payload, f)
 
+    def write_raw_submission(self, filename, raw):
+        with open(os.path.join(self.submissions_dir, filename), "w", encoding="utf-8") as f:
+            f.write(raw)
+
     def load(self):
         with patch("import_tally.SUBMISSIONS_DIR", self.submissions_dir):
             return load_tally_articles(CATEGORIES)
@@ -49,6 +53,23 @@ class TallyImporterTests(unittest.TestCase):
         self.assertIn("<ul><li>Check SLI</li></ul>", article["html"])
         self.assertIn("SLI", article["tags"])
         self.assertEqual(article["source_url"], "https://example.com/help")
+
+
+    def test_unescaped_newlines_in_body_are_recovered(self):
+        # Simulate a GitHub file created by a mapping that inserted literal
+        # newlines inside the JSON body string instead of escaping them.
+        raw = """{"response_id":"bad-json-1","title":"Multiline tip","body":"First line.
+
+Second line.
+Third line","category":"Delays","tags":"SLI"}"""
+        self.write_raw_submission("bad-json.json", raw)
+
+        articles, warnings = self.load()
+
+        self.assertEqual(warnings, [])
+        self.assertEqual(len(articles), 1)
+        self.assertIn("First line.", articles[0]["html"])
+        self.assertIn("Second line.", articles[0]["html"])
 
     def test_raw_tally_fields_are_mapped_inside_repository(self):
         self.write_submission("raw-response.json", {
