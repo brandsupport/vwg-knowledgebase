@@ -134,8 +134,7 @@ never modified by either import.
 - **Base articles/categories** → edit `data/site_data.json`, rebuild.
 - **Styling, layout, behaviour** → edit `src/template.html`, rebuild.
 - **A one-off article** → type it straight into a row in `data/articles.xlsx`
-  (or the Google Sheet) and set Status to Approved; it doesn't have to come
-  through either form.
+  and set Status to Approved; it does not have to come through Tally.
 
 ## Deploying
 
