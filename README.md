@@ -124,10 +124,9 @@ Prints how many articles were pulled from each source and any warnings
 `site_data.json` has `categories` (`{id, title, short, icon}`) and
 `articles` (`{id, cat, title, tags, html, images, source, source_url}`; `images`
 are file paths under `data/`, inlined into the page at build time, and
-`search_text` is generated at build time). `import_excel.py` and `import_gsheet.py` both produce
-objects in the same shape (`source: "excel"` or `"gsheet"`, ids offset so
-neither can collide with the base data or each other), and `build.py`
-merges all three lists at build time — `data/site_data.json` itself is
+`search_text` is generated at build time). `import_excel.py` and `import_tally.py` produce
+objects in the same shape (`source: "excel"` or `"tally"`). `build.py`
+merges imported articles with `data/site_data.json`; the base file itself is
 never modified by either import.
 
 ## Editing content directly (bypassing Tally)
