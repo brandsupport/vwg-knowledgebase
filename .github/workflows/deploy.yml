@@ -6,6 +6,7 @@ on:
     paths:
       - "data/**"
       - "src/**"
+      - "import_excel.py"
       - "import_tally.py"
       - "article_formatting.py"
       - "build.py"
