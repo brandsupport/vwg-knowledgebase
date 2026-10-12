@@ -102,6 +102,43 @@ Third line","category":"Delays","tags":"SLI"}"""
         self.assertIn("Transport", article["tags"])
         self.assertEqual(article["source_url"], "https://example.com/source")
 
+    def test_tally_image_upload_urls_are_preserved(self):
+        self.write_submission("image-upload.json", {
+            "response_id": "image-response-1",
+            "title": "Tip with screenshot",
+            "body": "Follow the screenshot.",
+            "category": "Delays",
+            "images": ["https://files.tally.so/example.png"],
+        })
+
+        articles, warnings = self.load()
+
+        self.assertEqual(warnings, [])
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(
+            articles[0]["images"],
+            ["https://files.tally.so/example.png"],
+        )
+
+    def test_raw_tally_file_upload_field_is_extracted(self):
+        self.write_submission("raw-upload.json", {
+            "data": {
+                "responseId": "image-response-2",
+                "fields": [
+                    {"label": "Article Title", "type": "INPUT_TEXT", "value": "Tip with image"},
+                    {"label": "Article Content", "type": "TEXTAREA", "value": "Read the screenshot."},
+                    {"label": "Screenshot upload", "type": "FILE_UPLOAD",
+                     "value": [{"name": "guide.png", "url": "https://files.tally.so/guide.png"}]},
+                ],
+            },
+        })
+
+        articles, warnings = self.load()
+
+        self.assertEqual(warnings, [])
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["images"], ["https://files.tally.so/guide.png"])
+
     def test_missing_required_fields_are_skipped(self):
         self.write_submission("incomplete.json", {
             "data": {"fields": [{"label": "Article Title", "value": "Title only"}]}
