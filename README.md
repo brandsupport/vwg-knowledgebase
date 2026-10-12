@@ -1,21 +1,14 @@
 # VWG Brand Support Knowledgebase — Source
 
-A static, single-page app: no server, no build tooling beyond Python. New
-articles can come in two ways — pick one, or run both at once:
+A static, single-page app: no server, no build tooling beyond Python. The live form intake is Tally → GitHub (via the existing Zapier automation) → knowledge base. Tally submissions are stored as JSON files in `data/tally_submissions/`; commits to that folder trigger an automatic build and deployment. Google Sheets is not used by this pipeline.
 
-- **Live pipeline:** a Tally form writes straight to a Google Sheet; the
-  site pulls approved rows from that sheet automatically on every build.
-- **Manual pipeline:** a Microsoft Form writes to an Excel file you keep in
-  the repo; you push the updated file when you're ready to publish a batch.
-
-Either way, a GitHub Action rebuilds and redeploys the site automatically
-whenever something relevant changes.
+The legacy Excel importer is retained for compatibility with existing/manual content, but it is not part of the Tally flow.
 
 ## Structure
 
 ```
 ├── build.py                   # combines everything below into dist/index.html
-├── import_gsheet.py            # pulls approved rows from the live Google Sheet
+├── import_tally.py             # imports Tally submissions delivered to GitHub
 ├── import_excel.py             # reads data/articles.xlsx, returns approved articles
 ├── article_formatting.py       # shared logic (body formatting, tags, images)
 ├── requirements.txt            # pip install -r requirements.txt  (just openpyxl)
@@ -29,91 +22,28 @@ whenever something relevant changes.
 ├── data/
 │   ├── site_data.json           # base content: the original Tips & Tricks doc
 │   │                             #   + the Notion import (137 articles)
-│   ├── gsheet_config.json       # which Google Sheet to pull from (live pipeline)
-│   ├── articles.xlsx            # Microsoft Forms responses land here (manual pipeline)
+│   ├── articles.xlsx            # legacy/manual Excel articles (optional)
 │   ├── article_images/          # screenshots for the base articles (referenced from site_data.json)
-│   ├── images/                  # screenshots referenced by filename from either sheet
+│   ├── images/                  # screenshots referenced by filename
 │   └── notion_pages_raw.json    # original Notion pulls, for reference
 └── dist/
     └── index.html                # OUTPUT — the deployable file (don't hand-edit)
 ```
 
-Both pipelines produce the same article shape and go through the same
-Approved/Pending/Rejected gate — nothing is ever published without that
-Status column being set to `Approved`.
+Tally JSON submissions are published when they are committed to `data/tally_submissions/`. The importer currently publishes every valid JSON file in that folder, so the Zapier automation should only commit submissions that are ready to go live. The optional Excel importer retains its separate approval-status gate.
 
 ---
 
-## Live pipeline: Tally → Google Sheets → site
+## Live pipeline: Tally → GitHub → site
 
-**Already set up and live right now:**
+**Google Sheets is no longer used by the Tally publishing pipeline.**
+
 - Tally form: **https://tally.so/r/1AqROO**
-- Google Sheet it writes to: the one at the `spreadsheet_id` in
-  `data/gsheet_config.json`
+- The existing Tally-to-GitHub Zapier automation must create a JSON file for each submission under `data/tally_submissions/` on the `main` branch. The repository importer does not poll Tally directly; it reads the files delivered to GitHub.
+- A commit to `data/tally_submissions/` triggers the `Build and deploy knowledgebase` GitHub Action automatically. Once the build and deployment succeed, the new tip appears on the live page.
+- There is no Google Sheet approval step. The importer currently publishes every valid JSON submission in that folder, so only commit submissions that are ready to publish.
 
-1. **Someone submits the Tally form.** Tally's own Google Sheets
-   integration appends a new row to the sheet automatically — no code
-   involved.
-2. **You review it.** Open the sheet, read the new row, and set its
-   **Status** cell (column J) to `Approved`, `Pending`, or `Rejected`. This
-   is the only cell you ever edit by hand.
-3. **Push/trigger a build.** Because the sheet is pulled live over the
-   network at build time, the GitHub Action needs to actually run — either
-   wait for your next push, or trigger it manually from the repo's
-   **Actions** tab → this workflow → **Run workflow**. (If you want it to
-   re-check the sheet on a timer instead of only on push, see "Polling on a
-   schedule" below.)
-4. **Only `Approved` rows get published.** `Pending` and `Rejected` rows
-   are read but skipped.
-
-### One setting you need to check
-
-The sheet is read via its public CSV export link, which means it must be
-shared as **Anyone with the link: Viewer** (Share → General access, in
-Google Sheets). Nothing else needs to be public — just this one sheet, and
-only for reading. If that's not set, the build logs a clear warning and
-simply skips the live pipeline for that run (it won't fail the whole
-build).
-
-### Editing the form or the sheet
-
-- **Add/remove a question in Tally:** just edit the form in Tally's
-  editor. As long as the column header it creates matches one of the
-  recognised names (see `article_formatting.py` → `ALIASES`), it'll be
-  picked up automatically. Unrecognised extra columns are simply ignored.
-- **Reference material already in the sheet:** columns L and N hold a
-  copy of the valid category names and the body-formatting cheat sheet, for
-  whoever's reviewing. They're off to the side specifically so new
-  submission rows (which only ever touch columns A–J) can't overwrite them.
-
-### Polling on a schedule
-
-The Action is set to re-check the live sheet **every 30 minutes**, even
-with no code changes pushed, via this line in
-`.github/workflows/deploy.yml`:
-
-```yaml
-schedule:
-  - cron: "*/30 * * * *"   # every 30 minutes
-```
-
-So a row marked `Approved` in the sheet goes live within 30 minutes without
-you needing to push anything. You can still trigger a build immediately
-instead of waiting — repo's **Actions** tab → this workflow →
-**Run workflow**.
-
-A few things worth knowing about GitHub's scheduler:
-- Times aren't exact. GitHub documents scheduled runs as "best effort" and
-  they can be delayed, especially at the top of the hour when load is
-  highest — `*/30` shares the same :00/:30 slots as half the internet's
-  cron jobs. If you want more reliably-spaced runs, offset it slightly,
-  e.g. `"7,37 * * * *"`.
-- **Scheduled runs pause automatically after 60 days with no commits to
-  the repo.** Pushing anything re-arms it. If the schedule seems to have
-  stopped, that's almost always why — just push a small change (or
-  re-enable it from the Actions tab) to restart it.
-- Change the interval any time by editing that one `cron:` line — e.g.
-  `"*/15 * * * *"` for every 15 minutes, or `"0 * * * *"` for hourly.
+If a tip does not appear, check the Zapier run history, confirm the JSON file landed in `data/tally_submissions/`, and inspect the GitHub Actions run for that commit.
 
 ---
 
@@ -187,27 +117,24 @@ python3 build.py
 ```
 
 Prints how many articles were pulled from each source and any warnings
-(unrecognised category, missing Title/Body, a sheet that isn't shared
-publicly, duplicate IDs), then writes `dist/index.html`.
+(unrecognised category, missing Title/Body, a malformed Tally submission, duplicate IDs), then writes `dist/index.html`.
 
 ## Data model
 
 `site_data.json` has `categories` (`{id, title, short, icon}`) and
 `articles` (`{id, cat, title, tags, html, images, source, source_url}`; `images`
 are file paths under `data/`, inlined into the page at build time, and
-`search_text` is generated at build time). `import_excel.py` and `import_gsheet.py` both produce
-objects in the same shape (`source: "excel"` or `"gsheet"`, ids offset so
-neither can collide with the base data or each other), and `build.py`
-merges all three lists at build time — `data/site_data.json` itself is
+`search_text` is generated at build time). `import_excel.py` and `import_tally.py` produce
+objects in the same shape (`source: "excel"` or `"tally"`). `build.py`
+merges imported articles with `data/site_data.json`; the base file itself is
 never modified by either import.
 
-## Editing content directly (bypassing both forms)
+## Editing content directly (bypassing Tally)
 
 - **Base articles/categories** → edit `data/site_data.json`, rebuild.
 - **Styling, layout, behaviour** → edit `src/template.html`, rebuild.
 - **A one-off article** → type it straight into a row in `data/articles.xlsx`
-  (or the Google Sheet) and set Status to Approved; it doesn't have to come
-  through either form.
+  and set Status to Approved; it does not have to come through Tally.
 
 ## Deploying
 
