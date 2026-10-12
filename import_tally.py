@@ -1,4 +1,9 @@
-"""Import articles submitted through the Tally -> GitHub Zapier flow."""
+"""Import Tally submissions into consistently formatted knowledge-base articles.
+
+Accepts both the repository's existing normalized JSON files and a raw Tally
+webhook/response payload (data.fields[]). This keeps field mapping and article
+formatting in the repository rather than in a Zapier Code step.
+"""
 import hashlib
 import json
 import os
@@ -8,6 +13,72 @@ from article_formatting import build_article, category_lookup
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SUBMISSIONS_DIR = os.path.join(ROOT, "data", "tally_submissions")
+
+FIELD_ALIASES = {
+    "title": {"title", "article title", "tip title"},
+    "category": {"category", "article category"},
+    "tags": {"tag", "tags", "keywords"},
+    "body": {"body", "article body", "article content", "content", "description",
+             "tip", "tip details", "what is the tip?"},
+    "source_url": {"source", "source link", "link", "reference link"},
+}
+
+
+def _text_value(value):
+    """Convert common Tally field value shapes to readable text."""
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, (int, float, bool)):
+        return str(value)
+    if isinstance(value, list):
+        return ", ".join(part for part in (_text_value(v) for v in value) if part)
+    if isinstance(value, dict):
+        # Tally choice fields and upload fields may return objects instead of strings.
+        for key in ("text", "label", "name", "value", "url"):
+            if value.get(key) not in (None, ""):
+                return _text_value(value[key])
+        return ""
+    return str(value).strip()
+
+
+def _normalise_submission(item, filename):
+    """Return the small, stable schema consumed by the article importer."""
+    data = item.get("data") if isinstance(item.get("data"), dict) else {}
+    normalized = {}
+
+    # Backwards compatibility: existing Zapier-created JSON uses these fields.
+    for key in (*FIELD_ALIASES.keys(), "response_id"):
+        if item.get(key) not in (None, ""):
+            normalized[key] = _text_value(item[key])
+
+    fields = data.get("fields", item.get("fields", []))
+    if isinstance(fields, list):
+        for field in fields:
+            if not isinstance(field, dict):
+                continue
+            candidates = (field.get("label"), field.get("key"), field.get("name"))
+            canonical = None
+            for candidate in candidates:
+                label = re.sub(r"\s+", " ", _text_value(candidate)).strip().lower()
+                for target, aliases in FIELD_ALIASES.items():
+                    if label in aliases:
+                        canonical = target
+                        break
+                if canonical:
+                    break
+            if canonical and not normalized.get(canonical):
+                normalized[canonical] = _text_value(field.get("value"))
+
+    normalized["response_id"] = (
+        normalized.get("response_id")
+        or _text_value(data.get("responseId"))
+        or _text_value(data.get("submissionId"))
+        or _text_value(item.get("eventId"))
+        or os.path.splitext(filename)[0]
+    )
+    return normalized
 
 
 def load_tally_articles(categories):
@@ -29,14 +100,22 @@ def load_tally_articles(categories):
         except (OSError, ValueError) as exc:
             warnings.append(f"{filename}: invalid JSON ({exc}) - skipped")
             continue
-        title = str(item.get("title", "")).strip()
-        body = str(item.get("body", "")).strip()
+        if not isinstance(item, dict):
+            warnings.append(f"{filename}: expected a JSON object - skipped")
+            continue
+
+        item = _normalise_submission(item, filename)
+        title = item.get("title", "").strip()
+        body = item.get("body", "").strip()
         if not title or not body:
             warnings.append(f"{filename}: title or body missing - skipped")
             continue
-        raw_cat = str(item.get("category", "")).strip().lower()
+
+        raw_cat = item.get("category", "").strip().lower()
         cat = lookup.get(raw_cat, fallback_cat)
-        response_id = str(item.get("response_id") or os.path.splitext(filename)[0]).strip()
+        if raw_cat and raw_cat not in lookup:
+            warnings.append(f'{filename}: category "{item["category"]}" not recognised - filed under Reference')
+        response_id = item["response_id"]
         digest = hashlib.sha256(response_id.encode("utf-8")).hexdigest()
         article_id = 200000 + int(digest[:8], 16)
         article = build_article(
@@ -45,9 +124,9 @@ def load_tally_articles(categories):
             cat_short_map=cat_short,
             title=title,
             body=body,
-            user_tags_raw=str(item.get("tags", "")),
+            user_tags_raw=item.get("tags", ""),
             images=[],
-            source_url=str(item.get("source_url", "")),
+            source_url=item.get("source_url", ""),
             source="tally",
         )
         articles.append(article)
