@@ -92,7 +92,7 @@ def main():
 
     # Base data never contains team-submitted articles; drop any just in
     # case so rebuilding twice can't create duplicates.
-    data["articles"] = [a for a in data["articles"] if a.get("source") not in ("excel", "gsheet")]
+    data["articles"] = [a for a in data["articles"] if a.get("source") not in ("excel", "gsheet", "tally")]
 
     if os.path.exists(XLSX_PATH):
         from import_excel import load_excel_articles
@@ -115,6 +115,13 @@ def main():
             print("  WARNING:", w)
     else:
         print("Google Sheet: data/gsheet_config.json not found - skipping")
+
+    from import_tally import load_tally_articles
+    tally_articles, warnings = load_tally_articles(data["categories"])
+    data["articles"] = tally_articles + data["articles"]
+    print(f"Tally: {len(tally_articles)} article(s) added from data/tally_submissions/")
+    for w in warnings:
+        print("  WARNING:", w)
 
     for a in data["articles"]:
         resolve_images(a)
