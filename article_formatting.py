@@ -1,7 +1,6 @@
 """
-Shared logic between import_excel.py (Excel/Microsoft Forms) and
-import_gsheet.py (Google Sheets/Tally): turning a row of plain-text answers
-into the same article shape the site expects.
+Shared article formatting logic for the Excel importer and Tally
+submissions: converting plain-text answers into the article shape the site expects.
 """
 import re
 import os
