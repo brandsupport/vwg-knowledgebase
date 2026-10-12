@@ -2300,7 +2300,7 @@
         "consignment",
         "repricing"
       ],
-      "html": "<p>If grant S7C was added in SLI but was not included on the consignment note, follow these steps: 1. De-tag. 2. Re-tag. 3. Reprice. 4. De-consign and re-consign. If the vehicle is partially registered, ask the retailer to abort the registration before proceeding.</p>",
+      "html": "<p>In case grant S7C was added on SLI but it was not added through the consignment note, follow these steps:</p>\n<ul>\n<li>De-tag.</li>\n<li>Re-tag.</li>\n<li>Reprice.</li>\n<li>Deconsign and reconsign.</li>\n</ul>\n<p><strong>Important:</strong> If the vehicle is partially registered, ask the retailer to abort the registration.</p>\n<h3>Deconsign steps</h3>\n<ol>\n<li>Go to <strong>Vehicles &gt; Vehicles Query &gt; Retailers Queries</strong> tab, select <strong>Consignment Units Report</strong>, and click <strong>Accept</strong>.</li>\n<li>Go to the <strong>Additional Criteria</strong> tab, paste the VIN into the VIN box, and click <strong>Accept</strong>.</li>\n<li>Click on the order, right-click in the grey area, and select <strong>Bulk Vehicles De-consignment</strong>.</li>\n<li>A pop-up window will open. Select <strong>Return consignment</strong>.</li>\n</ol>",
       "images": []
     },
     {
