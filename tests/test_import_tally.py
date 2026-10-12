@@ -58,10 +58,10 @@ class TallyImporterTests(unittest.TestCase):
     def test_unescaped_newlines_in_body_are_recovered(self):
         # Simulate a GitHub file created by a mapping that inserted literal
         # newlines inside the JSON body string instead of escaping them.
-        raw = '{"response_id":"bad-json-1","title":"Multiline tip","body":"First line.
+        raw = """{"response_id":"bad-json-1","title":"Multiline tip","body":"First line.
 
 Second line.
-Third line","category":"Delays","tags":"SLI"}'
+Third line","category":"Delays","tags":"SLI"}"""
         self.write_raw_submission("bad-json.json", raw)
 
         articles, warnings = self.load()
