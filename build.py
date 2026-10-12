@@ -44,7 +44,7 @@ def resolve_images(article):
             continue
         # Tally file uploads are hosted remotely. Keep validated HTTPS URLs as
         # image sources; local repository images are still embedded as data URIs.
-        if ref.startswith("https://") and not any(ch in ref for ch in ('<', '>', '"', "'", "\\\\")):
+        if ref.startswith("https://") and not any(ch in ref for ch in ('<', '>', '"', "'")):
             out.append(ref)
             continue
         path = os.path.join(ROOT, "data", ref)
