@@ -109,7 +109,7 @@ def _escape_control_chars_in_json_strings(raw):
         if in_string:
             if escaped:
                 escaped = False
-            elif char == "\\\\":
+            elif char == "\\":
                 escaped = True
             elif char == '"':
                 in_string = False
