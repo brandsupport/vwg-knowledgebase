@@ -49,9 +49,9 @@ def _extract_image_urls(value):
     urls = []
     if isinstance(value, str):
         # Tally upload fields can be a URL string or a comma-separated list.
-        for candidate in re.split(r"[\\n,]+", value.strip()):
+        for candidate in re.split(r"[\n,]+", value.strip()):
             candidate = candidate.strip()
-            if candidate.startswith("https://") and not any(ch in candidate for ch in '<>"\\' '):
+            if candidate.startswith("https://") and not any(ch in candidate for ch in ('<', '>', '"', "'", "\\\\")):
                 urls.append(candidate)
     elif isinstance(value, list):
         for part in value:
@@ -81,7 +81,7 @@ def _normalise_submission(item, filename):
         if item.get(key) not in (None, ""):
             normalized[key] = _text_value(item[key])
 
-    fields = data.get("fields", item.get("fields", []))
+    normalized_images = _extract_image_urls(item.get("images", []))\n\n    fields = data.get("fields", item.get("fields", []))
     if isinstance(fields, list):
         for field in fields:
             if not isinstance(field, dict):
