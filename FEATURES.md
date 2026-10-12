@@ -74,16 +74,14 @@ The Tally and Excel importers share `article_formatting.py`, helping articles fr
 
 ## 🛡️ 2. The publishing rules
 
-### The approval gate
+### Publication rules
 
 **Publication depends on source.** Tally JSON files are published when valid and committed to `data/tally_submissions/`; the legacy Excel importer uses a Status approval filter. The legacy Excel importer recognises approval values such as `Approved`, `Approve`, `Yes`, `Live` and `Published` (case-insensitive). Tally JSON submissions are published when committed, so the external automation must only send tips ready to go live.
 
-| Status | Outcome |
+| Source | Publication rule |
 |---|---|
-| ✅ Approved | Included in the generated article set |
-| 🕓 Pending | Not published |
-| ⛔ Rejected | Not published |
-| ⚠️ Blank or unrecognised | Not treated as approved |
+| Tally JSON | Valid files committed to `data/tally_submissions/` are published; only commit ready-to-publish tips |
+| Legacy Excel | Requires an approved Status value |
 
 The importers merge submitted articles into the build output; they do **not** overwrite `data/site_data.json`.
 
@@ -96,36 +94,22 @@ IDs are assigned so imported entries can coexist with the base content.
 
 ---
 
-## 📝 3. Live pipeline — Tally → Google Sheets → website
-
-> 🟢 **Designed for ongoing submissions:** Tally adds responses to the connected sheet; the site imports approved rows during a build.
+## 📝 3. Live pipeline — Tally → GitHub → website
 
 ### 🔄 How it flows
-1. Someone submits the Tally form.
-2. The Tally-to-GitHub automation commits a JSON file under `data/tally_submissions/`.
-3. A reviewer checks the entry and updates its **Status** cell.
-4. A GitHub Actions build reads the sheet and imports approved rows.
-5. The website and chatbot index are regenerated and deployed.
+1. Someone submits the [Tally form](https://tally.so/r/1AqROO).
+2. The Tally-to-GitHub automation commits a JSON file under `data/tally_submissions/` on `main`.
+3. That commit triggers GitHub Actions to build and deploy the website and chatbot index.
+4. The tip appears on the live site after the workflow succeeds.
 
-**Tally form:** https://tally.so/r/1AqROO  
-The repository importer reads JSON files from `data/tally_submissions/`; it does not poll Tally directly.
+**Important:** the repository importer reads JSON files committed to GitHub; it does not fetch submissions directly from Tally. No Google Sheet or 30-minute polling schedule is used. Confirm the external automation is configured to write to `data/tally_submissions/`.
 
-### ✅ Reviewer checklist
-- [ ] Read the title, category and body for accuracy.
-- [ ] Check tags, source link and any screenshots.
-- [ ] Set Status to `Approved`, `Pending` or `Rejected`.
-- [ ] Run the workflow if you need the approved article published immediately.
-
-### 🔐 Sheet access requirement
-The importer reads the sheet through its CSV export. The sheet therefore needs to be shared as **Anyone with the link — Viewer** for the build runner to read it. If the sheet cannot be read, the build logs a warning and skips that live import for the run rather than intentionally publishing unreviewed rows.
-
-### ⏱️ Automatic refresh
-The workflow is configured to check the sheet on a **30-minute schedule**. Scheduled GitHub Actions runs are best-effort and may be delayed. To run it manually, open the repository's **Actions** tab, choose the deployment workflow, then select **Run workflow**.
-
-### 🧰 Editing the form or sheet
-- You can add or edit Tally questions in Tally.
-- Column names are matched using aliases in `article_formatting.py`; unknown extra columns are ignored.
-- The sheet has reference material in columns away from the response columns so new form submissions do not overwrite it.
+### ✅ Publishing checklist
+- [ ] Confirm the title, category, tags and body are complete.
+- [ ] Check the source link and any screenshots.
+- [ ] Ensure the automation only commits submissions ready for publication; the importer does not apply a Tally approval-status gate.
+- [ ] Confirm the JSON file was committed under `data/tally_submissions/`.
+- [ ] Check that the latest GitHub Actions run completed successfully.
 
 ---
 
@@ -179,7 +163,7 @@ The body formatter recognises plain-text conventions, so contributors do not nee
 
 ## 🖼️ 6. Images and screenshots
 
-### 📁 Images from a sheet or workbook
+### 📁 Images from a submission or workbook
 1. Upload the image file into `data/images/` in the repository.
 2. Enter the exact filename in the row's **Images** or **Screenshots** cell.
 3. For multiple images, enter comma-separated filenames, for example `step1.png, step2.png`.
