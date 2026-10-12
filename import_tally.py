@@ -21,6 +21,7 @@ FIELD_ALIASES = {
     "body": {"body", "article body", "article content", "content", "description",
              "tip", "tip details", "what is the tip?"},
     "source_url": {"source", "source link", "link", "reference link"},
+    "images": {"image", "images", "screenshot", "screenshots", "image upload", "file upload", "attachment", "attachments", "reference image"},
 }
 
 
@@ -43,6 +44,33 @@ def _text_value(value):
     return str(value).strip()
 
 
+def _extract_image_urls(value):
+    """Extract HTTPS URLs from Tally file-upload values without losing arrays."""
+    urls = []
+    if isinstance(value, str):
+        # Tally upload fields can be a URL string or a comma-separated list.
+        for candidate in re.split(r"[\n,]+", value.strip()):
+            candidate = candidate.strip()
+            if candidate.startswith("https://") and not any(ch in candidate for ch in ('<', '>', '"', "'")):
+                urls.append(candidate)
+    elif isinstance(value, list):
+        for part in value:
+            urls.extend(_extract_image_urls(part))
+    elif isinstance(value, dict):
+        # Tally versions and Zapier mappings have used different upload object keys.
+        for key in ("url", "downloadUrl", "download_url", "fileUrl", "file_url", "href"):
+            if value.get(key):
+                urls.extend(_extract_image_urls(value[key]))
+                break
+        else:
+            for key in ("value", "files", "file", "items"):
+                if value.get(key):
+                    urls.extend(_extract_image_urls(value[key]))
+                    break
+    # Keep order while removing duplicate URLs.
+    return list(dict.fromkeys(urls))
+
+
 def _normalise_submission(item, filename):
     """Return the small, stable schema consumed by the article importer."""
     data = item.get("data") if isinstance(item.get("data"), dict) else {}
@@ -52,6 +80,8 @@ def _normalise_submission(item, filename):
     for key in (*FIELD_ALIASES.keys(), "response_id"):
         if item.get(key) not in (None, ""):
             normalized[key] = _text_value(item[key])
+
+    normalized_images = _extract_image_urls(item.get("images", []))
 
     fields = data.get("fields", item.get("fields", []))
     if isinstance(fields, list):
@@ -68,8 +98,22 @@ def _normalise_submission(item, filename):
                         break
                 if canonical:
                     break
-            if canonical and not normalized.get(canonical):
-                normalized[canonical] = _text_value(field.get("value"))
+            field_value = field.get("value")
+            field_type = _text_value(field.get("type")).upper()
+            label_text = " ".join(_text_value(v) for v in candidates).lower()
+            is_upload = (
+                "FILE_UPLOAD" in field_type
+                or "IMAGE" in field_type
+                or any(word in label_text for word in ("image", "screenshot", "attachment", "upload"))
+            )
+            if is_upload:
+                normalized_images.extend(_extract_image_urls(field_value))
+            if canonical == "images":
+                normalized_images.extend(_extract_image_urls(field_value))
+            elif canonical and not normalized.get(canonical):
+                normalized[canonical] = _text_value(field_value)
+
+    normalized["images"] = list(dict.fromkeys(normalized_images))
 
     normalized["response_id"] = (
         normalized.get("response_id")
@@ -169,7 +213,7 @@ def load_tally_articles(categories):
             title=title,
             body=body,
             user_tags_raw=item.get("tags", ""),
-            images=[],
+            images=item.get("images", []),
             source_url=item.get("source_url", ""),
             source="tally",
         )
