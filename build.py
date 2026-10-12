@@ -5,9 +5,8 @@ Build script for the VWG Brand Support Knowledgebase.
 Combines
     src/template.html          the app (CSS + JS)
     data/site_data.json        base content (original tips + Notion articles)
-    data/articles.xlsx         OPTIONAL - articles submitted through a form into Excel
-    data/gsheet_config.json    OPTIONAL - points at a live Google Sheet (Tally's
-                                 Google Sheets integration) to pull articles from
+    data/articles.xlsx         OPTIONAL - legacy/manual Excel articles
+    data/tally_submissions/    Tally submissions delivered directly to GitHub
 into one self-contained, deployable file, plus a small text-only chatbot index.
 
 Usage:
@@ -24,7 +23,6 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_PATH = os.path.join(ROOT, "src", "template.html")
 DATA_PATH = os.path.join(ROOT, "data", "site_data.json")
 XLSX_PATH = os.path.join(ROOT, "data", "articles.xlsx")
-GSHEET_CONFIG_PATH = os.path.join(ROOT, "data", "gsheet_config.json")
 IMAGES_DIR = os.path.join(ROOT, "data", "images")
 OUT_DIR = os.path.join(ROOT, "dist")
 OUT_PATH = os.path.join(OUT_DIR, "index.html")
@@ -103,18 +101,6 @@ def main():
             print("  WARNING:", w)
     else:
         print("Excel: data/articles.xlsx not found - skipping")
-
-    if os.path.exists(GSHEET_CONFIG_PATH):
-        from import_gsheet import load_gsheet_articles_from_config
-        gsheet_articles, warnings = load_gsheet_articles_from_config(
-            GSHEET_CONFIG_PATH, data["categories"], IMAGES_DIR)
-        # newest-submitted-anywhere-first: put these ahead of the Excel batch too
-        data["articles"] = gsheet_articles + data["articles"]
-        print(f"Google Sheet: {len(gsheet_articles)} approved article(s) added")
-        for w in warnings:
-            print("  WARNING:", w)
-    else:
-        print("Google Sheet: data/gsheet_config.json not found - skipping")
 
     from import_tally import load_tally_articles
     tally_articles, warnings = load_tally_articles(data["categories"])
