@@ -18,6 +18,7 @@ import html
 import json
 import os
 import re
+import shutil
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_PATH = os.path.join(ROOT, "src", "template.html")
@@ -148,6 +149,10 @@ def main():
         f.write(final_html)
     with open(CHATBOT_INDEX_PATH, "w", encoding="utf-8") as f:
         json.dump(build_chatbot_index(data), f, ensure_ascii=False, separators=(",", ":"))
+    game_source = os.path.join(ROOT, "game.html")
+    if os.path.isfile(game_source):
+        shutil.copy2(game_source, os.path.join(OUT_DIR, "game.html"))
+        print("Copied De-tag Challenge to dist/game.html")
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
