@@ -77,6 +77,87 @@ main{position:relative;z-index:1}
 .fox-bubble:after{background:rgba(16,20,34,.96);border-color:rgba(0,229,255,.30)}
 @media(prefers-reduced-motion:reduce){#welcome::after,.shell::after{animation:none!important;transition:none!important}}
 
+
+/* Keep the page canvas dark, but make the complete game interface readable and light. */
+#welcome,.shell{
+  background:#fff;
+  color:#15264b;
+  border-color:rgba(255,255,255,.18);
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+}
+#welcome{background:#fff}
+.shell{background:#fff}
+.hero{
+  background:linear-gradient(120deg,#e9f2ff,#f8fbff 58%,#e6fff3);
+}
+.hero h1{color:#10254b}
+.hero p,.sub{color:#687897}
+.eyebrow{color:#2366d8}
+.step-tag{color:#1b61d1;background:#edf4ff}
+h2{color:#10254b}
+.track{background:#e8eef9}
+.choice{
+  background:#fff;
+  border-color:#dce6f7;
+  color:#15264b;
+}
+.choice:hover{
+  border-color:#8bb5ff;
+  box-shadow:0 10px 24px #1c63cb12;
+}
+.choice.selected{
+  background:#f1f6ff;
+  border-color:#1769ff;
+  box-shadow:0 0 0 3px #1769ff13;
+}
+.choice small,.note{color:#687897}
+.symbol{background:#edf4ff}
+.brand-symbol{background:#fff;border-color:#e5ecf7}
+.secondary{background:#eef3fb;color:#506181}
+.footer{border-top-color:#e9eef7;color:#8793aa}
+.result{background:linear-gradient(130deg,#e7fbf1,#f7fffb);border-color:#c6f0dc}
+.result h3{color:#15264b}
+.result p{color:#4d6c66}
+.warning{color:#74551b}
+.fox-bubble{
+  position:relative;
+  left:auto;bottom:auto;
+  background:#fff;
+  border-color:#d5e5ff;
+  color:#234574;
+  box-shadow:0 8px 24px #173d701c;
+}
+.fox-bubble strong{color:#1559c7}
+.fox-bubble:after{background:#fff;border-color:#d5e5ff}
+/* Keep Cantaloupe in the game layout so it never floats over the questions. */
+.fox-float{
+  position:relative;
+  z-index:2;
+  left:auto;bottom:auto;
+  width:fit-content;
+  max-width:calc(100% - 36px);
+  margin:0 24px 18px auto;
+  align-items:flex-end;
+}
+.fox-avatar{width:82px;height:82px}
+.fox-bubble{max-width:280px;margin-bottom:12px}
+@media(max-width:700px){
+  .fox-float{
+    width:auto;
+    max-width:calc(100% - 24px);
+    margin:0 12px 14px;
+    gap:7px;
+  }
+  .fox-avatar{width:58px;height:58px}
+  .fox-bubble{font-size:11px;margin-bottom:5px;padding:10px 12px;max-width:none}
+}
+@media(max-width:420px){
+  .fox-float{align-items:center}
+  .fox-avatar{width:48px;height:48px}
+  .fox-bubble{font-size:10px;line-height:1.4}
+}
+
 </style></head><body><header><div><span class="logo">✦</span>VWG Brand Support<small>LEARN · PLAY · IMPROVE</small></div><a class="top-home" href="./index.html">← Knowledge Base</a></header><main><section id="welcome"><div class="welcome-grid"><div class="welcome-copyblock"><div class="welcome-kicker">VWG · Learn · Play · Improve</div><h1 class="welcome-title">De-tag Decision Game</h1><h2 style="font-size:20px;margin:0 0 10px;color:#142f64">Think. Choose. Get it right!</h2><p class="welcome-copy">Test your knowledge and learn the right action for every vehicle situation. Work through real-world cases and build confidence with every decision.</p><div class="brand-rail"><span class="brand-chip"><img src="./assets/game/volkswagen.png" alt="Volkswagen logo">Volkswagen</span><span class="brand-chip"><img src="./assets/game/skoda.png" alt="Škoda logo">Škoda</span><span class="brand-chip"><img src="./assets/game/audi.png" alt="Audi logo">Audi</span><span class="brand-chip"><img src="./assets/game/seat%26cupra.png" alt="SEAT and CUPRA logos">SEAT · CUPRA</span><span class="brand-chip"><img src="./assets/game/vw-commercial-vehicles.png" alt="Volkswagen Commercial Vehicles logo">VW Commercial Vehicles</span></div><button class="start-btn" id="startGame">▶ Start Game</button></div><aside class="welcome-scene" aria-label="Friendly dealership advisor in a showroom"><div class="showroom"></div><div class="dealer-caption">Welcome to the showroom<small>Explore the right decision for every vehicle case.</small></div><div class="showroom-plaque">VWG · BRAND SUPPORT</div><div class="cars" style="bottom:8%;left:2%;right:2%;opacity:1"><div class="car"></div><div class="car"></div></div></aside></div></section><div class="shell game-shell" id="gameShell"><section class="hero"><div class="eyebrow">The vehicle decision game</div><h1>Think it through.<br>Choose the right move.</h1><p>Practice real vehicle cases, build confidence, and learn the action and evidence requirements from the official de-tag workbook.</p></section><section class="content"><div id="game" aria-live="polite"></div></section><div class="fox-float" aria-live="polite"><img class="fox-avatar" src="./assets/game/cantaloupe.webp" alt="ELHub W ElCantaloupe avatar"><div class="fox-bubble"><strong>ELHub W ElCantaloupe</strong><span id="foxTipText">Check the brand and status first — you’ve got this!</span></div></div><div class="footer"><span><b>VWG De-tag Challenge</b> · Training experience</span><span>For practice. Follow official procedures at work.</span></div></div></main>
 <script>
 const $=s=>document.querySelector(s);
