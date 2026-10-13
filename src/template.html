@@ -971,23 +971,34 @@ applyStoredTheme();
     }
     return indexPromise;
   }
-  const STOP_WORDS = new Set('a an and are as at be by for from how i in is it of on or the to was what when where which who why with you your'.split(' '));
+  // Ignore conversational framing so searches like "find my info with keyword extended warranty"
+  // are scored against the meaningful topic rather than every word in the question.
+  const STOP_WORDS = new Set('a an and are as at be by can could do does find for from give has have help i info in is it me my of on or please show tell that the this to was were what when where which who with would you your any keyword keywords about article articles information search looking need want containing contains mention mentions'.split(' '));
   function termsFor(query) {
-    return [...new Set(query.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+    return [...new Set(query.toLowerCase().normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '')
       .split(/[^a-z0-9]+/).filter(word => word.length > 1 && !STOP_WORDS.has(word)))].slice(0, 40);
   }
+  function normalizedText(value) {
+    return String(value || '').toLowerCase().normalize('NFKD')
+      .replace(/[\\u0300-\\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  }
   function wordSet(value) {
-    return new Set(String(value || '').toLowerCase().normalize('NFKD')
-      .replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/).filter(Boolean));
+    return new Set(normalizedText(value).split(/\\s+/).filter(Boolean));
   }
   function findMatches(articles, query) {
     const terms = termsFor(query);
     if (!terms.length) return [];
+    const phrase = normalizedText(terms.join(' '));
     return articles.map(article => {
       const title = wordSet(article.title);
       const tags = wordSet((article.tags || []).join(' '));
       const category = wordSet(article.category);
       const text = wordSet(article.text);
+      const exactPhrase = terms.length >= 2 && (
+        normalizedText(article.title).includes(phrase) ||
+        normalizedText((article.tags || []).join(' ')).includes(phrase) ||
+        normalizedText(article.text).includes(phrase)
+      );
       let score = 0, matchedTerms = 0, strongMatches = 0;
       for (const term of terms) {
         const inTitle = title.has(term), inTags = tags.has(term);
@@ -998,12 +1009,14 @@ applyStoredTheme();
         if (inCategory) score += 2;
         if (inText) score += 1;
       }
+      if (exactPhrase) score += 20;
       const coverage = matchedTerms / terms.length;
-      return {article, score, matchedTerms, strongMatches, coverage, termCount: terms.length};
-    }).filter(item => item.score >= 6 && item.coverage >= 0.6 &&
-      (item.matchedTerms >= 2 || (item.termCount === 1 && item.strongMatches > 0)))
-      .sort((a, b) => b.score - a.score || b.coverage - a.coverage)
-      .slice(0, 4);
+      return {article, score, matchedTerms, strongMatches, coverage, termCount: terms.length, exactPhrase};
+    }).filter(item => item.exactPhrase ||
+      (item.score >= 6 && item.coverage >= 0.6 &&
+       (item.matchedTerms >= 2 || (item.termCount === 1 && item.strongMatches > 0))))
+      .sort((a, b) => Number(b.exactPhrase) - Number(a.exactPhrase) || b.score - a.score || b.coverage - a.coverage)
+      .slice(0, 6);
   }
   function addResults(matches) {
     const bubble = document.createElement('div');
@@ -1051,8 +1064,23 @@ applyStoredTheme();
         });
         const data = await response.json();
         if (!response.ok || data.error) throw new Error(data.error || 'Chat service unavailable');
+        // Always cross-check the AI response against the published article index.
+        // This guarantees exact keyword/phrase matches remain visible even if AI retrieval misses them.
+        let localMatches = [];
+        try { localMatches = findMatches(await loadIndex(), query); } catch (_) {}
+        const directMatches = localMatches.filter(match => match.exactPhrase);
+        const sourceMap = new Map();
+        (Array.isArray(data.sources) ? data.sources : []).forEach(source => sourceMap.set(String(source.id), source));
+        localMatches.forEach(({article}) => {
+          if (!sourceMap.has(String(article.id))) {
+            sourceMap.set(String(article.id), {id: article.id, title: article.title, category: article.category});
+          }
+        });
+        data.sources = [...sourceMap.values()];
         waiting.remove();
-        addBubble(data.answer || 'I could not generate an answer for that question.');
+        addBubble(directMatches.length
+          ? `I found ${directMatches.length} article${directMatches.length === 1 ? '' : 's'} containing “${termsFor(query).join(' ')}”. Open a result below to read the full guidance.`
+          : (data.answer || 'I could not generate an answer for that question.'));
         if (Array.isArray(data.sources) && data.sources.length) {
           const sourceBubble = document.createElement('div');
           sourceBubble.className = 'kb-chat-bubble';
