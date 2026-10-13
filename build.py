@@ -167,6 +167,11 @@ def main():
         with open(os.path.join(OUT_DIR, "game.html"), "w", encoding="utf-8") as f:
             f.write(game_html)
         print("Copied De-tag Challenge to dist/game.html with shared favicon")
+        # Publish the real brand logos beside game.html so relative image URLs work on Pages.
+        game_assets = os.path.join(ROOT, "assets", "game")
+        if os.path.isdir(game_assets):
+            shutil.copytree(game_assets, os.path.join(OUT_DIR, "assets", "game"), dirs_exist_ok=True)
+            print("Copied game brand assets to dist/assets/game")
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
