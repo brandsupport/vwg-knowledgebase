@@ -151,8 +151,22 @@ def main():
         json.dump(build_chatbot_index(data), f, ensure_ascii=False, separators=(",", ":"))
     game_source = os.path.join(ROOT, "game.html")
     if os.path.isfile(game_source):
-        shutil.copy2(game_source, os.path.join(OUT_DIR, "game.html"))
-        print("Copied De-tag Challenge to dist/game.html")
+        with open(game_source, "r", encoding="utf-8") as f:
+            game_html = f.read()
+        # Reuse the exact same favicon and Apple touch icon embedded in the main page.
+        for placeholder, filename in (("__FAVICON__", "favicon.png"),
+                                      ("__APPLE_ICON__", "apple-touch-icon.png")):
+            icon_path = os.path.join(ROOT, "src", filename)
+            if os.path.exists(icon_path):
+                with open(icon_path, "rb") as f:
+                    icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
+            else:
+                print(f"  WARNING: src/{filename} not found - game icon will be blank")
+                icon_uri = ""
+            game_html = game_html.replace(placeholder, icon_uri)
+        with open(os.path.join(OUT_DIR, "game.html"), "w", encoding="utf-8") as f:
+            f.write(game_html)
+        print("Copied De-tag Challenge to dist/game.html with shared favicon")
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
