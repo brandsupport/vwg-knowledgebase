@@ -188,6 +188,10 @@ def main():
         with open(os.path.join(OUT_DIR, "knowledge-crush.html"), "w", encoding="utf-8") as f:
             f.write(crush_html)
         print("Copied Knowledge Crush to dist/knowledge-crush.html with shared favicon")
+    games_hub_source = os.path.join(ROOT, "knowledge-games.html")
+    if os.path.isfile(games_hub_source):
+        shutil.copy2(games_hub_source, os.path.join(OUT_DIR, "knowledge-games.html"))
+        print("Copied Knowledge Games hub to dist/knowledge-games.html")
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 

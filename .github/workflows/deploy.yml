@@ -8,6 +8,7 @@ on:
       - "src/**"
       - "game.html"
       - "knowledge-crush.html"
+      - "knowledge-games.html"
       - ".github/workflows/deploy.yml"
       - "import_excel.py"
       - "import_tally.py"
