@@ -9,6 +9,7 @@ on:
       - "game.html"
       - "knowledge-crush.html"
       - "knowledge-games.html"
+      - "support-solitaire.html"
       - ".github/workflows/deploy.yml"
       - "import_excel.py"
       - "import_tally.py"
