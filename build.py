@@ -172,6 +172,22 @@ def main():
         if os.path.isdir(game_assets):
             shutil.copytree(game_assets, os.path.join(OUT_DIR, "assets", "game"), dirs_exist_ok=True)
             print("Copied game brand assets to dist/assets/game")
+    crush_source = os.path.join(ROOT, "knowledge-crush.html")
+    if os.path.isfile(crush_source):
+        with open(crush_source, "r", encoding="utf-8") as f:
+            crush_html = f.read()
+        for placeholder, filename in (("__FAVICON__", "favicon.png"),
+                                      ("__APPLE_ICON__", "apple-touch-icon.png")):
+            icon_path = os.path.join(ROOT, "src", filename)
+            if os.path.exists(icon_path):
+                with open(icon_path, "rb") as f:
+                    icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
+            else:
+                icon_uri = ""
+            crush_html = crush_html.replace(placeholder, icon_uri)
+        with open(os.path.join(OUT_DIR, "knowledge-crush.html"), "w", encoding="utf-8") as f:
+            f.write(crush_html)
+        print("Copied Knowledge Crush to dist/knowledge-crush.html with shared favicon")
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
