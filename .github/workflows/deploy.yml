@@ -7,6 +7,7 @@ on:
       - "data/**"
       - "src/**"
       - "game.html"
+      - "knowledge-crush.html"
       - ".github/workflows/deploy.yml"
       - "import_excel.py"
       - "import_tally.py"
