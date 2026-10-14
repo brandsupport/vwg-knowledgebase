@@ -10,7 +10,7 @@ function createObstacleWave(waveIndex,random=Math.random){
  const wave=[{lane,type:primaryType}];
  if(waveIndex>2&&random()>.55){
   const secondLane=(lane+1+Math.floor(random()*(E.length-1)))%E.length;
-  const secondType=random()<(trainIsPrimary?.72:.25)?"train":random()<.5?"barrier":"gate";
+  const secondType=random() < (trainIsPrimary ? 0.72 : 0.25)?"train":random()<.5?"barrier":"gate";
   wave.push({lane:secondLane,type:secondType});
  }
  return wave;
