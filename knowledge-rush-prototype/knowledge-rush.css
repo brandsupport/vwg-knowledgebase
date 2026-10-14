@@ -39,3 +39,13 @@
 @media(max-width:700px){.game-center-link{font-size:10px;padding:8px 8px;letter-spacing:-.1px}.main-nav{gap:9px}.magnet-status{padding:6px 7px;min-width:82px;gap:5px}.magnet-status img{width:23px;height:23px}.game-status.quiz .status-card{padding:20px 16px}.quiz-question{font-size:15px}.quiz-option{padding:10px}.quiz-option>b{font-size:11px}}
 @media(max-width:390px){.game-center-link{font-size:9px;padding:7px 6px}.main-nav{gap:6px}.main-nav .nav-link{font-size:9px}}
 
+
+/* Active booster indicators: show only power-ups currently in effect. */
+.active-boosters{position:absolute;z-index:4;left:25px;top:83px;right:84px;display:flex;align-items:flex-start;gap:7px;flex-wrap:wrap;pointer-events:none}
+.active-boosters .magnet-status{pointer-events:none;min-width:0;padding:6px 9px;gap:6px}
+.active-boosters .magnet-status img{width:25px;height:25px;object-fit:contain}
+.active-boosters .magnet-status span{min-width:0}
+.active-boosters .magnet-status b{white-space:nowrap;font-size:8px;letter-spacing:.4px}
+.active-boosters .magnet-status small{font-size:10px}
+@media(max-width:700px){.active-boosters{left:14px;right:70px;top:72px;gap:5px}.active-boosters .magnet-status{padding:5px 7px}.active-boosters .magnet-status img{width:20px;height:20px}.active-boosters .magnet-status b{font-size:7px}.active-boosters .magnet-status small{font-size:9px}}
+@media(max-width:390px){.active-boosters{left:10px;right:60px;top:69px}.active-boosters .magnet-status img{width:17px;height:17px}.active-boosters .magnet-status{gap:4px;padding:4px 6px}}
