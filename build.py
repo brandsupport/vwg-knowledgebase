@@ -224,6 +224,18 @@ def main():
         with open(os.path.join(OUT_DIR, "knowledge-games.html"), "w", encoding="utf-8") as f:
             f.write(games_html)
         print("Copied Knowledge Games hub to dist/knowledge-games.html with shared favicon")
+    # Publish Knowledge Rush and its sprite assets. The prototype references
+    # ../Knowledge_rush_assets/... so preserve both directory names under dist.
+    rush_source = os.path.join(ROOT, "knowledge-rush-prototype")
+    rush_assets_source = os.path.join(ROOT, "Knowledge_rush_assets")
+    if os.path.isdir(rush_source):
+        shutil.copytree(rush_source, os.path.join(OUT_DIR, "knowledge-rush-prototype"), dirs_exist_ok=True)
+        print("Copied Knowledge Rush prototype to dist/knowledge-rush-prototype")
+    if os.path.isdir(rush_assets_source):
+        shutil.copytree(rush_assets_source, os.path.join(OUT_DIR, "Knowledge_rush_assets"), dirs_exist_ok=True)
+        print("Copied Knowledge Rush sprite assets to dist/Knowledge_rush_assets")
+    else:
+        print("WARNING: Knowledge_rush_assets directory not found; Knowledge Rush sprites may not load")
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
