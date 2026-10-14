@@ -66,3 +66,7 @@ jobs:
           node --input-type=module --check < knowledge-rush-prototype/three-BnZyOd0w.js
       - name: Check Worker JavaScript syntax
         run: node --input-type=module --check < worker/src/index.js
+      - name: Check Knowledge Rush gameplay module syntax
+        run: node --input-type=module --check < knowledge-rush-prototype/gameplay-config.js
+      - name: Test Knowledge Rush gameplay helpers
+        run: node --test tests/test_knowledge_rush_config.mjs
