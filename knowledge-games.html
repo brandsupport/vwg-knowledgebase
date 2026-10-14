@@ -9,7 +9,7 @@
 <meta name="description" content="Choose a VWG Brand Support knowledge game and build your skills through practical challenges.">
 <title>Knowledge Games | VWG Brand Support</title>
 <style>
-:root{--vw-logo:url("./src/vw-logo.png");}
+
 
 :root{color-scheme:dark;--bg:#090c16;--ink:#eaf2ff;--muted:#aab9d5;--cyan:#00e5ff;--purple:#c24dff;--line:#ffffff20}
 *{box-sizing:border-box}
@@ -44,13 +44,14 @@ footer{max-width:1120px;margin:auto;padding:0 28px 28px;color:#7f90b0;font-size:
 @media(max-width:700px){header{padding:18px 20px}main{padding:32px 20px 48px}.cards{grid-template-columns:1fr;gap:14px}.game-card{min-height:310px;padding:22px}footer{padding:0 20px 24px}.back{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
-.logo-glow{display:block;width:24px;height:24px;filter:drop-shadow(0 0 5px var(--cyan)) drop-shadow(0 0 10px rgba(194,77,255,.45))}.logo-glyph{display:block;width:100%;height:100%;background:linear-gradient(135deg,var(--cyan) 10%,var(--purple) 95%);-webkit-mask:var(--vw-logo) center/contain no-repeat;mask:var(--vw-logo) center/contain no-repeat}
+
+.brand-logo-img{display:block;width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 0 5px #00e5ff) drop-shadow(0 0 10px rgba(194,77,255,.45))}
 </style>
 </head>
 <body>
 <header>
   <a class="brand" href="./index.html" aria-label="Back to VWG Brand Support Knowledgebase">
-    <span class="brand-mark" aria-hidden="true"><span class="logo-glow"><span class="logo-glyph"></span></span></span>
+    <span class="brand-mark" aria-hidden="true"><img class="brand-logo-img" src="./src/vw-logo.png" alt=""></span>
     <span>VWG Brand Support<br>Knowledgebase</span>
   </a>
   <a class="back" href="./index.html">← Knowledgebase home</a>
