@@ -1,0 +1,37 @@
+
+
+:root{color-scheme:dark;--bg:#090c16;--ink:#eaf2ff;--muted:#aab9d5;--cyan:#00e5ff;--purple:#c24dff;--line:#ffffff20}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);background:radial-gradient(ellipse at 10% 0%,#00e5ff20,transparent 35%),radial-gradient(ellipse at 90% 10%,#c24dff20,transparent 32%),var(--bg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:10px;border:1px solid #ffffff20;border-radius:22px;pointer-events:none}
+a{color:inherit}
+header{max-width:1120px;margin:auto;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-size:14px;font-weight:800;line-height:1.25}
+.brand-mark{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#08111e;font-size:20px}
+.back{border:1px solid var(--line);background:#ffffff0a;border-radius:999px;padding:10px 14px;text-decoration:none;font-size:12px;font-weight:700}
+main{max-width:1120px;margin:auto;padding:38px 28px 72px}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-weight:800}
+h1{font-size:clamp(38px,6vw,66px);line-height:1.02;letter-spacing:-.045em;margin:12px 0 16px;font-weight:850}
+h1 span{background:linear-gradient(100deg,var(--cyan),#b6a5ff,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro{max-width:680px;color:var(--muted);line-height:1.75;font-size:15px;margin:0}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:38px}
+.game-card{position:relative;display:flex;flex-direction:column;min-height:340px;padding:26px;border:1px solid var(--line);border-radius:24px;text-decoration:none;background:linear-gradient(145deg,#ffffff0e,#ffffff04);box-shadow:0 20px 60px #0003;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
+.game-card:before{content:"";position:absolute;width:220px;height:220px;right:-75px;top:-85px;border-radius:50%;background:var(--glow);filter:blur(2px);opacity:.24;pointer-events:none}
+.game-card:hover,.game-card:focus-visible{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 24px 70px #0005,0 0 24px color-mix(in srgb,var(--accent) 18%,transparent);outline:none}
+.game-card.crush{--accent:var(--purple);--glow:#c24dff}
+.game-card.detag{--accent:var(--cyan);--glow:#00e5ff}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;position:relative}
+.game-icon{width:78px;height:78px;display:grid;place-items:center;border-radius:22px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 24%,#101729),#ffffff0a);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);font-size:42px;box-shadow:inset 0 1px #ffffff25}
+.tag{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);background:color-mix(in srgb,var(--accent) 9%,transparent);padding:7px 10px;border-radius:999px;white-space:nowrap}
+h2{position:relative;font-size:27px;letter-spacing:-.025em;margin:24px 0 9px}
+.description{position:relative;color:var(--muted);font-size:13px;line-height:1.75;margin:0;max-width:52ch}
+.details{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.details span{font-size:11px;color:#d7e2f8;border:1px solid #ffffff1b;background:#ffffff08;border-radius:9px;padding:7px 9px}
+.launch{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:28px;font-weight:800;font-size:13px;color:var(--accent)}
+.arrow{font-size:23px;transition:transform .2s}.game-card:hover .arrow{transform:translateX(4px)}
+footer{max-width:1120px;margin:auto;padding:0 28px 28px;color:#7f90b0;font-size:11px}
+@media(max-width:700px){header{padding:18px 20px}main{padding:32px 20px 48px}.cards{grid-template-columns:1fr;gap:14px}.game-card{min-height:310px;padding:22px}footer{padding:0 20px 24px}.back{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+
+.brand-mark{position:relative;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 22px -6px var(--cyan);transition:box-shadow .25s ease,transform .25s ease,border-color .25s ease;overflow:hidden}.brand:hover .brand-mark{transform:translateY(-1px) scale(1.04);border-color:var(--cyan);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 26px -2px var(--cyan),0 0 40px -10px var(--purple)}.brand-mark:after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;background:conic-gradient(from var(--spin,0deg),transparent 0 72%,var(--cyan) 88%,var(--purple) 96%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);padding:1.5px;opacity:.9;animation:markspin 5s linear infinite}@property --spin{syntax:"<angle>";initial-value:0deg;inherits:false}@keyframes markspin{to{--spin:360deg}}.brand-logo-img{display:block;width:26px;height:26px;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 0 5px var(--cyan)) drop-shadow(0 0 12px rgba(194,77,255,.45))}
