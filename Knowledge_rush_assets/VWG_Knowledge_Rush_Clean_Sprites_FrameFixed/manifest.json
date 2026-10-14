@@ -1,0 +1,31 @@
+{
+  "title": "VWG Knowledge Rush Clean Sprite Pack",
+  "source": "Generated concept sprite atlas",
+  "format": "PNG RGBA",
+  "notes": [
+    "Animation frames are cropped and placed on a shared 160x190 transparent canvas for easier testing.",
+    "Background removal is an automated neutral-background key; inspect edges before production use.",
+    "Some original artwork contains baked-in glow, labels, or imperfect pose separation; these are cleaned prototype assets, not a hand-drawn production atlas.",
+    "Environment thumbnails remain rectangular reference images."
+  ],
+  "alex_animation_order": [
+    "alex_run_01.png",
+    "alex_run_02.png",
+    "alex_run_03.png",
+    "alex_run_04.png"
+  ],
+  "folders": [
+    "characters",
+    "animations/alex/run",
+    "animations/alex/jump",
+    "animations/alex/slide",
+    "animations/maya/run",
+    "animations/sam/run",
+    "animations/lena/run",
+    "collectibles",
+    "powerups",
+    "obstacles",
+    "ui",
+    "environments"
+  ]
+}

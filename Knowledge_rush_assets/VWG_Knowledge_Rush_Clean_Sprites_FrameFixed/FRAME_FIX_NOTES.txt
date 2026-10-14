@@ -1,0 +1,12 @@
+VWG Knowledge Rush — Character Frame Cleanup
+
+Only animations/alex/run/alex_run_01.png through alex_run_04.png were edited.
+All other original assets and paths are preserved unchanged.
+
+The source running frames showed neighboring-crop fragments and inconsistent character placement.
+The four frames have been cleaned at the edges, placed on matching transparent 1024x1024 canvases,
+and aligned to the same foot baseline. Artwork, colors, and character design were not redrawn.
+
+Known limitation: some original frames have overlapping/cut-off source content. This pass removes
+obvious crop debris and aligns the available pixels, but cannot restore missing artwork. Check the
+animation at target game size before treating it as production-ready.

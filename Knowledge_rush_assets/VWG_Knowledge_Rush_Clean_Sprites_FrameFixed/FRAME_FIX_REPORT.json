@@ -1,0 +1,91 @@
+{
+  "source": "VWG_Knowledge_Rush_Clean_Sprites.zip",
+  "changes": "Only the four Alex running frames were cleaned and normalized. Other assets are byte-for-byte preserved.",
+  "method": "Removed detached edge fragments from run crops, cropped around the central subject, placed each on a transparent 1024x1024 canvas, aligned foot baseline, retained original artwork/colors, Lanczos resized with restrained sharpening.",
+  "qa_findings": [
+    "Original running frames had inconsistent subject placement and visible fragments from neighboring crops.",
+    "Frame 03 and 04 contain overlapping/fragmented source content; this correction removes visible edge debris but cannot reconstruct missing pixels without changing/redrawing artwork."
+  ],
+  "limitations": [
+    "Review animation in the target browser at actual game size. Frames may still show pose discontinuity because the source artwork itself is cropped/inconsistent.",
+    "Jump/slide/idle assets were not modified because the request was to correct running-frame crops and alignment first."
+  ],
+  "run_frame_qa": [
+    {
+      "file": "animations/alex/run/alex_run_04.png",
+      "input": [
+        160,
+        190
+      ],
+      "output": [
+        1024,
+        1024
+      ],
+      "source_bbox": [
+        64,
+        40,
+        134,
+        175
+      ],
+      "crop_edge_cleanup": "central subject envelope; detached edge debris removed",
+      "baseline": "feet aligned at y=944/1024"
+    },
+    {
+      "file": "animations/alex/run/alex_run_03.png",
+      "input": [
+        160,
+        190
+      ],
+      "output": [
+        1024,
+        1024
+      ],
+      "source_bbox": [
+        63,
+        35,
+        141,
+        175
+      ],
+      "crop_edge_cleanup": "central subject envelope; detached edge debris removed",
+      "baseline": "feet aligned at y=944/1024"
+    },
+    {
+      "file": "animations/alex/run/alex_run_02.png",
+      "input": [
+        160,
+        190
+      ],
+      "output": [
+        1024,
+        1024
+      ],
+      "source_bbox": [
+        49,
+        35,
+        121,
+        175
+      ],
+      "crop_edge_cleanup": "central subject envelope; detached edge debris removed",
+      "baseline": "feet aligned at y=944/1024"
+    },
+    {
+      "file": "animations/alex/run/alex_run_01.png",
+      "input": [
+        160,
+        190
+      ],
+      "output": [
+        1024,
+        1024
+      ],
+      "source_bbox": [
+        51,
+        31,
+        112,
+        175
+      ],
+      "crop_edge_cleanup": "central subject envelope; detached edge debris removed",
+      "baseline": "feet aligned at y=944/1024"
+    }
+  ]
+}
