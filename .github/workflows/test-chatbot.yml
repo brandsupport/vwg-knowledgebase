@@ -10,6 +10,9 @@ on:
       - "src/**"
       - "tests/**"
       - "worker/**"
+      - "knowledge-rush-prototype/**"
+      - "Knowledge_rush_assets/**"
+      - "knowledge-games.html"
       - ".github/workflows/test-chatbot.yml"
   push:
     branches: [main]
@@ -21,6 +24,9 @@ on:
       - "src/**"
       - "tests/**"
       - "worker/**"
+      - "knowledge-rush-prototype/**"
+      - "Knowledge_rush_assets/**"
+      - "knowledge-games.html"
       - ".github/workflows/test-chatbot.yml"
 
 permissions:
@@ -48,5 +54,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Check Knowledge Rush JavaScript syntax
+        run: |
+          node --input-type=module --check < knowledge-rush-prototype/knowledge-rush.js
+          node --input-type=module --check < knowledge-rush-prototype/three-BnZyOd0w.js
       - name: Check Worker JavaScript syntax
         run: node --input-type=module --check < worker/src/index.js
