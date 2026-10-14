@@ -154,7 +154,8 @@ def main():
         with open(game_source, "r", encoding="utf-8") as f:
             game_html = f.read()
         # Reuse the exact same favicon and Apple touch icon embedded in the main page.
-        for placeholder, filename in (("__FAVICON__", "favicon.png"),
+        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
+                                      ("__FAVICON__", "favicon.png"),
                                       ("__APPLE_ICON__", "apple-touch-icon.png")):
             icon_path = os.path.join(ROOT, "src", filename)
             if os.path.exists(icon_path):
@@ -176,7 +177,8 @@ def main():
     if os.path.isfile(crush_source):
         with open(crush_source, "r", encoding="utf-8") as f:
             crush_html = f.read()
-        for placeholder, filename in (("__FAVICON__", "favicon.png"),
+        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
+                                      ("__FAVICON__", "favicon.png"),
                                       ("__APPLE_ICON__", "apple-touch-icon.png")):
             icon_path = os.path.join(ROOT, "src", filename)
             if os.path.exists(icon_path):
@@ -192,7 +194,8 @@ def main():
     if os.path.isfile(solitaire_source):
         with open(solitaire_source, "r", encoding="utf-8") as f:
             solitaire_html = f.read()
-        for placeholder, filename in (("__FAVICON__", "favicon.png"),
+        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
+                                      ("__FAVICON__", "favicon.png"),
                                       ("__APPLE_ICON__", "apple-touch-icon.png")):
             icon_path = os.path.join(ROOT, "src", filename)
             if os.path.exists(icon_path):
@@ -208,7 +211,8 @@ def main():
     if os.path.isfile(games_hub_source):
         with open(games_hub_source, "r", encoding="utf-8") as f:
             games_html = f.read()
-        for placeholder, filename in (("__FAVICON__", "favicon.png"),
+        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
+                                      ("__FAVICON__", "favicon.png"),
                                       ("__APPLE_ICON__", "apple-touch-icon.png")):
             icon_path = os.path.join(ROOT, "src", filename)
             if os.path.exists(icon_path):
