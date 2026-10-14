@@ -229,8 +229,25 @@ def main():
     rush_source = os.path.join(ROOT, "knowledge-rush-prototype")
     rush_assets_source = os.path.join(ROOT, "Knowledge_rush_assets")
     if os.path.isdir(rush_source):
-        shutil.copytree(rush_source, os.path.join(OUT_DIR, "knowledge-rush-prototype"), dirs_exist_ok=True)
-        print("Copied Knowledge Rush prototype to dist/knowledge-rush-prototype")
+        rush_out = os.path.join(OUT_DIR, "knowledge-rush-prototype")
+        shutil.copytree(rush_source, rush_out, dirs_exist_ok=True)
+        rush_html_path = os.path.join(rush_out, "index.html")
+        if os.path.isfile(rush_html_path):
+            with open(rush_html_path, "r", encoding="utf-8") as f:
+                rush_html = f.read()
+            for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
+                                          ("__FAVICON__", "favicon.png"),
+                                          ("__APPLE_ICON__", "apple-touch-icon.png")):
+                icon_path = os.path.join(ROOT, "src", filename)
+                if os.path.exists(icon_path):
+                    with open(icon_path, "rb") as f:
+                        icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
+                else:
+                    icon_uri = ""
+                rush_html = rush_html.replace(placeholder, icon_uri)
+            with open(rush_html_path, "w", encoding="utf-8") as f:
+                f.write(rush_html)
+        print("Copied Knowledge Rush prototype to dist/knowledge-rush-prototype with shared favicon")
     if os.path.isdir(rush_assets_source):
         shutil.copytree(rush_assets_source, os.path.join(OUT_DIR, "Knowledge_rush_assets"), dirs_exist_ok=True)
         print("Copied Knowledge Rush sprite assets to dist/Knowledge_rush_assets")
