@@ -28,11 +28,12 @@
 </svg>
 <a class="skip-link" href="#play-button">Skip to game</a>
 <header class="site-header page-width">
-<a class="brand" href="/" aria-label="Knowledge Rush home">
+<a class="brand" href="../knowledge-games.html" aria-label="Return to Game Center">
 <span class="brand-mark"><img class="brand-logo-img" src="__VW_LOGO__" alt="Volkswagen Group" /></span>
 <span>VWG <span class="brand-thin">Knowledge Rush</span><span class="brand-period">.</span></span>
 </a>
 <nav class="main-nav" aria-label="Main navigation">
+<a class="nav-link game-center-link" href="../knowledge-games.html" aria-label="Back to Game Center">← Game Center</a>
 <button type="button" class="nav-link active" id="nav-play" aria-current="page">Play</button>
 <button type="button" class="nav-link" data-modal="locker">Your locker</button>
 <button type="button" class="nav-link" data-modal="leaderboard">Leaderboard</button>
@@ -54,7 +55,7 @@
 <div id="game-canvas" aria-label="Three-dimensional railway game"></div>
 <div class="game-vignette" aria-hidden="true"></div>
 <div class="game-hud">
-<div class="hud-stats"><div class="score-box"><span class="hud-label">SCORE</span><span id="score">000000</span></div><div class="run-coins"><svg class="icon coin-icon"><use href="#icon-coin"/></svg><span id="run-coins">0</span></div></div>
+<div class="hud-stats"><div class="score-box"><span class="hud-label">SCORE</span><span id="score">000000</span></div><div class="run-coins"><svg class="icon coin-icon"><use href="#icon-coin"/></svg><span id="run-coins">0</span></div><div id="magnet-status" class="magnet-status" hidden><img src="../Knowledge_rush_assets/magnet.png" alt=""><span><b>MAGNET</b><small id="magnet-time">8s</small></span></div></div>
 <div class="hud-actions"><button type="button" id="pause-button" class="game-icon-button" aria-label="Pause game" title="Pause (P)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></button><button type="button" id="fullscreen-button" class="game-icon-button" aria-label="Enter fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" class="icon"><path d="M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5"/></svg></button></div>
 </div>
 <div id="start-screen" class="start-screen">
