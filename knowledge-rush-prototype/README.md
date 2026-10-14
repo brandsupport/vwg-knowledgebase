@@ -11,10 +11,13 @@ Open `index.html` in a modern browser or visit the GitHub Pages path after deplo
 
 ## Included
 - Responsive HTML5 Canvas three-lane runner
-- Crisp vector-drawn Alex character and real-time run/jump/slide/hit states
 - Road scenery, VWG token pickups, obstacles, score and lives
-- Checkpoint question flow, feedback, pause and restart
+- Checkpoint question flow with answer feedback, pause and restart
 - Keyboard and touch controls
+- Checkpoint questions grounded in articles from `data/site_data.json` (article IDs 2, 6, 8, 16, 20, and 24 at the time this prototype was updated)
 
-## Status
-This is a mechanics and animation prototype, not a production release. Art direction and collision tuning need review, and the sample questions must be replaced with approved Knowledge Base content before release. The character is vector-drawn in Canvas so it remains crisp at different screen sizes; the asset sheet is not being used as a blurry raster sprite.
+## Known release blocker
+The current character in this prototype is vector-drawn and is **not the approved original Alex artwork**. Do not merge/deploy this prototype until the original Alex sprite frames have been added to this repository and integrated. The supplied sprite pack contains some imperfect run-frame crops, so verify the corrected frames in motion before release.
+
+## Validation status
+Mechanics prototype only. Browser/gameplay QA, original-art integration, collision tuning, and final review remain required before production release.
