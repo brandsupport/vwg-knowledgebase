@@ -10,7 +10,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--vw-logo:url("./src/vw-logo.png");}
 
 :root{--bg:#090C16;--panel:#fff;--ink:#142039;--muted:#65718a;--cyan:#00E5FF;--purple:#C24DFF;--line:#dce5f2;--spin:0deg}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;color:#eaf2ff;background:radial-gradient(ellipse at 12% 0%,rgba(0,229,255,.15),transparent 34%),radial-gradient(ellipse at 88% 12%,rgba(194,77,255,.14),transparent 32%),var(--bg);font-family:Sora,Arial,sans-serif}
@@ -94,13 +93,14 @@ body.fx-shake{animation:screenThump .38s ease}
 @media(prefers-reduced-motion:reduce){body.fx-shake,.tile.blast-hit,.tile.shuffle-out,.booster.activated,.option.correct,.combo-banner.show{animation:none!important} .tile::after,.booster::before{display:none}}
 
 
-.logo-glow{display:block;width:24px;height:24px;filter:drop-shadow(0 0 5px var(--cyan)) drop-shadow(0 0 10px rgba(194,77,255,.45))}.logo-glyph{display:block;width:100%;height:100%;background:linear-gradient(135deg,var(--cyan) 10%,var(--purple) 95%);-webkit-mask:var(--vw-logo) center/contain no-repeat;mask:var(--vw-logo) center/contain no-repeat}
+
+.brand-logo-img{display:block;width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 0 5px #00e5ff) drop-shadow(0 0 10px rgba(194,77,255,.45))}
 </style>
 </head>
 <body>
 <div class="start-screen" id="startScreen"><div class="start-card"><span class="start-mascot" role="img" aria-label="Cantaloupe mascot">🍈</span><div class="eyebrow">VWG Brand Support · Learning Arcade</div><h1>Knowledge <span>Crush</span></h1><p>Swap, match and cascade your way through a colourful puzzle. Answer real support questions to earn power-ups, unlock tougher levels and sharpen your knowledge.</p><div class="start-pills"><span>🍬 Match-3 puzzle</span><span>🧠 Real knowledge questions</span><span>⚡ Special moves</span></div><div class="start-actions"><button class="start-button" id="playButton">▶ Play now</button><button class="sound-button" id="startSound">🔊 Sound: On</button></div><p class="sound-note">Sound effects can be switched off at any time. Best played with sound on.</p></div></div>
 <header class="topbar">
-<a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true"><span class="logo-glow"><span class="logo-glyph"></span></span></span><span>VWG Brand Support<br>Knowledgebase</span></a>
+<a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true"><img class="brand-logo-img" src="./src/vw-logo.png" alt=""></span><span>VWG Brand Support<br>Knowledgebase</span></a>
 <nav class="toplinks"><a href="./index.html">Knowledgebase Home</a><a href="./game.html">🚘 De-tag Challenge</a></nav>
 </header>
 <main>
