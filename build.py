@@ -34,6 +34,73 @@ EXT_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 WHITESPACE_RE = re.compile(r"\s+")
 
+BRAND_ASSETS = (
+    ("__VW_LOGO__", "vw-logo.png"),
+    ("__FAVICON__", "favicon.png"),
+    ("__APPLE_ICON__", "apple-touch-icon.png"),
+)
+STATIC_HTML_PAGES = (
+    ("game.html", "game.html", "Copied De-tag Challenge to dist/game.html with shared favicon"),
+    ("knowledge-crush.html", "knowledge-crush.html", "Copied Knowledge Crush to dist/knowledge-crush.html with shared favicon"),
+    ("support-solitaire.html", "support-solitaire.html", "Copied Support Solitaire to dist/support-solitaire.html with shared favicon"),
+    ("knowledge-games.html", "knowledge-games.html", "Copied Knowledge Games hub to dist/knowledge-games.html with shared favicon"),
+)
+
+
+def load_brand_asset_uris():
+    """Load shared branding assets once for all generated pages."""
+    replacements = {}
+    for placeholder, filename in BRAND_ASSETS:
+        path = os.path.join(ROOT, "src", filename)
+        if not os.path.isfile(path):
+            print(f"  WARNING: src/{filename} not found - branding asset will be blank")
+            replacements[placeholder] = ""
+            continue
+        with open(path, "rb") as asset_file:
+            encoded = base64.b64encode(asset_file.read()).decode("ascii")
+        replacements[placeholder] = f"data:image/png;base64,{encoded}"
+    return replacements
+
+
+def replace_brand_asset_placeholders(content, asset_uris):
+    """Apply the same resolved branding assets to any HTML, CSS, or template."""
+    for placeholder, uri in asset_uris.items():
+        content = content.replace(placeholder, uri)
+    return content
+
+
+def publish_html_page(source_path, output_path, asset_uris, message):
+    """Copy an HTML page while resolving the shared brand placeholders."""
+    if not os.path.isfile(source_path):
+        return False
+    with open(source_path, "r", encoding="utf-8") as source_file:
+        page = source_file.read()
+    page = replace_brand_asset_placeholders(page, asset_uris)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as output_file:
+        output_file.write(page)
+    print(message)
+    return True
+
+
+def publish_frontend_assets(stylesheet_path, script_path, output_dir, asset_uris):
+    """Publish the main app's CSS and JavaScript as separate maintainable files."""
+    if not os.path.isfile(stylesheet_path):
+        raise SystemExit(f"Missing frontend stylesheet: {stylesheet_path}")
+    if not os.path.isfile(script_path):
+        raise SystemExit(f"Missing frontend script: {script_path}")
+
+    with open(stylesheet_path, "r", encoding="utf-8") as stylesheet_file:
+        stylesheet = replace_brand_asset_placeholders(stylesheet_file.read(), asset_uris)
+    os.makedirs(output_dir, exist_ok=True)
+    stylesheet_output = os.path.join(output_dir, "knowledgebase.css")
+    script_output = os.path.join(output_dir, "knowledgebase.js")
+    with open(stylesheet_output, "w", encoding="utf-8") as stylesheet_file:
+        stylesheet_file.write(stylesheet)
+    shutil.copyfile(script_path, script_output)
+    return stylesheet_output, script_output
+
+
 
 def resolve_images(article):
     """Images in site_data.json are stored as file paths under data/ (e.g.
@@ -130,124 +197,52 @@ def main():
     if "__SITE_DATA__" not in shell:
         raise SystemExit("template.html is missing the __SITE_DATA__ placeholder")
 
-    # Escape "</" so the JSON can't close the surrounding <script> tag.
+    # Escape "</" so embedded JSON cannot close the surrounding script tag.
     safe_json = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     final_html = shell.replace("__SITE_DATA__", safe_json)
-    for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"), ("__FAVICON__", "favicon.png"),
-                                  ("__APPLE_ICON__", "apple-touch-icon.png")):
-        path = os.path.join(ROOT, "src", filename)
-        if os.path.exists(path):
-            with open(path, "rb") as f:
-                uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
-        else:
-            print(f"  WARNING: src/{filename} not found - logo/favicon will be blank")
-            uri = ""
-        final_html = final_html.replace(placeholder, uri)
+
+    brand_asset_uris = load_brand_asset_uris()
+    final_html = replace_brand_asset_placeholders(final_html, brand_asset_uris)
 
     os.makedirs(OUT_DIR, exist_ok=True)
-    with open(OUT_PATH, "w", encoding="utf-8") as f:
-        f.write(final_html)
-    with open(CHATBOT_INDEX_PATH, "w", encoding="utf-8") as f:
-        json.dump(build_chatbot_index(data), f, ensure_ascii=False, separators=(",", ":"))
-    game_source = os.path.join(ROOT, "game.html")
-    if os.path.isfile(game_source):
-        with open(game_source, "r", encoding="utf-8") as f:
-            game_html = f.read()
-        # Reuse the exact same favicon and Apple touch icon embedded in the main page.
-        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
-                                      ("__FAVICON__", "favicon.png"),
-                                      ("__APPLE_ICON__", "apple-touch-icon.png")):
-            icon_path = os.path.join(ROOT, "src", filename)
-            if os.path.exists(icon_path):
-                with open(icon_path, "rb") as f:
-                    icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
-            else:
-                print(f"  WARNING: src/{filename} not found - game icon will be blank")
-                icon_uri = ""
-            game_html = game_html.replace(placeholder, icon_uri)
-        with open(os.path.join(OUT_DIR, "game.html"), "w", encoding="utf-8") as f:
-            f.write(game_html)
-        print("Copied De-tag Challenge to dist/game.html with shared favicon")
-        # Publish the real brand logos beside game.html so relative image URLs work on Pages.
-        game_assets = os.path.join(ROOT, "assets", "game")
-        if os.path.isdir(game_assets):
-            shutil.copytree(game_assets, os.path.join(OUT_DIR, "assets", "game"), dirs_exist_ok=True)
-            print("Copied game brand assets to dist/assets/game")
-    crush_source = os.path.join(ROOT, "knowledge-crush.html")
-    if os.path.isfile(crush_source):
-        with open(crush_source, "r", encoding="utf-8") as f:
-            crush_html = f.read()
-        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
-                                      ("__FAVICON__", "favicon.png"),
-                                      ("__APPLE_ICON__", "apple-touch-icon.png")):
-            icon_path = os.path.join(ROOT, "src", filename)
-            if os.path.exists(icon_path):
-                with open(icon_path, "rb") as f:
-                    icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
-            else:
-                icon_uri = ""
-            crush_html = crush_html.replace(placeholder, icon_uri)
-        with open(os.path.join(OUT_DIR, "knowledge-crush.html"), "w", encoding="utf-8") as f:
-            f.write(crush_html)
-        print("Copied Knowledge Crush to dist/knowledge-crush.html with shared favicon")
-    solitaire_source = os.path.join(ROOT, "support-solitaire.html")
-    if os.path.isfile(solitaire_source):
-        with open(solitaire_source, "r", encoding="utf-8") as f:
-            solitaire_html = f.read()
-        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
-                                      ("__FAVICON__", "favicon.png"),
-                                      ("__APPLE_ICON__", "apple-touch-icon.png")):
-            icon_path = os.path.join(ROOT, "src", filename)
-            if os.path.exists(icon_path):
-                with open(icon_path, "rb") as f:
-                    icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
-            else:
-                icon_uri = ""
-            solitaire_html = solitaire_html.replace(placeholder, icon_uri)
-        with open(os.path.join(OUT_DIR, "support-solitaire.html"), "w", encoding="utf-8") as f:
-            f.write(solitaire_html)
-        print("Copied Support Solitaire to dist/support-solitaire.html with shared favicon")
-    games_hub_source = os.path.join(ROOT, "knowledge-games.html")
-    if os.path.isfile(games_hub_source):
-        with open(games_hub_source, "r", encoding="utf-8") as f:
-            games_html = f.read()
-        for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
-                                      ("__FAVICON__", "favicon.png"),
-                                      ("__APPLE_ICON__", "apple-touch-icon.png")):
-            icon_path = os.path.join(ROOT, "src", filename)
-            if os.path.exists(icon_path):
-                with open(icon_path, "rb") as f:
-                    icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
-            else:
-                icon_uri = ""
-            games_html = games_html.replace(placeholder, icon_uri)
-        with open(os.path.join(OUT_DIR, "knowledge-games.html"), "w", encoding="utf-8") as f:
-            f.write(games_html)
-        print("Copied Knowledge Games hub to dist/knowledge-games.html with shared favicon")
-    # Publish Knowledge Rush and its sprite assets. The prototype references
-    # ../Knowledge_rush_assets/... so preserve both directory names under dist.
+    publish_frontend_assets(
+        os.path.join(ROOT, "src", "knowledgebase.css"),
+        os.path.join(ROOT, "src", "knowledgebase.js"),
+        OUT_DIR,
+        brand_asset_uris,
+    )
+    with open(OUT_PATH, "w", encoding="utf-8") as output_file:
+        output_file.write(final_html)
+    with open(CHATBOT_INDEX_PATH, "w", encoding="utf-8") as output_file:
+        json.dump(build_chatbot_index(data), output_file, ensure_ascii=False, separators=(",", ":"))
+
+    for source_name, output_name, message in STATIC_HTML_PAGES:
+        publish_html_page(
+            os.path.join(ROOT, source_name),
+            os.path.join(OUT_DIR, output_name),
+            brand_asset_uris,
+            message,
+        )
+
+    # Publish the De-tag Challenge's supporting brand assets.
+    game_assets = os.path.join(ROOT, "assets", "game")
+    if os.path.isdir(game_assets):
+        shutil.copytree(game_assets, os.path.join(OUT_DIR, "assets", "game"), dirs_exist_ok=True)
+        print("Copied game brand assets to dist/assets/game")
+
+    # Publish Knowledge Rush and preserve its relative sprite paths.
     rush_source = os.path.join(ROOT, "knowledge-rush-prototype")
     rush_assets_source = os.path.join(ROOT, "Knowledge_rush_assets")
     if os.path.isdir(rush_source):
-        rush_out = os.path.join(OUT_DIR, "knowledge-rush-prototype")
-        shutil.copytree(rush_source, rush_out, dirs_exist_ok=True)
-        rush_html_path = os.path.join(rush_out, "index.html")
-        if os.path.isfile(rush_html_path):
-            with open(rush_html_path, "r", encoding="utf-8") as f:
-                rush_html = f.read()
-            for placeholder, filename in (("__VW_LOGO__", "vw-logo.png"),
-                                          ("__FAVICON__", "favicon.png"),
-                                          ("__APPLE_ICON__", "apple-touch-icon.png")):
-                icon_path = os.path.join(ROOT, "src", filename)
-                if os.path.exists(icon_path):
-                    with open(icon_path, "rb") as f:
-                        icon_uri = "data:image/png;base64," + base64.b64encode(f.read()).decode("ascii")
-                else:
-                    icon_uri = ""
-                rush_html = rush_html.replace(placeholder, icon_uri)
-            with open(rush_html_path, "w", encoding="utf-8") as f:
-                f.write(rush_html)
-        print("Copied Knowledge Rush prototype to dist/knowledge-rush-prototype with shared favicon")
+        rush_output = os.path.join(OUT_DIR, "knowledge-rush-prototype")
+        shutil.copytree(rush_source, rush_output, dirs_exist_ok=True)
+        rush_html_path = os.path.join(rush_output, "index.html")
+        publish_html_page(
+            rush_html_path,
+            rush_html_path,
+            brand_asset_uris,
+            "Copied Knowledge Rush prototype to dist/knowledge-rush-prototype with shared favicon",
+        )
     if os.path.isdir(rush_assets_source):
         shutil.copytree(rush_assets_source, os.path.join(OUT_DIR, "Knowledge_rush_assets"), dirs_exist_ok=True)
         print("Copied Knowledge Rush sprite assets to dist/Knowledge_rush_assets")
