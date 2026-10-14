@@ -46,6 +46,16 @@ STATIC_HTML_PAGES = (
     ("knowledge-games.html", "knowledge-games.html", "Copied Knowledge Games hub to dist/knowledge-games.html with shared favicon"),
 )
 
+STATIC_PAGE_ASSETS = (
+    ("src/pages/detag-challenge.css", "detag-challenge.css"),
+    ("src/pages/detag-challenge.js", "detag-challenge.js"),
+    ("src/pages/knowledge-crush.css", "knowledge-crush.css"),
+    ("src/pages/knowledge-crush.js", "knowledge-crush.js"),
+    ("src/pages/support-solitaire.css", "support-solitaire.css"),
+    ("src/pages/support-solitaire.js", "support-solitaire.js"),
+    ("src/pages/knowledge-games.css", "knowledge-games.css"),
+)
+
 
 def load_brand_asset_uris():
     """Load shared branding assets once for all generated pages."""
@@ -81,6 +91,18 @@ def publish_html_page(source_path, output_path, asset_uris, message):
         output_file.write(page)
     print(message)
     return True
+
+
+def publish_static_asset(source_path, output_path, asset_uris):
+    """Copy a text-based frontend asset and resolve any shared placeholders."""
+    if not os.path.isfile(source_path):
+        raise SystemExit(f"Missing frontend asset: {source_path}")
+    with open(source_path, "r", encoding="utf-8") as source_file:
+        asset = replace_brand_asset_placeholders(source_file.read(), asset_uris)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as output_file:
+        output_file.write(asset)
+    return output_path
 
 
 def publish_frontend_assets(stylesheet_path, script_path, output_dir, asset_uris):
@@ -211,6 +233,13 @@ def main():
         OUT_DIR,
         brand_asset_uris,
     )
+
+    for source_name, output_name in STATIC_PAGE_ASSETS:
+        publish_static_asset(
+            os.path.join(ROOT, source_name),
+            os.path.join(OUT_DIR, output_name),
+            brand_asset_uris,
+        )
     with open(OUT_PATH, "w", encoding="utf-8") as output_file:
         output_file.write(final_html)
     with open(CHATBOT_INDEX_PATH, "w", encoding="utf-8") as output_file:
