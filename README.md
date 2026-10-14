@@ -300,3 +300,15 @@ If something is missing, check the Tally-to-GitHub automation, confirm the JSON 
 ---
 
 *Maintained in the repository README alongside the VWG Brand Support Knowledgebase source code.*
+
+
+## Source structure and build
+
+The primary knowledgebase interface is maintained as separate source files so markup, presentation, and behavior can be reviewed independently:
+
+- `src/template.html` — semantic page structure and the embedded article-data placeholder.
+- `src/knowledgebase.css` — interface tokens, layout, responsive styling, and reusable visual patterns.
+- `src/knowledgebase.js` — search, routing, article rendering, theme selection, navigation, and chatbot UI behavior.
+- `build.py` — data importing, output generation, shared brand-asset replacement, and static game publishing.
+
+Run `python build.py` to generate `dist/index.html`, the shared frontend assets, the static game pages, and the text-only chatbot index. The deployed page references `dist/knowledgebase.css` and `dist/knowledgebase.js`; keep their names in sync with the references in `src/template.html`.
