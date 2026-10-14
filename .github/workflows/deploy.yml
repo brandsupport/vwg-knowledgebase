@@ -11,6 +11,7 @@ on:
       - "knowledge-games.html"
       - "support-solitaire.html"
       - "knowledge-rush-prototype/**"
+      - "subway-surfers-preview.html"
       - "Knowledge_rush_assets/**"
       - ".github/workflows/deploy.yml"
       - "import_excel.py"
