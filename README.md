@@ -304,11 +304,12 @@ If something is missing, check the Tally-to-GitHub automation, confirm the JSON 
 
 ## Source structure and build
 
-The primary knowledgebase interface is maintained as separate source files so markup, presentation, and behavior can be reviewed independently:
+The knowledgebase and static game pages keep markup, presentation, and behavior in separate source files so each layer can be reviewed independently:
 
-- `src/template.html` — semantic page structure and the embedded article-data placeholder.
-- `src/knowledgebase.css` — interface tokens, layout, responsive styling, and reusable visual patterns.
-- `src/knowledgebase.js` — search, routing, article rendering, theme selection, navigation, and chatbot UI behavior.
-- `build.py` — data importing, output generation, shared brand-asset replacement, and static game publishing.
+- `src/template.html` — main knowledgebase page structure and embedded article-data placeholder.
+- `src/knowledgebase.css` and `src/knowledgebase.js` — main interface styles and app behavior.
+- `src/pages/` — standalone CSS/JavaScript sources for De-tag Challenge, Knowledge Crush, Support Solitaire, and the Knowledge Games hub.
+- `knowledge-rush-prototype/` — Knowledge Rush page, stylesheet, runtime, and Three.js dependency.
+- `build.py` — content importing, output generation, shared brand-asset replacement, and static-page asset publishing.
 
-Run `python build.py` to generate `dist/index.html`, the shared frontend assets, the static game pages, and the text-only chatbot index. The deployed page references `dist/knowledgebase.css` and `dist/knowledgebase.js`; keep their names in sync with the references in `src/template.html`.
+Run `python build.py` to generate the main page, its shared frontend assets, the static game pages and their CSS/JavaScript files, and the text-only chatbot index. The build writes each game's styles and behavior beside its HTML page in `dist/`, preserving the relative paths used by the pages.
