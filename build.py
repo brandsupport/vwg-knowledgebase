@@ -253,20 +253,6 @@ def main():
         print("Copied Knowledge Rush sprite assets to dist/Knowledge_rush_assets")
     else:
         print("WARNING: Knowledge_rush_assets directory not found; Knowledge Rush sprites may not load")
-    # Publish the standalone Subway Runner trial as a separate page.
-    subway_preview_source = os.path.join(ROOT, "subway-surfers-preview.html")
-    if os.path.isfile(subway_preview_source):
-        subway_preview_out = os.path.join(OUT_DIR, "subway-surfers-preview")
-        os.makedirs(subway_preview_out, exist_ok=True)
-        shutil.copyfile(subway_preview_source, os.path.join(subway_preview_out, "index.html"))
-        subway_preview_bundle = os.path.join(ROOT, "subway-surfers-preview-game.js")
-        if os.path.isfile(subway_preview_bundle):
-            shutil.copyfile(subway_preview_bundle, os.path.join(subway_preview_out, "subway-surfers-preview-game.js"))
-            print("Copied local Subway Runner gameplay bundle to dist/subway-surfers-preview")
-        else:
-            print("WARNING: Subway Runner gameplay bundle missing; preview will not start")
-        print("Copied standalone Subway Runner preview to dist/subway-surfers-preview")
-
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
