@@ -24,6 +24,9 @@ on:
       - "src/**"
       - "tests/**"
       - "worker/**"
+      - "knowledge-rush-prototype/**"
+      - "Knowledge_rush_assets/**"
+      - "knowledge-games.html"
       - ".github/workflows/test-chatbot.yml"
 
 permissions:
