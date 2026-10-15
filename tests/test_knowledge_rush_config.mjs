@@ -74,7 +74,7 @@ test("pickup drops follow wave timing and use the selected open lane", () => {
 
 test("train animation spins marked wheels around the axle and moves the train slightly", () => {
   const wheel = { userData: { trainWheel: true }, rotation: { y: Math.PI / 2, z: 0 } };
-  const unrelatedPart = { userData: {}, rotation: { y: 0 } };
+  const unrelatedPart = { userData: {}, rotation: { y: 0, z: 0 } };
   const mesh = {
     position: { x: 0, z: -10 },
     rotation: { y: 0 },
