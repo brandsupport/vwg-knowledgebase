@@ -8,13 +8,13 @@ export const RUNNER_LANES = Object.freeze([-3.2, 0, 3.2]);
 
 export const TRAIN_MOTION_CONFIG = Object.freeze({
   spawnZ: -82,
-  approachMin: 1.22,
-  approachRange: 0.18,
-  wheelRotationSpeed: 15,
-  swayAmplitude: 0.04,
-  swayFrequency: 2.8,
+  approachMin: 1.78,
+  approachRange: 0.48,
+  wheelRotationSpeed: 24,
+  swayAmplitude: 0.12,
+  swayFrequency: 3.6,
   collisionHalfLength: 5.55,
-  idleSpeed: 8,
+  idleSpeed: 14,
   idleRecycleZ: 14,
   idleSpawnZ: -70,
 });
@@ -122,13 +122,14 @@ export function animateTrain(obstacle, deltaSeconds, lanes = RUNNER_LANES) {
 
   obstacle.mesh.position.x =
     lanes[obstacle.lane] + sway * TRAIN_MOTION_CONFIG.swayAmplitude;
-  obstacle.mesh.rotation.y = sway * 0.012;
+  obstacle.mesh.position.y = 0.02 + Math.abs(sway) * 0.025;
+  obstacle.mesh.rotation.y = sway * 0.035;
 
   obstacle.mesh.traverse((part) => {
     if (part.userData.trainWheel) {
-      // Wheels are built with their axle along local Y before the 90° Z rotation.
-      // Rotating local Y spins them around the axle; X rotation looked static.
-      part.rotation.y +=
+      // The wheel is a torus whose local Z axis is rotated onto the train's X axle.
+      // Spin around that local Z axis, not Y (which would tilt the wheel).
+      part.rotation.z +=
         deltaSeconds *
         TRAIN_MOTION_CONFIG.wheelRotationSpeed *
         obstacle.approachMultiplier;
@@ -149,4 +150,25 @@ export function advanceIdleTrains(game, deltaSeconds, lanes = RUNNER_LANES) {
     obstacle.mesh.position.z = obstacle.z;
     animateTrain(obstacle, deltaSeconds, lanes);
   }
+}
+
+/**
+ * Return every question exactly once in a randomized deck. When a deck is
+ * refreshed, keep the previous question out of the first slot to avoid an
+ * immediate repeat at the cycle boundary.
+ */
+export function shuffleQuestionDeck(questions, random = Math.random, previousQuestion = null) {
+  const deck = [...questions];
+
+  for (let index = deck.length - 1; index > 0; index -= 1) {
+    const otherIndex = Math.floor(random() * (index + 1));
+    [deck[index], deck[otherIndex]] = [deck[otherIndex], deck[index]];
+  }
+
+  if (deck.length > 1 && deck[0] === previousQuestion) {
+    const otherIndex = 1 + Math.floor(random() * (deck.length - 1));
+    [deck[0], deck[otherIndex]] = [deck[otherIndex], deck[0]];
+  }
+
+  return deck;
 }
