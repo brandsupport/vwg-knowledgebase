@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import {
   RUNNER_LANES,
@@ -10,6 +11,7 @@ import {
   maybeSpawnWavePowerup,
   animateTrain,
   advanceIdleTrains,
+  shuffleQuestionDeck,
 } from "../knowledge-rush-prototype/gameplay-config.js";
 
 function seededRandom(seed = 12345) {
@@ -71,8 +73,8 @@ test("pickup drops follow wave timing and use the selected open lane", () => {
 });
 
 test("train animation spins marked wheels around the axle and moves the train slightly", () => {
-  const wheel = { userData: { trainWheel: true }, rotation: { y: 0 } };
-  const unrelatedPart = { userData: {}, rotation: { y: 0 } };
+  const wheel = { userData: { trainWheel: true }, rotation: { y: Math.PI / 2, z: 0 } };
+  const unrelatedPart = { userData: {}, rotation: { y: 0, z: 0 } };
   const mesh = {
     position: { x: 0, z: -10 },
     rotation: { y: 0 },
@@ -85,8 +87,9 @@ test("train animation spins marked wheels around the axle and moves the train sl
 
   animateTrain(train, 0.1);
 
-  assert.ok(wheel.rotation.y > 0);
-  assert.equal(unrelatedPart.rotation.y, 0);
+  assert.ok(wheel.rotation.z > 0);
+  assert.equal(wheel.rotation.y, Math.PI / 2);
+  assert.equal(unrelatedPart.rotation.z, 0);
   assert.notEqual(mesh.position.x, RUNNER_LANES[1]);
   assert.ok(Math.abs(mesh.rotation.y) > 0);
 });
@@ -105,4 +108,32 @@ test("idle trains are recycled to the far end of the track", () => {
 
   assert.equal(game.obstacles[0].z, TRAIN_MOTION_CONFIG.idleSpawnZ);
   assert.equal(mesh.position.z, TRAIN_MOTION_CONFIG.idleSpawnZ);
+});
+
+test("trains use a visibly faster approach and more pronounced motion", () => {
+  assert.ok(TRAIN_MOTION_CONFIG.approachMin >= 1.7);
+  assert.ok(TRAIN_MOTION_CONFIG.approachRange >= 0.4);
+  assert.ok(TRAIN_MOTION_CONFIG.wheelRotationSpeed >= 24);
+  assert.ok(TRAIN_MOTION_CONFIG.idleSpeed >= 12);
+});
+
+test("question decks include every prompt once and do not immediately repeat the previous prompt", () => {
+  const questions = ["question A", "question B", "question C", "question D"];
+  const deck = shuffleQuestionDeck(questions, seededRandom(314159), "question A");
+
+  assert.deepEqual([...deck].sort(), [...questions].sort());
+  assert.notEqual(deck[0], "question A");
+});
+
+test("live Knowledge Rush wiring shows shoes during super-jump and keeps question order across retries", () => {
+  const source = readFileSync(
+    new URL("../knowledge-rush-prototype/knowledge-rush.js", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(source, /attachSuperJumpShoes\(this\.runner,this\.powerupMaterials\.superJump\)/);
+  assert.match(source, /this\.superJumpShoes\.forEach\(\(\{mesh\}\)=>mesh\.visible=this\.superJumpTime>0\)/);
+  assert.match(source, /this\.runner\.group\.rotation\.set\(0,Math\.PI,0\)/);
+  assert.match(source, /shuffleQuestionDeck\(gameQuestions,Math\.random,currentQuestion\)/);
+  assert.doesNotMatch(source, /function U\(\)\{continueChances=3,questionPointer=0/);
 });
