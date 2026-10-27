@@ -1,3 +1,4 @@
+import base64
 import os
 import tempfile
 import unittest
@@ -8,6 +9,7 @@ from build import (
     publish_html_page,
     publish_static_asset,
     replace_brand_asset_placeholders,
+    resolve_images,
 )
 
 
@@ -94,6 +96,30 @@ class BuildHelperTests(unittest.TestCase):
             with open(js_output, "r", encoding="utf-8") as file:
                 self.assertEqual(file.read(), "window.appReady = true;")
 
+
+
+    def test_base64_reference_screenshots_are_decoded_and_inlined(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            image_dir = os.path.join(temp_dir, "data", "stock_replacement_images")
+            os.makedirs(image_dir)
+            # A small signature fixture is enough to exercise the decoder and MIME mapping.
+            image_bytes = b"\\x89PNG\\r\\n\\x1a\\nreference-image"
+            encoded = base64.b64encode(image_bytes).decode("ascii")
+            image_path = os.path.join(image_dir, "stock-replacement-1.png.b64")
+            with open(image_path, "w", encoding="ascii") as image_file:
+                image_file.write(encoded)
+
+            article = {
+                "id": 24680,
+                "images": ["stock_replacement_images/stock-replacement-1.png.b64"],
+            }
+            with patch("build.ROOT", temp_dir):
+                resolve_images(article)
+
+            self.assertEqual(
+                article["images"],
+                [f"data:image/png;base64,{encoded}"],
+            )
 
 if __name__ == "__main__":
     unittest.main()
