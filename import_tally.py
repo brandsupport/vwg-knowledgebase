@@ -19,7 +19,7 @@ INLINE_IMAGE_DATA_URI_RE = re.compile(
 )
 MAX_INLINE_IMAGE_URI_LENGTH = 11_000_000
 LOCAL_IMAGE_REFERENCE_RE = re.compile(
-    r"^[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\\.(?:png|jpg|jpeg|gif|webp)\\.b64$"
+    r"^[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.(?:png|jpg|jpeg|gif|webp)\.b64$"
 )
 
 FIELD_ALIASES = {
