@@ -103,7 +103,7 @@ class BuildHelperTests(unittest.TestCase):
             image_dir = os.path.join(temp_dir, "data", "stock_replacement_images")
             os.makedirs(image_dir)
             # A small signature fixture is enough to exercise the decoder and MIME mapping.
-            image_bytes = b"\\x89PNG\\r\\n\\x1a\\nreference-image"
+            image_bytes = bytes.fromhex("89504e470d0a1a0a") + b"reference-image"
             encoded = base64.b64encode(image_bytes).decode("ascii")
             image_path = os.path.join(image_dir, "stock-replacement-1.png.b64")
             with open(image_path, "w", encoding="ascii") as image_file:
