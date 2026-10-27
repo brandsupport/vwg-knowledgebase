@@ -143,8 +143,8 @@ class BuildHelperTests(unittest.TestCase):
         self.assertEqual(
             [image.split(";", 1)[0] for image in article["images"]],
             [
-                "data:image/png",
-                "data:image/png",
+                "data:image/webp",
+                "data:image/webp",
                 "data:image/webp",
                 "data:image/webp",
                 "data:image/webp",
