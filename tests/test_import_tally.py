@@ -139,6 +139,27 @@ Third line","category":"Delays","tags":"SLI"}"""
         self.assertEqual(articles[0]["cat"], 2)
         self.assertEqual(articles[0]["images"], [image_data])
 
+    def test_local_image_asset_paths_are_preserved(self):
+        self.write_submission("local-image.json", {
+            "response_id": "local-image-response",
+            "title": "Stock replacement with local screenshots",
+            "body": "Follow the stock replacement guidance.",
+            "category": "Stock",
+            "images": [
+                "stock_replacement_images/stock-replacement-1.png.b64",
+                "stock_replacement_images/stock-replacement-2.png.b64",
+            ],
+        })
+
+        articles, warnings = self.load()
+
+        self.assertEqual(warnings, [])
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["images"], [
+            "stock_replacement_images/stock-replacement-1.png.b64",
+            "stock_replacement_images/stock-replacement-2.png.b64",
+        ])
+
     def test_raw_tally_file_upload_field_is_extracted(self):
         self.write_submission("raw-upload.json", {
             "data": {
