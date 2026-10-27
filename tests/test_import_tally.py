@@ -8,6 +8,7 @@ from import_tally import load_tally_articles
 
 
 CATEGORIES = [
+    {"id": 2, "title": "Stock Types", "short": "Stock"},
     {"id": 3, "title": "Order Mods", "short": "Order Mods"},
     {"id": 7, "title": "Vehicle Delays", "short": "Delays"},
     {"id": 13, "title": "Reference Info", "short": "Reference"},
@@ -119,6 +120,24 @@ Third line","category":"Delays","tags":"SLI"}"""
             articles[0]["images"],
             ["https://files.tally.so/example.png"],
         )
+
+
+    def test_inline_image_data_uris_are_preserved_without_being_split(self):
+        image_data = "data:image/png;base64,iVBORw0KGgo="
+        self.write_submission("inline-image.json", {
+            "response_id": "inline-image-response",
+            "title": "Stock replacement with screenshots",
+            "body": "Follow the stock replacement guidance.",
+            "category": "Stock",
+            "images": [image_data],
+        })
+
+        articles, warnings = self.load()
+
+        self.assertEqual(warnings, [])
+        self.assertEqual(len(articles), 1)
+        self.assertEqual(articles[0]["cat"], 2)
+        self.assertEqual(articles[0]["images"], [image_data])
 
     def test_raw_tally_file_upload_field_is_extracted(self):
         self.write_submission("raw-upload.json", {
