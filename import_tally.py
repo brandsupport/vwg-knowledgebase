@@ -18,6 +18,9 @@ INLINE_IMAGE_DATA_URI_RE = re.compile(
     r"^data:image/(?:png|jpeg|gif|webp);base64,[A-Za-z0-9+/]+={0,2}$"
 )
 MAX_INLINE_IMAGE_URI_LENGTH = 11_000_000
+LOCAL_IMAGE_REFERENCE_RE = re.compile(
+    r"^[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\\.(?:png|jpg|jpeg|gif|webp)\\.b64$"
+)
 
 FIELD_ALIASES = {
     "title": {"title", "article title", "tip title"},
@@ -61,6 +64,9 @@ def _extract_image_urls(value):
                 and INLINE_IMAGE_DATA_URI_RE.fullmatch(candidate)
             ):
                 urls.append(candidate)
+            return urls
+        if LOCAL_IMAGE_REFERENCE_RE.fullmatch(candidate):
+            urls.append(candidate)
             return urls
 
         # Tally file uploads can be a URL string or a comma-separated list.
