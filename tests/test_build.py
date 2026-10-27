@@ -1,9 +1,11 @@
 import base64
+import json
 import os
 import tempfile
 import unittest
 from unittest.mock import patch
 
+from import_tally import load_tally_articles
 from build import (
     publish_frontend_assets,
     publish_html_page,
@@ -121,5 +123,33 @@ class BuildHelperTests(unittest.TestCase):
                 [f"data:image/png;base64,{encoded}"],
             )
 
+
+    def test_stock_replacement_article_embeds_all_six_screenshots_in_order(self):
+        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(repo_root, "data", "site_data.json"), encoding="utf-8") as file:
+            site_data = json.load(file)
+
+        with patch("import_tally.SUBMISSIONS_DIR", os.path.join(repo_root, "data", "tally_submissions")):
+            articles, _warnings = load_tally_articles(site_data["categories"])
+
+        article = next((item for item in articles if item["title"] == "Stock replacement"), None)
+        self.assertIsNotNone(article)
+        self.assertEqual(len(article["images"]), 6)
+
+        with patch("build.ROOT", repo_root):
+            resolve_images(article)
+
+        self.assertEqual(len(article["images"]), 6)
+        self.assertEqual(
+            [image.split(";", 1)[0] for image in article["images"]],
+            [
+                "data:image/png",
+                "data:image/png",
+                "data:image/webp",
+                "data:image/webp",
+                "data:image/webp",
+                "data:image/webp",
+            ],
+        )
 if __name__ == "__main__":
     unittest.main()
