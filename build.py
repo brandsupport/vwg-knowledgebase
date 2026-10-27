@@ -33,6 +33,9 @@ EXT_MIME = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
             ".gif": "image/gif", ".webp": "image/webp"}
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 WHITESPACE_RE = re.compile(r"\s+")
+LOCAL_B64_IMAGE_MIME = {".png": "image/png", ".jpg": "image/jpeg",
+                        ".jpeg": "image/jpeg", ".gif": "image/gif",
+                        ".webp": "image/webp"}
 
 BRAND_ASSETS = (
     ("__VW_LOGO__", "vw-logo.png"),
@@ -125,27 +128,56 @@ def publish_frontend_assets(stylesheet_path, script_path, output_dir, asset_uris
 
 
 def resolve_images(article):
-    """Images in site_data.json are stored as file paths under data/ (e.g.
-    "article_images/a59_1.png"); the built page needs them inlined as data: URIs."""
+    """Inline repository images, including validated base64 text assets, at build time."""
     out = []
     for ref in article.get("images", []):
         if ref.startswith("data:"):
             out.append(ref)
             continue
-        # Tally file uploads are hosted remotely. Keep validated HTTPS URLs as
-        # image sources; local repository images are still embedded as data URIs.
         if ref.startswith("https://") and not any(ch in ref for ch in ('<', '>', '"', "'")):
             out.append(ref)
             continue
+
         path = os.path.join(ROOT, "data", ref)
         ext = os.path.splitext(ref)[1].lower()
+        if ext == ".b64":
+            encoded_ext = os.path.splitext(ref[:-4])[1].lower()
+            mime = LOCAL_B64_IMAGE_MIME.get(encoded_ext)
+            if not mime or not re.fullmatch(
+                r"[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp)\.b64",
+                ref,
+            ):
+                print(f"  WARNING: article {article['id']}: unsafe or unsupported base64 image reference {ref} - skipped")
+                continue
+            if not os.path.isfile(path):
+                print(f"  WARNING: article {article['id']}: image {ref} not found - skipped")
+                continue
+            try:
+                with open(path, "r", encoding="ascii") as image_file:
+                    encoded = image_file.read().strip()
+                raw = base64.b64decode(encoded, validate=True)
+            except (OSError, UnicodeError, ValueError) as exc:
+                print(f"  WARNING: article {article['id']}: invalid base64 image {ref} ({exc}) - skipped")
+                continue
+            signatures = {
+                ".png": raw.startswith(b"\x89PNG\r\n\x1a\n"),
+                ".jpg": raw.startswith(b"\xff\xd8\xff"),
+                ".jpeg": raw.startswith(b"\xff\xd8\xff"),
+                ".gif": raw.startswith((b"GIF87a", b"GIF89a")),
+                ".webp": len(raw) >= 12 and raw[:4] == b"RIFF" and raw[8:12] == b"WEBP",
+            }
+            if not signatures.get(encoded_ext, False):
+                print(f"  WARNING: article {article['id']}: image signature does not match {ref} - skipped")
+                continue
+            out.append(f"data:{mime};base64,{encoded}")
+            continue
+
         if not os.path.isfile(path) or ext not in EXT_MIME:
             print(f"  WARNING: article {article['id']}: image {ref} not found - skipped")
             continue
         with open(path, "rb") as f:
             out.append(f"data:{EXT_MIME[ext]};base64," + base64.b64encode(f.read()).decode("ascii"))
     article["images"] = out
-
 
 def ensure_search_text(article):
     if not article.get("search_text"):

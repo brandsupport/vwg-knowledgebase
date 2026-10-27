@@ -14,6 +14,14 @@ from article_formatting import build_article, category_lookup
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SUBMISSIONS_DIR = os.path.join(ROOT, "data", "tally_submissions")
 
+INLINE_IMAGE_DATA_URI_RE = re.compile(
+    r"^data:image/(?:png|jpeg|gif|webp);base64,[A-Za-z0-9+/]+={0,2}$"
+)
+MAX_INLINE_IMAGE_URI_LENGTH = 11_000_000
+LOCAL_IMAGE_REFERENCE_RE = re.compile(
+    r"^[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.(?:png|jpg|jpeg|gif|webp)\.b64$"
+)
+
 FIELD_ALIASES = {
     "title": {"title", "article title", "tip title"},
     "category": {"category", "article category"},
@@ -45,10 +53,23 @@ def _text_value(value):
 
 
 def _extract_image_urls(value):
-    """Extract HTTPS URLs from Tally file-upload values without losing arrays."""
+    """Extract supported HTTPS URLs and validated inline image data URIs."""
     urls = []
     if isinstance(value, str):
-        # Tally upload fields can be a URL string or a comma-separated list.
+        candidate = value.strip()
+        # Inline data URIs contain a comma, so validate them before URL-list splitting.
+        if candidate.startswith("data:image/"):
+            if (
+                len(candidate) <= MAX_INLINE_IMAGE_URI_LENGTH
+                and INLINE_IMAGE_DATA_URI_RE.fullmatch(candidate)
+            ):
+                urls.append(candidate)
+            return urls
+        if LOCAL_IMAGE_REFERENCE_RE.fullmatch(candidate):
+            urls.append(candidate)
+            return urls
+
+        # Tally file uploads can be a URL string or a comma-separated list.
         for candidate in re.split(r"[\n,]+", value.strip()):
             candidate = candidate.strip()
             if candidate.startswith("https://") and not any(ch in candidate for ch in ('<', '>', '"', "'")):
@@ -69,7 +90,6 @@ def _extract_image_urls(value):
                     break
     # Keep order while removing duplicate URLs.
     return list(dict.fromkeys(urls))
-
 
 def _normalise_submission(item, filename):
     """Return the small, stable schema consumed by the article importer."""
