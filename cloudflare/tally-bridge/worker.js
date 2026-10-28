@@ -149,6 +149,10 @@ export default {
       }
       if (existing.status !== 404) {
         const detail = (await existing.text()).slice(0, 400);
+        console.error("Tally bridge GitHub read/check failed", {
+          status: existing.status,
+          detail: detail
+        });
         return jsonResponse(502, {
           ok: false, error: "Could not check GitHub submission file",
           status: existing.status, detail
@@ -176,12 +180,19 @@ export default {
       }
 
       const detail = (await put.text()).slice(0, 400);
+      console.error("Tally bridge GitHub write failed", {
+        status: put.status,
+        detail: detail
+      });
       return jsonResponse(502, {
         ok: false, error: "GitHub could not save the submission",
         status: put.status, detail
       });
-    } catch {
-      // Non-2xx lets Tally's retry schedule try again.
+    } catch (error) {
+      // Non-2xx lets Tally's retry schedule try again. Log a safe diagnostic in Cloudflare.
+      console.error("Tally bridge request failed", {
+        message: error instanceof Error ? error.message : String(error)
+      });
       return jsonResponse(502, { ok: false, error: "Temporary bridge error; retry delivery" });
     }
   }
