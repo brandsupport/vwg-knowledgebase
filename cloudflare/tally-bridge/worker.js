@@ -70,6 +70,7 @@ async function githubRequest(url, token, options) {
     body: options.body,
     headers: {
       Accept: "application/vnd.github+json",
+      "User-Agent": "VWG-Knowledgebase-Tally-Bridge",
       Authorization: "Bearer " + token,
       "X-GitHub-Api-Version": "2022-11-28",
       "Content-Type": "application/json"
