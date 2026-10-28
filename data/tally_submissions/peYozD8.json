@@ -1,0 +1,118 @@
+{
+  "eventId": "f62c321c-5982-4b51-b099-717c04958d76",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-10-28T12:36:38.727Z",
+  "data": {
+    "responseId": "peYozD8",
+    "submissionId": "peYozD8",
+    "respondentId": "LZ2ZMqj",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-10-28T12:36:38.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/peYozD8/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJwZVlvekQ4IiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzMTkwOTk4fQ.-24cFPCKM-av5py6HVQfh2ZjzEkV9MWrbuy3Jlkou8o&signature=4dab30ee46f92d2c5e37d4548292f7f33f23d7845f0ecc4f9002b4cfdbbccaf6",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/peYozD8/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJwZVlvekQ4IiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzMTkwOTk4fQ.-24cFPCKM-av5py6HVQfh2ZjzEkV9MWrbuy3Jlkou8o&signature=4dab30ee46f92d2c5e37d4548292f7f33f23d7845f0ecc4f9002b4cfdbbccaf6",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "TEST — Tally Bridge Connection 2"
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "a1f2d951-c0d8-4370-afa2-e8906c15a410"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "audi"
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "Write it however's natural. A few formatting shortcuts, all optional: a blank line starts a new paragraph · a line starting with -  becomes a bullet · a line starting with ##  becomes a heading · a line starting with Note: becomes a highlighted box · **bold** becomes bold."
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": null
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "bla"
+      }
+    ]
+  }
+}
