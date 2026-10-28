@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="467" viewBox="0 0 940 467" role="img" aria-labelledby="title desc">
+<title id="title">Invoiced to party in VU3</title><desc id="desc">VU3 contract panel showing Volkswagen Financial Services as the invoiced-to party.</desc>
+<rect width="940" height="467" fill="#fff"/>
+<text x="18" y="35" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#252525">‘Invoiced to’ party incorrect in VU3</text>
+<text x="18" y="71" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#505050">Check the ‘Invoiced to’ party is set to ‘Volkswagen Financial Services’:</text>
+<rect x="20" y="121" width="904" height="315" rx="8" fill="#e8e8e8" opacity=".65"/>
+<rect x="25" y="126" width="888" height="304" rx="7" fill="#fff" stroke="#dedede" stroke-width="2"/>
+<path d="M25 194H913" stroke="#e0e0e0" stroke-width="2"/>
+<text x="49" y="168" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#747474">Invoiced to</text>
+<circle cx="112" cy="261" r="33" fill="#747474"/>
+<text x="112" y="269" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#fff">V</text>
+<text x="173" y="251" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#68aeb8">Volkswagen Financial Services</text>
+<path d="M175 279l10-9 10 9v13h-7v-8h-6v8h-7z" fill="none" stroke="#999" stroke-width="2" stroke-linejoin="round"/>
+<text x="201" y="286" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#737373">Brunswick Court, Yeomans Drive</text>
+<text x="197" y="319" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#737373">MK14 5LR Blakelands, Milton Keynes, United Kingdom</text>
+<path d="M25 361H913" stroke="#dedede" stroke-width="2"/>
+<text x="50" y="403" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" letter-spacing="1" fill="#69aeb8">CHANGE</text>
+</svg>
