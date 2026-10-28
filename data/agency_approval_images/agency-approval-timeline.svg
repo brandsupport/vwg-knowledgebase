@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="577" viewBox="0 0 940 577" role="img" aria-labelledby="title desc">
+<title id="title">VWFS Agency Approval process and timings</title><desc id="desc">Day one to day three or four timeline showing agent, brand, VWFS and CSC responsibilities.</desc>
+<rect width="940" height="577" fill="#fff"/>
+<defs><style>
+.t{font-family:Arial,Helvetica,sans-serif;fill:#454545;font-size:16px}.day{font-family:Arial,Helvetica,sans-serif;fill:#fff;font-size:21px}.node{fill:#fff;stroke-width:1.8}.blue{stroke:#1681c9}.green{stroke:#16a65a}.grey{stroke:#bdbdbd}.red{stroke:#ff2929}
+</style></defs>
+<rect x="193" y="15" width="230" height="76" rx="15" fill="#00313b" stroke="#aab4b6" stroke-width="1.5"/>
+<rect x="439" y="15" width="230" height="76" rx="15" fill="#00313b" stroke="#aab4b6" stroke-width="1.5"/>
+<rect x="684" y="15" width="230" height="76" rx="15" fill="#00313b" stroke="#aab4b6" stroke-width="1.5"/>
+<text class="day" x="308" y="59" text-anchor="middle">Day One</text><text class="day" x="554" y="59" text-anchor="middle">Day Two</text><text class="day" x="799" y="59" text-anchor="middle">Day Three/Four</text>
+<path d="M197 113H897" stroke="#a6afb1" stroke-width="8"/><path d="M890 99l26 14-26 14" fill="#a6afb1"/>
+<path d="M306 91V135M554 91V135M799 91V135" stroke="#a6afb1" stroke-width="3"/>
+<rect class="node blue" x="193" y="135" width="230" height="59" rx="12"/><text class="t" x="308" y="159" text-anchor="middle"><tspan x="308">Agent ensures COL and</tspan><tspan x="308" dy="20">VU3 data match</tspan></text>
+<rect class="node green" x="439" y="135" width="230" height="59" rx="12"/><text class="t" x="554" y="159" text-anchor="middle"><tspan x="554">(am) approval template</tspan><tspan x="554" dy="20">sent to VWFS</tspan></text>
+<rect class="node green" x="684" y="135" width="230" height="59" rx="12"/><text class="t" x="799" y="159" text-anchor="middle"><tspan x="799">(am) Corrected orders</tspan><tspan x="799" dy="20">resent to VWFS</tspan></text>
+<path d="M306 194V208M554 194V208M799 194V208" stroke="#a6afb1" stroke-width="3"/>
+<rect class="node grey" x="193" y="208" width="230" height="59" rx="12"/><text class="t" x="308" y="232" text-anchor="middle"><tspan x="308">BI data extract from VU3</tspan><tspan x="308" dy="20">updates</tspan></text>
+<rect class="node grey" x="439" y="208" width="230" height="59" rx="12"/><text class="t" x="554" y="244" text-anchor="middle">(pm) file returned to Brand</text>
+<rect class="node grey" x="684" y="208" width="230" height="59" rx="12"/><text class="t" x="799" y="244" text-anchor="middle">(pm) file returned to Brand</text>
+<path d="M554 267V286M799 267V286" stroke="#a6afb1" stroke-width="3"/>
+<rect class="node green" x="439" y="286" width="230" height="59" rx="12"/><text class="t" x="554" y="310" text-anchor="middle"><tspan x="554">(pm) file automatically</tspan><tspan x="554" dy="20">provided to CSC</tspan></text>
+<rect class="node grey" x="684" y="286" width="230" height="59" rx="12"/><text class="t" x="799" y="310" text-anchor="middle"><tspan x="799">(pm) file automatically</tspan><tspan x="799" dy="20">provided to CSC</tspan></text>
+<path d="M554 345V360M799 345V360" stroke="#a6afb1" stroke-width="3"/>
+<rect class="node red" x="439" y="360" width="230" height="59" rx="12"/><text class="t" x="554" y="384" text-anchor="middle"><tspan x="554">CSC remove blocks from</tspan><tspan x="554" dy="20">agency approved orders</tspan></text>
+<rect class="node red" x="684" y="360" width="230" height="59" rx="12"/><text class="t" x="799" y="384" text-anchor="middle"><tspan x="799">CSC remove blocks from</tspan><tspan x="799" dy="20">agency approved orders</tspan></text>
+<path d="M554 419V435M799 419V435" stroke="#a6afb1" stroke-width="3"/>
+<rect class="node red" x="439" y="435" width="230" height="59" rx="12"/><text class="t" x="554" y="459" text-anchor="middle"><tspan x="554">CSC contact Agent to fix</tspan><tspan x="554" dy="20">declined order</tspan></text>
+<rect class="node blue" x="684" y="435" width="230" height="59" rx="12"/><text class="t" x="799" y="471" text-anchor="middle">Agent can progress to print docs from COL</text>
+<path d="M554 494V510" stroke="#a6afb1" stroke-width="3"/>
+<rect class="node blue" x="439" y="510" width="230" height="59" rx="12"/><text class="t" x="554" y="534" text-anchor="middle"><tspan x="554">Agents amend orders in</tspan><tspan x="554" dy="20">COL/VU3</tspan></text>
+<rect class="node blue" x="12" y="395" width="176" height="23" rx="5"/><text class="t" x="100" y="412" text-anchor="middle">Agent</text>
+<rect class="node green" x="12" y="428" width="176" height="23" rx="5"/><text class="t" x="100" y="445" text-anchor="middle">Brand</text>
+<rect class="node grey" x="12" y="462" width="176" height="23" rx="5"/><text class="t" x="100" y="479" text-anchor="middle">VWFS</text>
+<rect class="node red" x="12" y="496" width="176" height="23" rx="5"/><text class="t" x="100" y="513" text-anchor="middle">CSC</text>
+</svg>
