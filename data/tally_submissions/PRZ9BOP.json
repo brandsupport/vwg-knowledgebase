@@ -1,0 +1,118 @@
+{
+  "eventId": "a5b6a570-3d95-4f15-8ec6-4972c70f87ca",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-10-28T12:13:21.815Z",
+  "data": {
+    "responseId": "PRZ9BOP",
+    "submissionId": "PRZ9BOP",
+    "respondentId": "LZ2ZMqj",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-10-28T12:13:21.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/PRZ9BOP/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJQUlo5Qk9QIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzMTg5NjAxfQ.sftWqibVtzbVAuYGjyASRj0Sppx2oY43CfgaUcopKb8&signature=313856e0d76a00bea29f5dba75715ab0d73bc72be32ef2ce523e06f3474d2013",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/PRZ9BOP/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJQUlo5Qk9QIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzMTg5NjAxfQ.sftWqibVtzbVAuYGjyASRj0Sppx2oY43CfgaUcopKb8&signature=313856e0d76a00bea29f5dba75715ab0d73bc72be32ef2ce523e06f3474d2013",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "TEST — Tally Bridge Connection"
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "07af68bc-82b2-410f-b31f-754ff6e253c5"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "CUPRA, SEAT, Agency approval, Timings "
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "# VWFS Agency Approval – Checks, Declines & Process\n\n**Category:** Finance / Agency Approval\n\n## When is Agency Approval triggered?\n\nAgency Approval is triggered when the vehicle reaches physical status code **38/40**. To avoid delays, ensure the following checks are completed before submitting a PCP order.\n\n## 1. Pre-approval checklist\n\n### VU3 – Contract details\n- [ ] Correct VWFS proposal number entered in the Contract tab.\n- [ ] **Invoiced to:** Volkswagen Financial Services (UK) Ltd.\n- [ ] Contract printed and **Create Finance Record** clicked.\n- [ ] Contract status shows **Contract Live**.\n\n### SLI – Vehicle details\n- [ ] Vehicle tagged to the correct customer.\n- [ ] Vehicle marked as **PCP – M4**.\n- [ ] SLI order number, VIN and registration number correctly entered in the VU3 Order and Payment tab if manually tagged.\n- [ ] VIN matches the details in Connect OnLine (COL).\n\n**Note:** The SLI robot normally tags the vehicle automatically unless it is in negotiated stock at your site or another retailer's site.\n\n### Finance figures – VU3 vs Connect OnLine\nEnsure the following figures match in both systems:\n\n- [ ] Invoice price.\n- [ ] Part-exchange contribution.\n- [ ] VWFS settlement amount, if applicable.\n- [ ] Customer deposit.\n- [ ] Cash deposit.\n- [ ] Financial deposit contribution, if included in the CUPRA finance offer.\n\n**Where to enter the figures:**\n- Part-exchange and VWFS settlement amounts → **Offer tab / Trade-in details**.\n- Customer cash contribution → **Contract tab**.\n- Financial deposit contribution → **Contract tab**.\n\nAlso check that the chassis number is correct in Connect OnLine.\n\n## 2. Agency Approval process and timings\n\n**Day 1 – Initial checks**\n- The agent ensures VU3 and Connect OnLine data match.\n- The BI data extract updates VU3.\n\n**Day 2 – Approval**\n- **Morning:** Brand sends the approval template to VWFS.\n- **Afternoon:** VWFS returns the approval file, which is automatically sent to CSC.\n- CSC removes blocks from approved orders.\n- If an order is declined, CSC contacts the agent to explain that corrections are required.\n\n**Day 2 onwards – Declined orders**\n- Check the decline notes in Connect OnLine.\n- Correct the relevant information in VU3, SLI or Connect OnLine.\n- The corrected order is picked up in the next CUPRA UK reporting run and resubmitted to VWFS.\n\n**Day 3–4 – Resubmission and completion**\n- Corrected orders are sent back to VWFS.\n- CSC removes blocks from approved orders.\n- Once the order is approved and unblocked, the agent can proceed to print documents in Connect OnLine.\n\nCUPRA UK reporting runs take place on **Monday, Wednesday and Friday**. VWFS normally responds within **48 hours**.\n\n## 3. What to do if Agency Approval is declined\n\n1. Check the decline notes in Connect OnLine.\n2. Verify the VU3 contract details, SLI order information and finance figures.\n3. Correct any missing or incorrect information.\n4. Wait for the next reporting run and allow time for VWFS to review the order again.\n5. Once approved and unblocked, proceed with printing the documents in Connect OnLine.\n\n## Quick reminder\n\nThe most common issues are:\n- Incorrect **Invoiced to** party.\n- Missing VWFS proposal number or incorrect contract status.\n- Missing or incorrect SLI order number, VIN or chassis number.\n- Finance figures that do not match between VU3 and Connect OnLine.\n- Documents being sent before Agency Approval.\n\n**Important:** Always check the decline notes and allow enough time for approval before the customer's handover. The agent is responsible for ensuring the information is correct; the VWFS New Business team can identify discrepancies but cannot advise which figures need changing."
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": null
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "abbas"
+      }
+    ]
+  }
+}
