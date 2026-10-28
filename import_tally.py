@@ -52,6 +52,29 @@ def _text_value(value):
     return str(value).strip()
 
 
+def _field_text_value(field):
+    """Resolve Tally choice IDs to their display labels when options are supplied."""
+    value = field.get("value")
+    options = field.get("options")
+    if isinstance(options, list):
+        labels = {}
+        for option in options:
+            if isinstance(option, dict) and option.get("id") not in (None, ""):
+                label = _text_value(option.get("text", option.get("label", "")))
+                if label:
+                    labels[str(option["id"])] = label
+        if labels:
+            if isinstance(value, list):
+                return ", ".join(
+                    labels.get(str(item), _text_value(item))
+                    for item in value
+                    if _text_value(item)
+                )
+            if value is not None:
+                return labels.get(str(value), _text_value(value))
+    return _text_value(value)
+
+
 def _extract_image_urls(value):
     """Extract supported HTTPS URLs and validated inline image data URIs."""
     urls = []
@@ -131,7 +154,7 @@ def _normalise_submission(item, filename):
             if canonical == "images":
                 normalized_images.extend(_extract_image_urls(field_value))
             elif canonical and not normalized.get(canonical):
-                normalized[canonical] = _text_value(field_value)
+                normalized[canonical] = _field_text_value(field)
 
     normalized["images"] = list(dict.fromkeys(normalized_images))
 
