@@ -1,0 +1,140 @@
+{
+  "eventId": "f828d194-8153-48a6-90e2-7d8274b3b056",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-11-02T17:08:36.782Z",
+  "data": {
+    "responseId": "VpOGjVy",
+    "submissionId": "VpOGjVy",
+    "respondentId": "zxkV4rZ",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-11-02T17:08:36.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/VpOGjVy/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJWcE9HalZ5IiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzNjM5MzE2fQ.hLwKOJInUt72myiCuhWTOt-5Ro-kW3dT1weRwScuklw&signature=68a12d29d5c901627f378e5207106c2042bf4a3976e3faa49a56222ee6f4c0cd",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/VpOGjVy/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJWcE9HalZ5IiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzNjM5MzE2fQ.hLwKOJInUt72myiCuhWTOt-5Ro-kW3dT1weRwScuklw&signature=68a12d29d5c901627f378e5207106c2042bf4a3976e3faa49a56222ee6f4c0cd",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "How to navigate the shipping Plan Sheet which will be sent weekly "
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "Multi Brand, Shipping Plan, When the vehicle will be shipped "
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "We can know when and from where this car will move from this first screen.\nStatus 38 In port of exit released to be shipping.\nSecond Screen: \nWe look at these two dates and which port in Britain it is going to.\nFrom here, we matched the port it is currently in, Emden, with what is written on the second screen, Sheerness, and we took the date.\n "
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": [
+          {
+            "id": "Ryd5Md",
+            "name": "e202008d-b11a-482d-a6e0-27a662ca273e.jpg",
+            "url": "https://storage.tally.so/private/e202008d-b11a-482d-a6e0-27a662ca273e.jpg?id=Ryd5Md&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlJ5ZDVNZCIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5MzYzOTMxNn0.Bgb3BzlUsQRYQYU2MikR-v29k34fKSwVvr1jzlkm5FM&signature=c90694c23d4a9013a032d3f7ce8816539ed38497eb28287f1fb315559cd6f98c",
+            "mimeType": "image/jpeg",
+            "size": 76428
+          },
+          {
+            "id": "5P41j6",
+            "name": "046017d6-37aa-444b-a3d2-16aaf08a9a75.jpg",
+            "url": "https://storage.tally.so/private/046017d6-37aa-444b-a3d2-16aaf08a9a75.jpg?id=5P41j6&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVQNDFqNiIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5MzYzOTMxNn0.8dtQkhL1GnaMYPGjrgqsjStn9TcaNEENr-UCj47If4I&signature=35ac19a48773599951ea378bdfff36112655630dacd6d9cd77527f3f3b770402",
+            "mimeType": "image/jpeg",
+            "size": 100973
+          },
+          {
+            "id": "D6Kdpq",
+            "name": "4d9c61aa-339f-4f77-bbb1-6802e79e9c1c.jpg",
+            "url": "https://storage.tally.so/private/4d9c61aa-339f-4f77-bbb1-6802e79e9c1c.jpg?id=D6Kdpq&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkQ2S2RwcSIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5MzYzOTMxNn0.Wt3eAax1c1otUzscI8TOmNXeQyaQWz0J7VA3q2lWPHY&signature=6f15cc389d0f1d1536f183c2437e996a37f6d423c557a4cdb0574f0a152fa46f",
+            "mimeType": "image/jpeg",
+            "size": 119802
+          }
+        ]
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "Maarouf."
+      }
+    ]
+  }
+}
