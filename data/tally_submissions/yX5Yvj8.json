@@ -1,0 +1,126 @@
+{
+  "eventId": "2e9b20f2-b175-48e5-a467-74660d2779cc",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-11-03T10:58:52.256Z",
+  "data": {
+    "responseId": "yX5Yvj8",
+    "submissionId": "yX5Yvj8",
+    "respondentId": "LZ2ZMqj",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-11-03T10:58:52.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/yX5Yvj8/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJ5WDVZdmo4IiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzNzAzNTMyfQ.7yYKbnUmJuuSrXqcyk90PadXy1RQ-IDhCL-vaV8pD_I&signature=86dd755abc71b4bba3eb5546207442a7e7bd7c861318480e825311dea6ffc264",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/yX5Yvj8/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJ5WDVZdmo4IiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzNzAzNTMyfQ.7yYKbnUmJuuSrXqcyk90PadXy1RQ-IDhCL-vaV8pD_I&signature=86dd755abc71b4bba3eb5546207442a7e7bd7c861318480e825311dea6ffc264",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "Demo Plans Explained"
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "62b9f95a-c593-4eac-ab3d-3a398d947843"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "Demo, All brands, Multi-branded, Demo plan"
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "For any new model or facelift released by Volkswagen (such as the ID.7 or the Golf MK8), the Group forces all dealerships to activate a \"demo plan.\" \nThis ensures that any customer walking into a UK showroom will find the car ready for a test drive.\nFurthermore, these cars must be ordered with high-end specs (like the R-Line or GTI) and fully loaded with options (sunroof, smart drive, large rims). \nThe main goal here is to wow the customer and entice them to add all these bells and whistles to their own new car order.\nSometimes, the Group also uses this demo plan to direct the market. \nFor instance, if they want to boost EV sales, they will increase the demo plan allocations for the electric ID family while reducing them for petrol and diesel models. \nBy doing so, they effectively force dealerships to get more customers to test-drive electric vehicles."
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": [
+          {
+            "id": "AeprQN",
+            "name": "image_9e6df91b.jpeg",
+            "url": "https://storage.tally.so/private/image_9e6df91b.jpeg?id=AeprQN&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkFlcHJRTiIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5MzcwMzUzMn0.4GxcwjM89na2rywNeifV3wLXc9VSC3q_shGhxgg18SA&signature=0d5b5f7d0267297626135279d7e32fd6951392ea1e49db8f9486c5666f829d17",
+            "mimeType": "image/jpeg",
+            "size": 821947
+          }
+        ]
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "Mohamed Maarouf"
+      }
+    ]
+  }
+}
