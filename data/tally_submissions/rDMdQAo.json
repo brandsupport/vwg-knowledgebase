@@ -1,0 +1,133 @@
+{
+  "eventId": "bb81868f-3bcf-4327-8966-616d6fc943b4",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-11-04T11:22:09.138Z",
+  "data": {
+    "responseId": "rDMdQAo",
+    "submissionId": "rDMdQAo",
+    "respondentId": "zxkV4rZ",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-11-04T11:22:08.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/rDMdQAo/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJyRE1kUUFvIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzNzkxMzI5fQ.64Z_Q0raE2xIa8Za5a7FI47o86ybNn4dt98l1MJLS_o&signature=3ba9dd9fbb67c2dd2fbb550a7d3d6b160b55aae0ddfd1a3e6dd87a8e9af8848b",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/rDMdQAo/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJyRE1kUUFvIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzkzNzkxMzI5fQ.64Z_Q0raE2xIa8Za5a7FI47o86ybNn4dt98l1MJLS_o&signature=3ba9dd9fbb67c2dd2fbb550a7d3d6b160b55aae0ddfd1a3e6dd87a8e9af8848b",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "Error : Operation Result NL0302-"
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "0448ad5a-9b5d-456a-8802-b75a6017c948"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "Error appears when opening the order number."
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "Error appears when opening the order number."
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": [
+          {
+            "id": "XP0jXj",
+            "name": "03ead2af-df83-434b-8ad8-8aeca60eff26.jpg",
+            "url": "https://storage.tally.so/private/03ead2af-df83-434b-8ad8-8aeca60eff26.jpg?id=XP0jXj&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlhQMGpYaiIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5Mzc5MTMyOX0.vXm6alV7YLibtWL6_Chd-EdBr0SxCTSWOPnEzsoj4cg&signature=eb0296dd893af3eb4b892b3794c1a7a2056a05c67214503d823de79604af8ab0",
+            "mimeType": "image/jpeg",
+            "size": 80918
+          },
+          {
+            "id": "Jvz7Kd",
+            "name": "2ba64f4c-a55f-410a-a310-32242be08e42.jpg",
+            "url": "https://storage.tally.so/private/2ba64f4c-a55f-410a-a310-32242be08e42.jpg?id=Jvz7Kd&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ikp2ejdLZCIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5Mzc5MTMyOX0.8NfCQya9-tivuu6-X8pj4tBWg8I6QCHDoSHRovISqKQ&signature=bb23282a046d3f21d9cea4e2574ba2240cccb7ebc189a2d467b86f6a4d476906",
+            "mimeType": "image/jpeg",
+            "size": 37931
+          }
+        ]
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "Darren"
+      }
+    ]
+  }
+}
