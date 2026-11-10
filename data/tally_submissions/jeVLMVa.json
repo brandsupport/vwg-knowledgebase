@@ -1,0 +1,126 @@
+{
+  "eventId": "b9b6a4a6-b9c7-4624-b93c-634f3a2e1058",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-11-10T09:37:34.907Z",
+  "data": {
+    "responseId": "jeVLMVa",
+    "submissionId": "jeVLMVa",
+    "respondentId": "LZ2ZMqj",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-11-10T09:37:34.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/jeVLMVa/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJqZVZMTVZhIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzk0MzAzNDU0fQ.Iq0q_-nx4VpXL_FV20KqcZ52zHEtUUrcbvGFyI7TLiE&signature=263228106ffe82282fa31e1f9c2ac9945157fb0cb3f9af50709951716d0ed21b",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/jeVLMVa/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJqZVZMTVZhIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzk0MzAzNDU0fQ.Iq0q_-nx4VpXL_FV20KqcZ52zHEtUUrcbvGFyI7TLiE&signature=263228106ffe82282fa31e1f9c2ac9945157fb0cb3f9af50709951716d0ed21b",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "Volkswagen Golf – Ordering Closure and New Range Changes (2026) - VW0975-26"
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "07af68bc-82b2-410f-b31f-754ff6e253c5"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "Volkswagen, Golf, Stock, Factory Ordering, Ordering Closure, New Specification, Pricing, Pipeline Stock, Quota, EU7, 1.5 eTSI, HEV, Market Introduction"
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "### What's happening?\n\nVolkswagen is introducing a new Golf range in Q4 2026, with updated trims, more standard equipment and revised pricing.\n\n### Factory Ordering Closure\n\n- **Until 20 October:** Retailers could place orders under the current specification.\n- **21 October–11 November:** New Golf factory orders are closed while the new specifications and prices are added to the system.\n- **12 November:** Factory ordering reopens with the new range, pricing and specifications.\n\n### What should retailers do?\n\nDuring the closure, retailers should:\n\n- Check available pipeline stock for suitable vehicles.\n- Tag and amend a stock vehicle for the customer where possible.\n- If no suitable vehicle is available, wait until 12 November to place a new factory order.\n\n### Important Pricing Information\n\nFrom 12 November:\n\n- Untagged Golf stock will receive the new, increased price.\n- Factory orders and stock vehicles will follow the new pricing.\n- **Vehicles already sold and tagged to customers are price protected.** The customer keeps the agreed price.\n\n### EU7 Engine Changes\n\nDue to the new EU7 emissions requirements, some Golf orders for the **1.5 eTSI 150PS** may automatically change to the **1.5 eTSI 160PS** if the vehicle has not been built before the deadline.\n\nThis applies to:\n- Match\n- Style\n- R-Line\n- Black Edition\n\nRetailers should make sure customers are aware of this possible change and have received the required EU7 communication.\n\n### Other Important Updates\n\n- The Golf quota system is temporarily removed to control stock levels during the changeover.\n- Volkswagen will continue releasing stock manually.\n- Genuine customer orders will be prioritised over speculative stock orders.\n- Golf HEV ordering is scheduled to open on **10 December 2026**.\n- Golf HEV Market Introduction vehicles are expected from **January 2027**.\n\n### What should we tell retailers?\n\nThe temporary ordering closure is part of the Golf model changeover, not a general supply issue.\n\nAdvise retailers to use available pipeline stock during the closure, check the new pricing from 12 November and remember that vehicles already tagged to customers remain price protected."
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": [
+          {
+            "id": "OMozO8",
+            "name": "image_2d9ec7b9.jpg",
+            "url": "https://storage.tally.so/private/image_2d9ec7b9.jpg?id=OMozO8&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik9Nb3pPOCIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5NDMwMzQ1NH0.XWyLn8BiM_BCdjNancg6KkVImW68lp6O6fmekUvsILo&signature=5d7996a8a74d05ea8ea4c5ce755846df92d1973f06f1df7efa5a7d986f25a0fd",
+            "mimeType": "image/jpeg",
+            "size": 927835
+          }
+        ]
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "Hub article - VW0975-26"
+      }
+    ]
+  }
+}
