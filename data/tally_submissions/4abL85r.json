@@ -1,0 +1,126 @@
+{
+  "eventId": "de2d82d3-3f0c-4042-97ff-3f4302247bca",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-11-10T09:28:48.294Z",
+  "data": {
+    "responseId": "4abL85r",
+    "submissionId": "4abL85r",
+    "respondentId": "LZ2ZMqj",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-11-10T09:28:48.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/4abL85r/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiI0YWJMODVyIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzk0MzAyOTI4fQ.gr7XFLRdgUgDEoMwx9GYSemTBKzbq_qPG9AVe2UgNbg&signature=5fa0552de2a3880417c3e82b6af26dac14c6ae5061920fa4ddb726a12cdcf7d2",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/4abL85r/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiI0YWJMODVyIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzk0MzAyOTI4fQ.gr7XFLRdgUgDEoMwx9GYSemTBKzbq_qPG9AVe2UgNbg&signature=5fa0552de2a3880417c3e82b6af26dac14c6ae5061920fa4ddb726a12cdcf7d2",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "SEAT Leon UK: New Orders to Close from 6 November 2026"
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "07af68bc-82b2-410f-b31f-754ff6e253c5"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "SEAT, Ordering, CUPRA"
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "Communication Type: REACTIVE ONLY\n\nThe UK is undergoing a decisive shift towards electric mobility. In this context, upcoming regulatory changes and the expected decline in demand for specific internal combustion engines require us to adapt our market footprint and local strategy.\n\nAs a result, from 6 November 2026, we are revising the SEAT product portfolio in the UK.\n\nSEAT Leon – Order Closure\n\nFrom 6 November 2026, UK customers will no longer be able to place new orders for the SEAT Leon 5-door and Sportstourer models. Both models will remain on sale until existing stock runs out.\n\nCUPRA Leon – Continued Availability\n\nThe CUPRA Leon family, including both the 5-door and Sportstourer variants, will continue to be available in the UK.\n\nFuture SEAT Model Updates\n\nIn 2027, mild-hybrid versions of the SEAT Ibiza and Arona will be released.\n\nCUPRA's Continued Growth in the UK\n\nWhile the current environment presents challenges, our direction is clear. We remain confident in our future in the UK, driven by the strong momentum of CUPRA, which recorded 32,700 units between January and September, up 6% compared with the same period last year.\n\nWith a fully electrified line-up, CUPRA is well positioned to meet evolving customer demand and regulatory requirements.\n\nImportant: This statement is for reactive use only and should not be shared proactively."
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": [
+          {
+            "id": "dek66o",
+            "name": "image_b6c06090.jpg",
+            "url": "https://storage.tally.so/private/image_b6c06090.jpg?id=dek66o&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlazY2byIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5NDMwMjkyOH0.WaW2y37KhNNbaov-5T9AtWdbIMySUcUP3YpF--PhtZY&signature=3488dc2a61c58d60f2973be4f83d0b335b1e2166684f7c6aa9d602df5e5b793d",
+            "mimeType": "image/jpeg",
+            "size": 882931
+          }
+        ]
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "Fady"
+      }
+    ]
+  }
+}
