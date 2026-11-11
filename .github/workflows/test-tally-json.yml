@@ -1,0 +1,33 @@
+name: Tally JSON regression test
+
+on:
+  pull_request:
+    paths:
+      - "import_tally.py"
+      - "article_formatting.py"
+      - "data/site_data.json"
+      - "tests/**"
+      - ".github/workflows/test-tally-json.yml"
+  push:
+    branches:
+      - main
+      - "test/tally-json-regression"
+    paths:
+      - "import_tally.py"
+      - "article_formatting.py"
+      - "data/site_data.json"
+      - "tests/**"
+      - ".github/workflows/test-tally-json.yml"
+
+jobs:
+  tally-json-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Test multiline Tally JSON round-trip and importer
+        run: python -m unittest discover -s tests -v
