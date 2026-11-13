@@ -47,7 +47,7 @@ $("#again")?.addEventListener("click",()=>{navStack.length=0;Object.assign(state
 Object.assign(state, {
   orderType:"", stockMatch:"", sameCustomer:"", lowerStockStatus:"",
   customerWaitLetter:"", audiStockStatus:"", audiSameModelGroup:"",
-  motabilityLetter:"", motabilityFresh:""
+  motabilityLetter:"", motabilityFresh:"", audiCancelledEtronRS:""
 });
 
 function vwgStop(message, notes) {
@@ -68,8 +68,10 @@ function vwgEvidence(c) {
     "SKODA|20-30":"Proof of evidence: order form or cancellation letter. The sheet says a Motability letter needs to be 7 days old.",
     "SKODA|36-40":"Proof of evidence: order form or cancellation letter. The sheet says a Motability letter needs to be 7 days old."
   };
-  if (c.brand === "AUDI")
-    return "The sheet does not state a separate evidence rule for this Audi case. It says documentation for cancelled e-tron and RS orders is currently not required; verify any other evidence requirement against the current Audi procedure.";
+  if (c.brand === "AUDI") {
+    if (c.audiCancelledEtronRS === "Yes") return "No documentation is required for a cancelled Audi e-tron or RS order, as stated in the supplied matrix.";
+    return "The supplied matrix only waives documentation for cancelled e-tron and RS orders. For any other Audi case, verify the evidence requirement against the current Audi procedure.";
+  }
   return rules[c.brand + "|" + c.status] ||
     "The supplied matrix does not state a separate evidence rule for this status. Verify the requirement in the current official procedure; do not infer one.";
 }
@@ -177,8 +179,8 @@ function vwgRetailRule(c) {
 
   if (c.brand === "SKODA" && c.skodaType === "Motability" && ["P-10","20-30","36-40"].indexOf(c.status) >= 0)
     notes.push("If the evidence is a Motability letter, the sheet says it needs to be 7 days old.");
-  if (c.brand === "AUDI" && ["P-10","20-30"].indexOf(c.status) >= 0)
-    notes.push("For cancelled orders, documentation for e-tron and RS products is currently not required.");
+  if (c.brand === "AUDI" && c.audiCancelledEtronRS === "Yes")
+    notes.push("Cancelled Audi e-tron / RS case: documentation is not currently required under the supplied matrix note.");
   const evidence = vwgEvidence(c);
   const stock = vwgValidateStock(c);
   if (stock.stop) return vwgStop("Stock-match validation failed. Do not proceed until corrected.", stock.notes);
@@ -240,6 +242,9 @@ function vwgQuestionList() {
   add("status","What status range applies?","Choose the band shown in the Retailer matrix.",
     statusOptions().map(function(x){return [x[0],x[1],"🔹"];}));
   if (!state.status) return q;
+  if (state.brand === "AUDI")
+    add("audiCancelledEtronRS","Is this a cancelled Audi e-tron or RS order?","The spreadsheet says documentation for e-tron and RS products is currently not required where the order has been cancelled.",
+      [["Yes","Yes — cancelled e-tron / RS order","✅"],["No","No — another Audi case","🔎"]]);
   if (state.brand === "SEAT/CUPRA") return q;
 
   if (state.brand === "VWPC" && state.status === "P-10")
@@ -298,14 +303,14 @@ function vwgClearDependentState(key) {
   const clear = function(keys) { keys.forEach(function(k){ state[k] = ""; }); };
   const allCase = ["idBuzz","type","demo","status","transport","modelType","orderType","skodaType",
     "motabilityLetter","motabilityFresh","stockMatch","sameCustomer","lowerStockStatus",
-    "customerWaitLetter","audiStockStatus","audiSameModelGroup"];
+    "customerWaitLetter","audiStockStatus","audiSameModelGroup","audiCancelledEtronRS"];
   if (key === "brand") clear(allCase);
   else if (key === "idBuzz") clear(["type","demo","status","transport","modelType","orderType","skodaType",
     "motabilityLetter","motabilityFresh","stockMatch","sameCustomer","lowerStockStatus",
-    "customerWaitLetter","audiStockStatus","audiSameModelGroup"]);
+    "customerWaitLetter","audiStockStatus","audiSameModelGroup","audiCancelledEtronRS"]);
   else if (key === "type") clear(["demo","status","transport","modelType","orderType","skodaType",
     "motabilityLetter","motabilityFresh","stockMatch","sameCustomer","lowerStockStatus",
-    "customerWaitLetter","audiStockStatus","audiSameModelGroup"]);
+    "customerWaitLetter","audiStockStatus","audiSameModelGroup","audiCancelledEtronRS"]);
   else if (key === "demo") clear(["status","transport","modelType","orderType","skodaType","motabilityLetter",
     "motabilityFresh","stockMatch","sameCustomer","lowerStockStatus","customerWaitLetter",
     "audiStockStatus","audiSameModelGroup"]);
@@ -379,7 +384,7 @@ function render() {
     navStack.length = 0;
     Object.assign(state,{step:0,brand:"",type:"",status:"",transport:"",idBuzz:"",modelType:"",
       demo:"",skodaType:"",orderType:"",stockMatch:"",sameCustomer:"",lowerStockStatus:"",
-      customerWaitLetter:"",audiStockStatus:"",audiSameModelGroup:"",motabilityLetter:"",
+      customerWaitLetter:"",audiStockStatus:"",audiSameModelGroup:"",audiCancelledEtronRS:"",motabilityLetter:"",
       motabilityFresh:"",selected:"",history:[]});
     render();
   });
