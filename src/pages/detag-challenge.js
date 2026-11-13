@@ -42,5 +42,304 @@ $("#next")?.addEventListener("click",()=>{if(!state.selected)return;navStack.pus
 $("#back")?.addEventListener("click",()=>{const previous=navStack.pop();if(!previous)return;Object.assign(state,previous);render()});
 $("#again")?.addEventListener("click",()=>{navStack.length=0;Object.assign(state,{step:0,brand:"",type:"",status:"",transport:"",idBuzz:"",modelType:"",demo:"",skodaType:"",selected:"",history:[]});render()});
 }
+
+/* Retail De-tag matrix update — appended decision flow and validator. */
+Object.assign(state, {
+  orderType:"", stockMatch:"", sameCustomer:"", lowerStockStatus:"",
+  customerWaitLetter:"", audiStockStatus:"", audiSameModelGroup:"",
+  motabilityLetter:"", motabilityFresh:""
+});
+
+function vwgStop(message, notes) {
+  return {stop:true, action:"STOP — do not proceed using a guessed rule.", evidence:"",
+    notes:[message].concat(notes || [])};
+}
+function vwgEvidence(c) {
+  if (c.demo === "Yes" && c.brand !== "AUDI")
+    return "No proof of evidence is required for demo vehicles (as explicitly stated for this brand in the sheet).";
+  const rules = {
+    "VWPC|P-10":"No evidence required.",
+    "VWPC|20-30":"Proof of evidence: order form or cancellation letter.",
+    "VWPC|36-40":"Proof of evidence: order form or cancellation letter. The sheet says a Motability letter needs to be 7 days old.",
+    "VWCV|P-10":"Proof of evidence: order form or cancellation letter.",
+    "VWCV|20-30":"Proof of evidence: order form or cancellation letter.",
+    "VWCV|36-40":"Proof of evidence: order form or cancellation letter. The sheet says a Motability letter needs to be 7 days old.",
+    "SKODA|P-10":"Proof of evidence: order form or cancellation letter. The sheet says a Motability letter needs to be 7 days old.",
+    "SKODA|20-30":"Proof of evidence: order form or cancellation letter. The sheet says a Motability letter needs to be 7 days old.",
+    "SKODA|36-40":"Proof of evidence: order form or cancellation letter. The sheet says a Motability letter needs to be 7 days old."
+  };
+  if (c.brand === "AUDI")
+    return "The sheet does not state a separate evidence rule for this Audi case. It says documentation for cancelled e-tron and RS orders is currently not required; verify any other evidence requirement against the current Audi procedure.";
+  return rules[c.brand + "|" + c.status] ||
+    "The supplied matrix does not state a separate evidence rule for this status. Verify the requirement in the current official procedure; do not infer one.";
+}
+function vwgValidateStock(c) {
+  if (c.stockMatch !== "Yes" && c.stockMatch !== "No")
+    return {stop:true, notes:["Confirm whether a stock match exists."]};
+  if (c.stockMatch === "No") return {stop:false, notes:[]};
+  if (["VWPC","VWCV","SKODA"].indexOf(c.brand) >= 0 && c.sameCustomer !== "Yes")
+    return {stop:true, notes:["Stock match rejected: it must be for the same customer."]};
+  if (c.brand === "VWPC" || c.brand === "VWCV")
+    return {stop:false, notes:["Stock match: same customer is required; the trim does not have to match."]};
+  if (c.brand === "SKODA") {
+    const notes = ["Stock match: same customer is required; the model does not have to match."];
+    if (c.lowerStockStatus !== "Yes" && c.lowerStockStatus !== "No")
+      return {stop:true, notes:notes.concat(["Confirm whether the stock-match vehicle has a lower status than the original vehicle."])};
+    if (c.lowerStockStatus === "Yes" && c.customerWaitLetter !== "Yes")
+      return {stop:true, notes:notes.concat(["The stock-match vehicle is at a lower status. Obtain a customer letter confirming they accept the wait before proceeding."])};
+    if (c.lowerStockStatus === "Yes")
+      notes.push("Customer confirmation letter recorded: the customer accepts the wait for the lower-status stock-match vehicle.");
+    return {stop:false, notes:notes};
+  }
+  if (c.brand === "AUDI") {
+    if (c.audiStockStatus === "Behind")
+      return {stop:true, notes:["Audi stock match rejected: its status must be equal to or more advanced than the original vehicle."]};
+    if (c.audiStockStatus !== "Equal" && c.audiStockStatus !== "Ahead")
+      return {stop:true, notes:["Select whether the Audi stock match is at an equal or more advanced status."]};
+    if (c.audiSameModelGroup !== "Yes")
+      return {stop:true, notes:["Audi stock match rejected: it must meet the model-group requirement (the sheet example is Q3 to Q4)."]};
+    return {stop:false, notes:["Audi stock match validated: equal or more advanced status and the stated model-group requirement met (sheet example: Q3 to Q4)."]};
+  }
+  return {stop:false, notes:[]};
+}
+function vwgRetailRule(c) {
+  if (c.demo !== "Yes" && c.demo !== "No")
+    return vwgStop("Confirm whether this is a demo vehicle before applying evidence rules.");
+  if (c.brand === "VWCV" && c.idBuzz === "Yes")
+    return vwgStop("Reject the ID Buzz request at any status and ask the requester to complete form CV0678-22. Do not continue with the standard VWCV process.");
+  if (c.brand === "SEAT/CUPRA")
+    return {stop:false, action:"Handled by the UK Team — refer the case to the UK Team for all status bands.",
+      evidence:c.demo === "Yes" ? vwgEvidence(c) : "The sheet says these cases are handled by the UK Team; follow that team's procedure.",
+      notes:["This routing applies to P-10, 20–30, 36–40 and 40–70."]};
+
+  if (c.brand === "VWPC" && c.status === "P-10" && c.modelType !== "ID" && c.modelType !== "Normal")
+    return vwgStop("Choose whether the VWPC P-10 vehicle is an ID model or a normal model.");
+  if (c.brand === "SKODA" && ["P-10","20-30"].indexOf(c.status) >= 0 && !c.orderType)
+    return vwgStop("Select the Škoda order type. Types 00, 01, 02, 03, 04, 06 and 07 are de-allocated; type 05 is a normal de-tag.");
+  if (c.brand === "SKODA" && c.demo !== "Yes" && ["P-10","20-30","36-40"].indexOf(c.status) >= 0 &&
+      c.skodaType !== "Motability" && c.skodaType !== "Normal")
+    return vwgStop("Confirm whether this is a Motability or normal Škoda de-tag so the 7-day letter requirement can be checked.");
+  if (c.brand === "SKODA" && c.demo !== "Yes" && c.skodaType === "Motability" && c.motabilityFresh !== "Yes")
+    return vwgStop("The sheet says a Motability letter needs to be 7 days old. Confirm the date meets that requirement before proceeding.");
+  if (["VWPC","VWCV"].indexOf(c.brand) >= 0 && c.status === "36-40" && c.demo !== "Yes" &&
+      c.motabilityLetter === "Yes" && c.motabilityFresh !== "Yes")
+    return vwgStop("The sheet says a Motability letter for this 36–40 case needs to be 7 days old. Confirm the date meets that requirement before proceeding.");
+
+  let action = "";
+  const notes = [];
+  if (c.status === "P-10") {
+    if (c.brand === "VWPC") {
+      action = "De-tag the vehicle and keep it in retailer stock.";
+      if (c.modelType === "ID") action += " For an ID model, also de-allocate it and remove the GOV grant.";
+    } else if (c.brand === "VWCV") {
+      action = "De-tag but do NOT de-allocate. The vehicle remains in retailer stock.";
+    } else if (c.brand === "SKODA") {
+      if (["00","01","02","03","04","06","07"].indexOf(c.orderType) >= 0)
+        action = "De-tag and de-allocate order type " + c.orderType + ".";
+      else if (c.orderType === "05")
+        action = "Normal de-tag for order type 05; do NOT de-allocate.";
+      else return vwgStop("Škoda order type " + c.orderType + " is not covered by the supplied rule.");
+    } else if (c.brand === "AUDI") action = "De-tag to status 07. The vehicle remains in retailer stock.";
+    else return vwgStop("No P-10 rule is defined for this brand.");
+  } else if (c.status === "20-30") {
+    if (c.brand === "VWPC") action = "De-tag only. The vehicle remains in retailer stock; add a note.";
+    else if (c.brand === "VWCV") action = "De-tag but do NOT de-allocate. The vehicle remains in retailer stock; add a note.";
+    else if (c.brand === "SKODA") {
+      if (["00","01","02","03","04","06","07"].indexOf(c.orderType) >= 0)
+        action = "De-tag and de-allocate order type " + c.orderType + ".";
+      else if (c.orderType === "05")
+        action = "Normal de-tag for order type 05; do NOT de-allocate.";
+      else return vwgStop("Škoda order type " + c.orderType + " is not covered by the supplied rule.");
+    } else if (c.brand === "AUDI") action = "De-tag to status 07. The vehicle remains in the Centre's stock.";
+    else return vwgStop("No 20–30 rule is defined for this brand.");
+  } else if (c.status === "36-40") {
+    if (c.transport !== "Yes" && c.transport !== "No")
+      return vwgStop("Confirm whether a transport order exists for this 36–40 case.");
+    if (c.transport === "No") {
+      if (c.brand === "VWPC" || c.brand === "VWCV")
+        action = "Before de-tagging, add Consignment (CO) and Mandatory Block (EDE) for 24 hours.";
+      else if (c.brand === "SKODA" || c.brand === "AUDI")
+        action = "Before de-tagging, add Protected from Mandatory (MT) and Mandatory Block (EDE) for 24 hours.";
+      else return vwgStop("No 36–40 no-transport-order rule is defined for this brand.");
+      notes.push("The 24-hour hold protects the vehicle for the retailer and gives the retailer an opportunity to re-tag. If it is not re-tagged, the block drops off after 24 hours and the vehicle becomes available in mandatory stock.");
+      notes.push("The sheet also calls out this 36–40/no-transport-order protection for De-tags, Transfers and Un-adopts.");
+    } else {
+      action = "Do NOT add a mandatory block; de-tag only.";
+      notes.push("The 24-hour no-transport-order protection block does not apply when a transport order exists.");
+    }
+  } else if (c.status === "40-70") {
+    if (c.transport !== "Yes")
+      return vwgStop("The supplied 40–70 rule only defines the case where a transport order exists. With no transport order, stop and verify the official procedure.");
+    action = "A transport order exists: do NOT add a mandatory block; just de-tag.";
+  } else {
+    return vwgStop("This status band is not covered by the supplied Retail de-tag matrix.");
+  }
+
+  if (c.brand === "SKODA" && c.skodaType === "Motability" && ["P-10","20-30","36-40"].indexOf(c.status) >= 0)
+    notes.push("If the evidence is a Motability letter, the sheet says it needs to be 7 days old.");
+  if (c.brand === "AUDI" && ["P-10","20-30"].indexOf(c.status) >= 0)
+    notes.push("For cancelled orders, documentation for e-tron and RS products is currently not required.");
+  const evidence = vwgEvidence(c);
+  const stock = vwgValidateStock(c);
+  if (stock.stop) return vwgStop("Stock-match validation failed. Do not proceed until corrected.", stock.notes);
+  notes.push.apply(notes, stock.notes);
+  return {stop:false, action:action, evidence:evidence, notes:notes};
+}
+function vwgAgencyRule(c) {
+  const row = agency[c.brand];
+  if (!row) return vwgStop("No Agency rule is defined for this brand.");
+  let rule = null;
+  if (c.status === "0-10") rule = row.low;
+  else if (c.status === "20-30") rule = row.mid;
+  else if (c.status === "36-38" && c.transport === "No") rule = row.noTO;
+  else if (c.status === "40-70" && c.transport === "Yes") rule = row.withTO;
+  if (!rule) return vwgStop("The existing Agency guidance does not define this exact status / transport-order combination. Verify the Agency procedure.");
+  const notes = [];
+  if (c.status === "36-38" && c.transport === "No")
+    notes.push("Shared workbook note: the Retail matrix calls for 24-hour mandatory protection for 36–40/no-transport-order De-tags, Transfers and Un-adopts. It does not specify the Agency block codes; confirm Agency-specific handling before action.");
+  return {stop:false, action:rule[0], evidence:rule[1], notes:notes};
+}
+function vwgResolveCase(c) {
+  if (c.brand === "VWCV" && c.idBuzz === "Yes")
+    return vwgStop("Reject the ID Buzz request at any status and ask for form CV0678-22.");
+  if (c.type === "Agency") return vwgAgencyRule(c);
+  if (c.type !== "Retailer") return vwgStop("Select Agency or Retailer before resolving the case.");
+  return vwgRetailRule(c);
+}
+window.VWGDetagChallengeRules = {resolveCase:vwgResolveCase};
+
+function vwgQuestionList() {
+  const q = [];
+  const add = function(key,title,desc,opts) { q.push({key:key,title:title,desc:desc,opts:opts}); };
+  const yesNo = [["Yes","Yes","✅"],["No","No","⛔"]];
+  add("brand","Which brand are you handling?","Choose the vehicle brand to load the correct procedure.",
+    brands.map(function(b){return [b[0],b[1],b[2]];}));
+  if (!state.brand) return q;
+  if (state.brand === "VWCV" && !state.idBuzz)
+    add("idBuzz","Is this vehicle an ID Buzz?","VWCV ID Buzz requests must be rejected at any status; ask for form CV0678-22.",
+      [["Yes","Yes — this is an ID Buzz","🚫"],["No","No — another VWCV model","🚐"]]);
+  if (state.idBuzz === "Yes") return q;
+  if (!state.type)
+    add("type","Agency or Retailer?","The uploaded matrix updates the Retailer route. The existing Agency guidance remains separate.",
+      [["Agency","Agency de-tag procedure","🏢"],["Retailer","Retailer de-tag procedure","🏬"]]);
+  if (!state.type) return q;
+  if (state.type === "Agency") {
+    if (!state.status)
+      add("status","What status range applies?","Choose the band shown in the existing Agency procedure.",statusOptions().map(function(x){return [x[0],x[1],"🔹"];}));
+    if (state.status && needsTransport() && !state.transport)
+      add("transport","Is there a transport order?","For Agency 36–38 and 40–70, this answer changes whether the existing rule applies.",
+        [["Yes","Transport order exists","🚚"],["No","No transport order","🚫"]]);
+    return q;
+  }
+  if (!state.demo)
+    add("demo","Is this a demo vehicle?","The sheet explicitly gives the no-proof demo exemption for VWPC, VWCV, Škoda and SEAT/CUPRA. Audi's row does not state the same exemption.",yesNo);
+  if (!state.status)
+    add("status","What status range applies?","Choose the band shown in the Retailer matrix.",statusOptions().map(function(x){return [x[0],x[1],"🔹"];}));
+  if (!state.status || state.brand === "SEAT/CUPRA") return q;
+  if (state.brand === "VWPC" && state.status === "P-10" && !state.modelType)
+    add("modelType","Is this a VWPC ID model or a normal model?","For Retailer P-10, ID models also need de-allocation and GOV grant removal.",
+      [["ID","ID model","🪪"],["Normal","Normal model","🚘"]]);
+  if (state.brand === "SKODA" && ["P-10","20-30","36-40"].indexOf(state.status) >= 0 && state.demo !== "Yes" && !state.skodaType)
+    add("skodaType","Is this a Motability or normal Škoda de-tag?","The sheet says a Motability letter needs to be 7 days old for the specified Škoda cases.",
+      [["Motability","Motability de-tag","📅"],["Normal","Normal de-tag","📄"]]);
+  if (state.brand === "SKODA" && state.skodaType === "Motability" && state.motabilityFresh !== "Yes")
+    add("motabilityFresh","Does the Motability letter meet the 7-day age requirement?","The sheet says the letter needs to be 7 days old. Check the actual date against the current procedure; do not guess if timing is unclear.",
+      [["Yes","Yes — the 7-day age requirement is met","✅"],["No","No — the requirement is not met","⛔"]]);
+  if (["VWPC","VWCV"].indexOf(state.brand) >= 0 && state.status === "36-40" && state.demo !== "Yes" && !state.motabilityLetter)
+    add("motabilityLetter","Is the 36–40 proof a Motability letter?","The sheet says a Motability letter needs to be 7 days old. Other accepted evidence is an order form or cancellation letter.",
+      [["Yes","Yes — Motability letter","📅"],["No","No — order form or cancellation letter","📄"]]);
+  if (["VWPC","VWCV"].indexOf(state.brand) >= 0 && state.status === "36-40" && state.motabilityLetter === "Yes" && state.motabilityFresh !== "Yes")
+    add("motabilityFresh","Does the Motability letter meet the 7-day age requirement?","The sheet says it needs to be 7 days old. Check the actual date against the current procedure; do not guess if timing is unclear.",
+      [["Yes","Yes — the 7-day age requirement is met","✅"],["No","No — the requirement is not met","⛔"]]);
+  if (["36-40","40-70"].indexOf(state.status) >= 0 && !state.transport)
+    add("transport","Is there a transport order?","For 36–40 and 40–70, this answer determines the block instruction.",
+      [["Yes","Transport order exists","🚚"],["No","No transport order","🚫"]]);
+  if (["VWPC","VWCV","SKODA","AUDI"].indexOf(state.brand) >= 0 && !state.stockMatch)
+    add("stockMatch","Is there a stock match?","Stock-match validation differs by brand. Choose No if there is no stock-match vehicle.",
+      [["Yes","Yes — stock match exists","🔁"],["No","No stock match","➡️"]]);
+  if (state.stockMatch === "Yes") {
+    if (["VWPC","VWCV","SKODA"].indexOf(state.brand) >= 0 && !state.sameCustomer)
+      add("sameCustomer","Is the stock match for the same customer?","VWPC, VWCV and Škoda require the same customer. Trim or model may differ as stated in the sheet.",
+        [["Yes","Yes — same customer","✅"],["No","No — different customer","⛔"]]);
+    if (state.brand === "SKODA" && state.sameCustomer === "Yes" && !state.lowerStockStatus)
+      add("lowerStockStatus","Is the Škoda stock-match vehicle at a lower status?","If it is lower, obtain a customer letter confirming they accept the wait.",
+        [["Yes","Yes — lower status","⬇️"],["No","No — equal or higher status","➡️"]]);
+    if (state.brand === "SKODA" && state.lowerStockStatus === "Yes" && !state.customerWaitLetter)
+      add("customerWaitLetter","Do you have the customer's confirmation letter?","The letter must confirm that the customer accepts the wait for the lower-status stock-match vehicle.",
+        [["Yes","Yes — letter received","📄"],["No","No — letter not received","⛔"]]);
+    if (state.brand === "AUDI" && !state.audiStockStatus)
+      add("audiStockStatus","How does the Audi stock-match status compare?","The stock match must be at an equal or more advanced status code.",
+        [["Behind","Behind the original vehicle","⬇️"],["Equal","Equal status","➡️"],["Ahead","More advanced status","⬆️"]]);
+    if (state.brand === "AUDI" && state.audiStockStatus && state.audiStockStatus !== "Behind" && !state.audiSameModelGroup)
+      add("audiSameModelGroup","Does the Audi stock match meet the model-group rule?","The sheet says same model group and gives Q3 to Q4 as its example; verify the current official interpretation if uncertain.",
+        [["Yes","Yes — model-group requirement met","✅"],["No","No — model-group requirement not met","⛔"]]);
+  }
+  return q;
+}
+function vwgEscape(value) {
+  return String(value == null ? "" : value).replace(/[&<>"']/g,function(ch){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch];
+  });
+}
+function vwgChoice(value,title,desc,symbol) {
+  return '<button class="choice '+(state.selected===value?'selected':'')+'" data-value="'+vwgEscape(value)+'"><span class="symbol">'+symbol+'</span><span><strong>'+vwgEscape(title)+'</strong><small>'+vwgEscape(desc)+'</small></span></button>';
+}
+function vwgResultHTML() {
+  const result = vwgResolveCase(state);
+  const notes = result.notes && result.notes.length ? "<ul>"+result.notes.map(function(n){return "<li>"+vwgEscape(n)+"</li>";}).join("")+"</ul>" : "";
+  const evidence = result.evidence ? "<p><b>Evidence / proof</b><br>"+vwgEscape(result.evidence)+"</p>" : "";
+  const summary = state.brand+" → "+state.type+" → "+(state.status || "status not selected")+
+    (state.transport ? " → transport order: "+state.transport : "");
+  return '<span class="step-tag">'+(result.stop?"STOP — VERIFY":"CASE RESULT")+'</span><h2>'+
+    (result.stop?"Do not proceed until this is resolved":"Your recommended procedure")+
+    '</h2><div class="'+(result.stop?"warning":"result")+'"><h3>'+vwgEscape(result.action)+
+    '</h3>'+evidence+notes+'</div><p class="note">Case: '+vwgEscape(summary)+'.</p>';
+}
+function render() {
+  const qs = vwgQuestionList();
+  const result = state.step >= qs.length;
+  const progress = result ? 100 : Math.min(95,Math.round((state.step/Math.max(qs.length,1))*100));
+  let html = '<div class="progress-row"><span>'+(result?"CASE RESULT":"CASE SETUP")+
+    '</span><span>'+(result?"COMPLETE":"CHECK "+(state.step+1))+
+    '</span></div><div class="track"><span style="width:'+progress+'%"></span></div><div class="screen">';
+  if (result) html += vwgResultHTML();
+  else {
+    const q = qs[state.step];
+    html += '<span class="step-tag">DECISION CHECK</span><h2>'+vwgEscape(q.title)+'</h2><p class="sub">'+
+      vwgEscape(q.desc)+'</p><div class="choices">'+q.opts.map(function(x){
+        return vwgChoice(x[0],x[1],x[1],x[2]);
+      }).join("")+'</div>';
+  }
+  html += '</div><div class="actions">'+(navStack.length?'<button class="btn secondary" id="back">← Back</button>':'<span></span>')+
+    (result?'<button class="btn primary" id="again">↻ Play another case</button>':
+      '<button class="btn primary" id="next" '+(state.selected?"":"disabled")+'>Continue →</button>')+'</div>';
+  $("#game").innerHTML = html;
+  document.querySelectorAll("[data-value]").forEach(function(button){
+    button.addEventListener("click",function(){state.selected=button.dataset.value;render();});
+  });
+  $("#next") && $("#next").addEventListener("click",function(){
+    if (!state.selected) return;
+    const current = vwgQuestionList()[state.step];
+    if (!current) return;
+    navStack.push(JSON.parse(JSON.stringify(state)));
+    state[current.key] = state.selected;
+    state.selected = "";
+    state.step += 1;
+    render();
+  });
+  $("#back") && $("#back").addEventListener("click",function(){
+    const previous = navStack.pop();
+    if (previous) {Object.assign(state,previous);render();}
+  });
+  $("#again") && $("#again").addEventListener("click",function(){
+    navStack.length = 0;
+    Object.assign(state,{step:0,brand:"",type:"",status:"",transport:"",idBuzz:"",modelType:"",
+      demo:"",skodaType:"",orderType:"",stockMatch:"",sameCustomer:"",lowerStockStatus:"",
+      customerWaitLetter:"",audiStockStatus:"",audiSameModelGroup:"",motabilityLetter:"",
+      motabilityFresh:"",selected:"",history:[]});
+    render();
+  });
+}
+
 render();
 
