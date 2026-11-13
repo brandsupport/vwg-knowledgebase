@@ -46,7 +46,7 @@ const cases = [
     r => !r.stop && /Consignment/.test(r.action) && /Mandatory Block/.test(r.action) && /24 hours/.test(r.action) && r.notes.some(n => /re-tag/i.test(n))],
   ["VWPC 36-40 with TO does not add mandatory block",
     {brand:"VWPC",type:"Retailer",status:"36-40",demo:"No",transport:"Yes",stockMatch:"No"},
-    r => !r.stop && /do NOT add a mandatory block/.test(r.action)],
+    r => !r.stop && /Do NOT add a mandatory block/.test(r.action)],
   ["VWPC Motability letter failing 7-day age gate stops",
     {brand:"VWPC",type:"Retailer",status:"36-40",demo:"No",transport:"No",motabilityLetter:"Yes",motabilityFresh:"No",stockMatch:"No"},
     r => r.stop],
