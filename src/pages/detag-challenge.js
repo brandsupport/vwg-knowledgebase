@@ -242,13 +242,13 @@ function vwgQuestionList() {
   if (state.brand === "SKODA" && ["P-10","20-30","36-40"].indexOf(state.status) >= 0 && state.demo !== "Yes" && !state.skodaType)
     add("skodaType","Is this a Motability or normal Škoda de-tag?","The sheet says a Motability letter needs to be 7 days old for the specified Škoda cases.",
       [["Motability","Motability de-tag","📅"],["Normal","Normal de-tag","📄"]]);
-  if (state.brand === "SKODA" && state.skodaType === "Motability" && state.motabilityFresh !== "Yes")
+  if (state.brand === "SKODA" && state.skodaType === "Motability" && !state.motabilityFresh)
     add("motabilityFresh","Does the Motability letter meet the 7-day age requirement?","The sheet says the letter needs to be 7 days old. Check the actual date against the current procedure; do not guess if timing is unclear.",
       [["Yes","Yes — the 7-day age requirement is met","✅"],["No","No — the requirement is not met","⛔"]]);
   if (["VWPC","VWCV"].indexOf(state.brand) >= 0 && state.status === "36-40" && state.demo !== "Yes" && !state.motabilityLetter)
     add("motabilityLetter","Is the 36–40 proof a Motability letter?","The sheet says a Motability letter needs to be 7 days old. Other accepted evidence is an order form or cancellation letter.",
       [["Yes","Yes — Motability letter","📅"],["No","No — order form or cancellation letter","📄"]]);
-  if (["VWPC","VWCV"].indexOf(state.brand) >= 0 && state.status === "36-40" && state.motabilityLetter === "Yes" && state.motabilityFresh !== "Yes")
+  if (["VWPC","VWCV"].indexOf(state.brand) >= 0 && state.status === "36-40" && state.motabilityLetter === "Yes" && !state.motabilityFresh)
     add("motabilityFresh","Does the Motability letter meet the 7-day age requirement?","The sheet says it needs to be 7 days old. Check the actual date against the current procedure; do not guess if timing is unclear.",
       [["Yes","Yes — the 7-day age requirement is met","✅"],["No","No — the requirement is not met","⛔"]]);
   if (["36-40","40-70"].indexOf(state.status) >= 0 && !state.transport)
