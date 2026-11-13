@@ -313,10 +313,10 @@ function vwgClearDependentState(key) {
     "customerWaitLetter","audiStockStatus","audiSameModelGroup","audiCancelledEtronRS"]);
   else if (key === "demo") clear(["status","transport","modelType","orderType","skodaType","motabilityLetter",
     "motabilityFresh","stockMatch","sameCustomer","lowerStockStatus","customerWaitLetter",
-    "audiStockStatus","audiSameModelGroup"]);
+    "audiStockStatus","audiSameModelGroup","audiCancelledEtronRS"]);
   else if (key === "status") clear(["transport","modelType","orderType","skodaType","motabilityLetter",
     "motabilityFresh","stockMatch","sameCustomer","lowerStockStatus","customerWaitLetter",
-    "audiStockStatus","audiSameModelGroup"]);
+    "audiStockStatus","audiSameModelGroup","audiCancelledEtronRS"]);
   else if (key === "skodaType" || key === "motabilityLetter") clear(["motabilityFresh"]);
   else if (key === "stockMatch") clear(["sameCustomer","lowerStockStatus","customerWaitLetter","audiStockStatus","audiSameModelGroup"]);
   else if (key === "sameCustomer") clear(["lowerStockStatus","customerWaitLetter"]);
