@@ -1,0 +1,154 @@
+{
+  "eventId": "a72f7bfb-4a03-4f81-aeda-c37b97db9241",
+  "eventType": "FORM_RESPONSE",
+  "createdAt": "2026-11-13T12:14:46.566Z",
+  "data": {
+    "responseId": "2j6Wr7A",
+    "submissionId": "2j6Wr7A",
+    "respondentId": "7RGb8oA",
+    "locale": null,
+    "formId": "1AqROO",
+    "formName": "VWG Knowledgebase — Submit an Article",
+    "createdAt": "2026-11-13T12:14:46.000Z",
+    "submissionPdfUrl": "https://api.tally.so/forms/1AqROO/submissions/2j6Wr7A/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiIyajZXcjdBIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzk0NTcyMDg2fQ.lhVJLuQdGz6aBSNHsx1gI4Yt7-4g7wuMCNxWjtayWUU&signature=dc554cf5408ac9c65c8955ec631cf43dcb5667c24e5b8a1e0b4a229bf2def0f1",
+    "submissionPreviewUrl": "https://tally.so/forms/1AqROO/submissions/2j6Wr7A/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiIyajZXcjdBIiwiZm9ybUlkIjoiMUFxUk9PIiwiaWF0IjoxNzk0NTcyMDg2fQ.lhVJLuQdGz6aBSNHsx1gI4Yt7-4g7wuMCNxWjtayWUU&signature=dc554cf5408ac9c65c8955ec631cf43dcb5667c24e5b8a1e0b4a229bf2def0f1",
+    "fields": [
+      {
+        "key": "question_ZRApKo",
+        "label": "Title",
+        "type": "INPUT_TEXT",
+        "value": "Registration cannot be completed until the vehicle data has been updated by the brand to reflect the final build vehicle"
+      },
+      {
+        "key": "question_NBxeQl",
+        "label": "Category",
+        "type": "DROPDOWN",
+        "value": [
+          "0af2156f-8708-460f-9837-c30a5a7d689a"
+        ],
+        "options": [
+          {
+            "id": "23829ef2-f1c8-4c1c-95d0-3844fc27d883",
+            "text": "Transfers"
+          },
+          {
+            "id": "f432c805-4f14-453f-8233-ba0fe2813917",
+            "text": "Stock"
+          },
+          {
+            "id": "0448ad5a-9b5d-456a-8802-b75a6017c948",
+            "text": "Order Mods"
+          },
+          {
+            "id": "74022ed7-624e-4f35-b1c4-c9e01893173b",
+            "text": "Pricing"
+          },
+          {
+            "id": "62b9f95a-c593-4eac-ab3d-3a398d947843",
+            "text": "Demo Funding"
+          },
+          {
+            "id": "0af2156f-8708-460f-9837-c30a5a7d689a",
+            "text": "Registration"
+          },
+          {
+            "id": "ff661902-3e0b-4990-847e-a2bb42cf601a",
+            "text": "Delays"
+          },
+          {
+            "id": "0b55caee-b6be-48f1-b909-05915eb7b91e",
+            "text": "Adoption"
+          },
+          {
+            "id": "07af68bc-82b2-410f-b31f-754ff6e253c5",
+            "text": "Brand-Specific"
+          },
+          {
+            "id": "06fb4e46-f990-414a-bbb0-f59ca682e227",
+            "text": "Procedures"
+          },
+          {
+            "id": "fe6f3ab3-2da0-42c3-99e2-6f70eff7f34f",
+            "text": "Contacts"
+          },
+          {
+            "id": "e54fac90-be4c-4da9-879b-73bbb959b832",
+            "text": "Reference"
+          },
+          {
+            "id": "a1f2d951-c0d8-4370-afa2-e8906c15a410",
+            "text": "Call Notes"
+          },
+          {
+            "id": "00d9d10f-6b6c-4a0e-a66f-a3d39e37f826",
+            "text": "Tools & Links"
+          },
+          {
+            "id": "28c566e3-4c5f-45e4-981c-37c3038fd343",
+            "text": "Training"
+          }
+        ]
+      },
+      {
+        "key": "question_qEq2MG",
+        "label": "Tags",
+        "type": "INPUT_TEXT",
+        "value": "Rav error"
+      },
+      {
+        "key": "question_QBq6W7",
+        "label": "Body",
+        "type": "TEXTAREA",
+        "value": "Because CV has vehicles that can be converted, when they (vVWCV register commercial vehicles in RaV, it asks if the vehicles have been modified, and if they click yes, by mistake it blocks them with an error message: the vehicle has incomplete type approval data. I just unblock them\n\nSo when she went to register the vehicle, and it asked if the vehicle had been modified and she clicked yes, it changed availability to N and standard to awaiting update\n\n\nWe change availability to Yes and data status back to standard\n "
+      },
+      {
+        "key": "question_9JYzyQ",
+        "label": "Screenshots",
+        "type": "FILE_UPLOAD",
+        "value": [
+          {
+            "id": "4VDGDr",
+            "name": "5671e286-41da-451f-bf61-943b0ed60cb1.webp",
+            "url": "https://storage.tally.so/private/5671e286-41da-451f-bf61-943b0ed60cb1.webp?id=4VDGDr&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRWREdEciIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5NDU3MjA4Nn0.7o_D2eSrwn1evNSSyq0jTKb5RvENvygc8WW3GnJBGi8&signature=6203d0b292da02307b436036855fe984fc1479e21b2d525019bebdce69ec38d2",
+            "mimeType": "image/webp",
+            "size": 22768
+          },
+          {
+            "id": "BWV9Ve",
+            "name": "20dae2f2-ceb5-4979-b1e0-83bd14e9e767.webp",
+            "url": "https://storage.tally.so/private/20dae2f2-ceb5-4979-b1e0-83bd14e9e767.webp?id=BWV9Ve&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkJXVjlWZSIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5NDU3MjA4Nn0.y2chyF9JX-PaX6Vk9_ARQ4yAH3vGvTPxn6cDgAFBB2s&signature=ee646ac044f0f7d8079468d8dfc1f3ed5eaa58e55a7db6f70651a017f49089f2",
+            "mimeType": "image/webp",
+            "size": 30262
+          },
+          {
+            "id": "eWjo8x",
+            "name": "d62211d6-a685-4c11-8e00-6a16514d7147.webp",
+            "url": "https://storage.tally.so/private/d62211d6-a685-4c11-8e00-6a16514d7147.webp?id=eWjo8x&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVXam84eCIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5NDU3MjA4Nn0.yYalGp_UNnsou65dJMgRidfsCNkDh-cK3NVDG3zSMVI&signature=56d4c1163ab0ab7f0314f25e78d420e1586b9282433c0b36e1e37c5dcfb16fce",
+            "mimeType": "image/webp",
+            "size": 22300
+          },
+          {
+            "id": "aqPlpb",
+            "name": "f6d56fa9-6d08-4a99-9bf8-3429807f90de.webp",
+            "url": "https://storage.tally.so/private/f6d56fa9-6d08-4a99-9bf8-3429807f90de.webp?id=aqPlpb&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFxUGxwYiIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5NDU3MjA4Nn0.TvyOh36KMx0tF7S8mWOxgAWwHrK7p9_mznViuTlZ6Ww&signature=5aa26c24c292ff1a657009eeca7630ae56030943022ed1387d906271d12990ac",
+            "mimeType": "image/webp",
+            "size": 2292
+          },
+          {
+            "id": "BWV9WK",
+            "name": "ce03c651-3c8b-4afa-bcc1-e8aa25525c58.webp",
+            "url": "https://storage.tally.so/private/ce03c651-3c8b-4afa-bcc1-e8aa25525c58.webp?id=BWV9WK&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkJXVjlXSyIsImZvcm1JZCI6IjFBcVJPTyIsImlhdCI6MTc5NDU3MjA4Nn0.PMcCwhGpOhPr-onZT817a17u5nwB_RV6StVRmL56UqQ&signature=6395735b48c03ddab3733693b4d6a367465454d77bc5ac0408d0aa22d82d36ba",
+            "mimeType": "image/webp",
+            "size": 6904
+          }
+        ]
+      },
+      {
+        "key": "question_7JD7lL",
+        "label": "Source link / UK team support name",
+        "type": "INPUT_TEXT",
+        "value": "Vickers, Jaqueline"
+      }
+    ]
+  }
+}
