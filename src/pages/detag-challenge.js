@@ -237,8 +237,6 @@ function vwgQuestionList() {
   }
 
   add("demo","Is this a demo vehicle?","The sheet explicitly gives a no-proof demo exemption for VWPC, VWCV, Škoda and SEAT/CUPRA. Audi's row does not state the same exemption.",yesNo);
-  if (!state.demo) return q;
-
   add("status","What status range applies?","Choose the band shown in the Retailer matrix.",
     statusOptions().map(function(x){return [x[0],x[1],"🔹"];}));
   if (!state.status) return q;
@@ -296,7 +294,6 @@ function vwgQuestionList() {
   }
   return q;
 }
-
 function vwgClearDependentState(key) {
   const clear = function(keys) { keys.forEach(function(k){ state[k] = ""; }); };
   const allCase = ["idBuzz","type","demo","status","transport","modelType","orderType","skodaType",
