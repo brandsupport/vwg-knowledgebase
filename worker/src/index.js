@@ -11,7 +11,7 @@ function normalizeOrigin(value) {
   try {
     return new URL(String(value || "")).origin;
   } catch {
-    return String(value || "").replace(/\\/+$/, "");
+    return String(value || "").replace(/\/+$/, "");
   }
 }
 function corsHeaders(origin, allowedOrigin) {
