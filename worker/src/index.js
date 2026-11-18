@@ -7,6 +7,13 @@ const MAX_CONTEXT_CHARS = 12000;
 const MAX_MATCHES = 4;
 const MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
 
+function normalizeOrigin(value) {
+  try {
+    return new URL(String(value || "")).origin;
+  } catch {
+    return String(value || "").replace(/\\/+$/, "");
+  }
+}
 function corsHeaders(origin, allowedOrigin) {
   return {
     "Access-Control-Allow-Origin": origin === allowedOrigin ? origin : "null",
@@ -65,12 +72,13 @@ function retrieve(articles, question) {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    const headers = corsHeaders(origin, env.ALLOWED_ORIGIN || "");
+    const allowedOrigin = normalizeOrigin(env.ALLOWED_ORIGIN || "");
+    const headers = corsHeaders(origin, allowedOrigin);
     if (request.method === "OPTIONS") {
-      if (origin !== env.ALLOWED_ORIGIN) return new Response(null, { status: 403, headers });
+      if (origin !== allowedOrigin) return new Response(null, { status: 403, headers });
       return new Response(null, { status: 204, headers });
     }
-    if (origin !== env.ALLOWED_ORIGIN) return json({ error: "Origin not allowed" }, 403, headers);
+    if (origin !== allowedOrigin) return json({ error: "Origin not allowed" }, 403, headers);
     if (request.method !== "POST") return json({ error: "Method not allowed" }, 405, headers);
     if (!env.AI || !env.KB_INDEX_URL) return json({ error: "Chat service is not configured" }, 503, headers);
 
