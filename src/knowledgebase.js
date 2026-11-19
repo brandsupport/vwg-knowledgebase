@@ -280,7 +280,11 @@ function renderArticle(articleId){
         <div class="article-detail">
           <div class="cat-label">${cat.icon} ${escapeHtml(cat.title).toUpperCase()} &middot; ${articleLabel(a)}</div>
           <h1>${escapeHtml(a.title)}</h1>
-          <div class="article-detail-actions">${favoriteButtonHtml(a)}<button type="button" class="article-edit-button" onclick="navigate('submit',{articleId:${a.id}})">✎ Suggest an update</button>${accountState.user&&accountState.user.role==='admin'?'<button type="button" class="article-edit-button" onclick="adminDeleteArticle('+Number(a.id)+')">Move to recycle bin</button>':''}</div>
+          <div class="article-detail-actions">
+            <div class="article-save-action">${favoriteButtonHtml(a)}</div>
+            <div class="article-detail-action-spacer"></div>
+            ${accountState.user&&accountState.user.role==='admin'?'<div class="article-admin-actions"><span class="article-admin-label">ADMIN TOOLS</span><button type="button" class="article-action-button article-action-edit" onclick="navigate(\'submit\',{articleId:'+Number(a.id)+'})"><span aria-hidden="true">✎</span> Edit article</button><button type="button" class="article-action-button article-action-remove" onclick="adminDeleteArticle('+Number(a.id)+')"><span aria-hidden="true">⌫</span> Move to recycle bin</button></div>':'<button type="button" class="article-action-button article-action-edit" onclick="navigate(\'submit\',{articleId:'+Number(a.id)+'})">Suggest an update</button>'}
+          </div>
           <div class="article-body">${a.html}</div>
           ${a.images.map(src => `<img src="${src}" loading="lazy" alt="Reference screenshot for ${escapeHtml(a.title)}">`).join('')}
           <div class="detail-tags">${a.tags.map(t=>renderTagChip(t,false,false)).join('')}</div>
@@ -373,9 +377,10 @@ function renderArticleRequest(articleId){
     <div class="page search-page">
       <div class="article-form-shell">
         <a class="back-link" onclick="${cancelAction}">&larr; ${editing?'Back to article':'Back to Knowledge Base'}</a>
-        <div class="section-label">${editing?'Article revision request':'Knowledge contribution'}</div>
-        <h1>${editing?'Suggest an article update':'Submit an article'}</h1>
-        <p class="article-form-intro">${editing?'Your suggested changes will be reviewed by an administrator. The published article will remain unchanged until approval.':'Share a useful process, announcement or Hub guide. Your submission will be reviewed before it appears in the Knowledge Base.'}</p>
+        <div class="article-form-kicker">${editing?'ARTICLE UPDATE':'KNOWLEDGE CONTRIBUTION'}</div>
+        <h1>${editing?'Edit article':'Share your knowledge'}</h1>
+        <p class="article-form-intro">${editing?'Suggest a clearer or more up-to-date version. Your changes will be reviewed before replacing the published article.':'Add something useful to the team’s knowledge. Your contribution will be reviewed by an administrator before it is published.'}</p>
+        <div class="article-form-review-note"><span class="review-note-dot"></span>${editing?'Your changes stay pending until an administrator approves them.':'Every contribution is reviewed before it appears in the Knowledge Base.'}</div>
         <form id="articleRequestForm" class="article-request-form">
           <label for="requestTitle">Article title</label>
           <input class="kb-form-control" id="requestTitle" maxlength="180" required value="${editing?escapeHtml(article.title):''}" placeholder="Enter a clear article title">
@@ -385,9 +390,22 @@ function renderArticleRequest(articleId){
           <input class="kb-form-control" id="requestTags" maxlength="500" value="${editing?escapeHtml((article.tags||[]).join(', ')):''}" placeholder="e.g. SLI, Audi, Transport">
           <label for="requestBody">Article content</label>
           <textarea class="kb-form-control kb-form-textarea" id="requestBody" required minlength="10" maxlength="30000" placeholder="Write the article here. Use ## for headings, - for bullet points and 1. for numbered steps.">${editing?escapeHtml(htmlToEditorText(article.html)):''}</textarea>
-          <label for="requestImages">Screenshot / image links (one HTTPS link per line)</label>
-          <textarea class="kb-form-control" id="requestImages" rows="3" placeholder="https://...">${escapeHtml(images)}</textarea>
-          <div class="form-helper">${editing?'Leave this blank to preserve existing article images.':'Use secure HTTPS image links. Existing Tally uploads are also supported.'}</div>
+          <label for="requestImageFiles">Screenshots and images</label>
+          <div class="image-upload-field">
+            <input class="image-file-input" id="requestImageFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+            <label class="image-upload-dropzone" id="imageUploadDropzone" for="requestImageFiles">
+              <span class="image-upload-icon" aria-hidden="true">↑</span>
+              <span class="image-upload-copy"><strong>Choose images to upload</strong><small>or drag and drop them here · PNG, JPG or WEBP · up to 8 images</small></span>
+              <span class="image-upload-browse">Browse files</span>
+            </label>
+            <div id="imageUploadStatus" class="image-upload-status" aria-live="polite">No new images selected.</div>
+            <div id="imagePreviewGrid" class="image-preview-grid"></div>
+          </div>
+          <details class="image-links-fallback">
+            <summary>Or add images using secure HTTPS links</summary>
+            <textarea class="kb-form-control" id="requestImageLinks" rows="2" placeholder="Paste one HTTPS image link per line"></textarea>
+          </details>
+          <div class="form-helper">${editing?'Your existing article images are shown above. Remove any image you no longer need.':'Images are automatically resized and optimised before submission.'}</div>
           <label for="requestSource">Source / reference link (optional)</label>
           <input class="kb-form-control" id="requestSource" type="url" value="${escapeHtml(source)}" placeholder="https://...">
           <div class="article-form-actions">
@@ -398,10 +416,80 @@ function renderArticleRequest(articleId){
         </form>
       </div>
     </div>`;
+  const imageState=(editing&&Array.isArray(article.images)?article.images:[])
+    .filter(src=>typeof src==='string'&&(src.startsWith('https://')||/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(src)||/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9._/-]+$/.test(src)))
+    .map((src,index)=>({src,name:'Existing image '+(index+1)}));
+  const imageInput=document.getElementById('requestImageFiles');
+  const imageDropzone=document.getElementById('imageUploadDropzone');
+  const imageGrid=document.getElementById('imagePreviewGrid');
+  const imageStatus=document.getElementById('imageUploadStatus');
+  const imageLinks=document.getElementById('requestImageLinks');
+  const MAX_IMAGES=8,MAX_IMAGE_TOTAL=900000;
+  function renderImagePreviews(){
+    imageGrid.replaceChildren();
+    imageState.forEach((item,index)=>{
+      const card=document.createElement('div');card.className='image-preview-card';
+      const img=document.createElement('img');img.src=item.src;img.alt=item.name||'Article image';
+      const footer=document.createElement('div');footer.className='image-preview-footer';
+      const name=document.createElement('span');name.className='image-preview-name';name.textContent=item.name||'Article image';
+      const remove=document.createElement('button');remove.type='button';remove.className='image-remove-button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+name.textContent);
+      remove.addEventListener('click',()=>{imageState.splice(index,1);renderImagePreviews();});
+      footer.append(name,remove);card.append(img,footer);imageGrid.append(card);
+    });
+    const newCount=imageState.filter(item=>item.src.startsWith('data:image/')).length;
+    imageStatus.textContent=imageState.length
+      ?imageState.length+' image'+(imageState.length===1?'':'s')+' attached · '+newCount+' uploaded'
+      :'No images selected yet.';
+  }
+  async function optimiseImage(file){
+    if(!/^image\/(png|jpeg|webp)$/.test(file.type))throw new Error(file.name+': use a PNG, JPG or WEBP image.');
+    if(file.size>8*1024*1024)throw new Error(file.name+': the original file must be smaller than 8 MB.');
+    if(typeof createImageBitmap!=='function')throw new Error('Image uploads are not supported by this browser. Please use an HTTPS image link instead.');
+    const bitmap=await createImageBitmap(file);
+    let width=bitmap.width,height=bitmap.height;
+    const scale=Math.min(1,1500/Math.max(width,height));
+    width=Math.max(1,Math.round(width*scale));height=Math.max(1,Math.round(height*scale));
+    const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+    const context=canvas.getContext('2d');if(!context){bitmap.close();throw new Error('Your browser could not prepare this image.');}
+    context.drawImage(bitmap,0,0,width,height);bitmap.close();
+    let mime='image/webp',quality=.82,result=canvas.toDataURL(mime,quality);
+    if(!result.startsWith('data:image/webp,')){mime='image/jpeg';result=canvas.toDataURL(mime,quality);}
+    while(result.length>380000){
+      if(quality>.55){quality-=.08;}
+      else{const resized=document.createElement('canvas');const factor=.82;width=Math.max(1,Math.round(width*factor));height=Math.max(1,Math.round(height*factor));resized.width=width;resized.height=height;const ctx=resized.getContext('2d');if(!ctx)break;ctx.drawImage(canvas,0,0,width,height);canvas.width=width;canvas.height=height;canvas.getContext('2d').drawImage(resized,0,0);quality=.68;}
+      result=canvas.toDataURL(mime,quality);
+      if(width<=500&&height<=500&&result.length>380000)break;
+    }
+    if(result.length>380000)throw new Error(file.name+': still too large after optimisation. Please choose a smaller screenshot.');
+    return result;
+  }
+  async function addImageFiles(files){
+    const available=MAX_IMAGES-imageState.length;
+    if(available<=0){imageStatus.textContent='Maximum of 8 images reached.';return;}
+    const chosen=Array.from(files).slice(0,available);
+    for(const file of chosen){
+      imageStatus.textContent='Optimising '+file.name+'…';
+      try{
+        const src=await optimiseImage(file);
+        const used=imageState.reduce((sum,item)=>sum+(item.src.startsWith('data:image/')?item.src.length:0),0);
+        if(used+src.length>MAX_IMAGE_TOTAL)throw new Error('Combined uploaded images are too large. Remove an image or choose smaller screenshots.');
+        imageState.push({src,name:file.name});
+        renderImagePreviews();
+      }catch(error){imageStatus.textContent=error.message||'Could not add this image.';}
+    }
+    if(imageState.length)imageStatus.textContent=imageState.length+' image'+(imageState.length===1?'':'s')+' ready.';
+  }
+  imageInput.addEventListener('change',async()=>{const files=Array.from(imageInput.files||[]);imageInput.value='';await addImageFiles(files);});
+  ['dragenter','dragover'].forEach(type=>imageDropzone.addEventListener(type,event=>{event.preventDefault();imageDropzone.classList.add('is-dragging');}));
+  ['dragleave','drop'].forEach(type=>imageDropzone.addEventListener(type,event=>{event.preventDefault();imageDropzone.classList.remove('is-dragging');}));
+  imageDropzone.addEventListener('drop',event=>{event.preventDefault();addImageFiles(event.dataTransfer?.files||[]);});
+  renderImagePreviews();
+
   document.getElementById('articleRequestForm').addEventListener('submit',async event=>{
     event.preventDefault();
     const submit=document.getElementById('requestSubmit'),message=document.getElementById('requestMessage');
-    const imageText=document.getElementById('requestImages').value.trim();
+    const imageText=imageLinks.value.trim();
+    const linkedImages=imageText?imageText.split(String.fromCharCode(10)).map(x=>x.trim()).filter(Boolean):[];
     const payload={
       requestType:editing?'edit':'new',
       articleId:editing?String(article.id):undefined,
@@ -409,10 +497,12 @@ function renderArticleRequest(articleId){
       categoryId:Number(document.getElementById('requestCategory').value),
       tags:document.getElementById('requestTags').value,
       body:document.getElementById('requestBody').value,
-      images:imageText?imageText.split(String.fromCharCode(10)).map(x=>x.trim()).filter(Boolean):[],
+      images:[...imageState.map(item=>item.src),...linkedImages],
       sourceUrl:document.getElementById('requestSource').value,
       originalArticle:editing?{id:article.id,title:article.title,cat:article.cat,tags:article.tags,html:article.html,source_url:article.source_url}:undefined
     };
+    if(imageState.length+linkedImages.length>MAX_IMAGES){message.textContent='You can attach up to 8 images in total.';return;}
+    if(imageState.reduce((sum,item)=>sum+(item.src.startsWith('data:image/')?item.src.length:0),0)>MAX_IMAGE_TOTAL){message.textContent='The uploaded images exceed the combined size limit.';return;}
     submit.disabled=true;message.textContent='Sending your request for review…';
     try{
       const response=await fetch('/api/content',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
