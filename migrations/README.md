@@ -3,7 +3,8 @@
 Apply 0001_auth.sql once to the production D1 database before enabling authentication. Apply 0002_article_favorites.sql after 0001 to enable per-user saved articles.
 
 1. Cloudflare → Workers & Pages → D1 SQL database → Create database named vwg-kb-auth.
-2. Open the database Console / SQL editor and run the complete contents of 0001_auth.sql.\n3. Run the complete contents of 0002_article_favorites.sql in the same database to create the saved-articles table.
+2. Open the database Console / SQL editor and run the complete contents of 0001_auth.sql.
+3. Run the complete contents of 0002_article_favorites.sql in the same database to create the saved-articles table.
 4. Cloudflare → Workers & Pages → Pages → vwg-brandsupport-kb → Settings → Bindings.
 5. Add a D1 database binding with variable name DB and select vwg-kb-auth.
 6. Add production environment variable BOOTSTRAP_ADMIN_EMAIL with your work email.
