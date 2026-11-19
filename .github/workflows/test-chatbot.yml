@@ -10,6 +10,7 @@ on:
       - "src/**"
       - "tests/**"
       - "worker/**"
+      - "cloudflare/**"
       - "functions/**"
       - "auth-ui/**"
       - "migrations/**"
@@ -71,7 +72,9 @@ jobs:
           node --input-type=module --check < knowledge-rush-prototype/knowledge-rush.js
           node --input-type=module --check < knowledge-rush-prototype/three-BnZyOd0w.js
       - name: Check Worker JavaScript syntax
-        run: node --input-type=module --check < worker/src/index.js
+        run: |
+          node --input-type=module --check < worker/src/index.js
+          node --input-type=module --check < cloudflare/tally-bridge/worker.js
       - name: Check Pages Functions JavaScript syntax
         run: |
           for file in $(find functions -name "*.js"); do
