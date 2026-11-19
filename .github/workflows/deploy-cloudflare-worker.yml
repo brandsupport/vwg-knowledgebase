@@ -1,3 +1,4 @@
+# Production deployment for the existing VWG chatbot Worker.
 name: Deploy AI Worker to Cloudflare
 
 on:
