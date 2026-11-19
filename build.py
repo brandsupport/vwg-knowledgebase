@@ -287,7 +287,7 @@ def main():
 
     # Copy authentication screens into the Pages build output.
     auth_pages_dir = os.path.join(ROOT, "auth-ui")
-    for auth_page in ("login.html", "signup.html", "account.html", "admin.html", "change-password.html"):
+    for auth_page in ("login.html", "signup.html", "forgot-password.html", "account.html", "admin.html", "change-password.html"):
         auth_source = os.path.join(auth_pages_dir, auth_page)
         if not os.path.isfile(auth_source):
             raise SystemExit(f"Missing authentication page: {auth_source}")
