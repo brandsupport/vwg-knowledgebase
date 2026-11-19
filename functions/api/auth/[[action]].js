@@ -38,17 +38,18 @@ if(!isSameOrigin(request))return jsonResponse({error:"Invalid request origin."},
 let body;try{body=await readJson(request,2048);}catch{return jsonResponse({error:"Enter the email address used for your account."},400);}
 const email=normalizeEmail(body.email);
 if(validEmail(email)){
-  const user=await env.DB.prepare("SELECT id,name,email,status FROM users WHERE email=? COLLATE NOCASE LIMIT 1").bind(email).first();
-  if(user&&user.status==="active"){
-    const existing=await env.DB.prepare("SELECT id FROM password_reset_requests WHERE user_id=? AND status='pending'").bind(user.id).first();
-    if(!existing){
-      const id=crypto.randomUUID(),now=Date.now();
-      try{
+  try{
+    const user=await env.DB.prepare("SELECT id,name,email,status FROM users WHERE email=? COLLATE NOCASE LIMIT 1").bind(email).first();
+    if(user&&user.status==="active"){
+      const now=Date.now();
+      const recent=await env.DB.prepare("SELECT id FROM password_reset_requests WHERE user_id=? AND (status='pending' OR created_at>?) LIMIT 1").bind(user.id,now-900000).first();
+      if(!recent){
+        const id=crypto.randomUUID();
         await env.DB.prepare("INSERT INTO password_reset_requests(id,user_id,created_at,status) VALUES(?,?,?,'pending')").bind(id,user.id,now).run();
         try{await notifyAdmins(env.DB,{type:"password-reset",title:"Password recovery requested",message:user.name+" ("+user.email+") needs help signing in.",targetUrl:"/admin#password-requests",createdAt:now});}catch(e){}
-      }catch(e){}
+      }
     }
-  }
+  }catch(e){return jsonResponse({error:"Password recovery is not ready. An administrator must apply database migration 0006 first."},503);}
 }
 return jsonResponse({ok:true,message:"If an active account matches that email address, an administrator has been notified. They will arrange a secure password reset."});
 }
@@ -62,7 +63,7 @@ let body;try{body=await readJson(request,2048);}catch{return jsonResponse({error
 const allowed=new Set(["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"]);
 const avatar=String(body.avatar||"");
 if(!allowed.has(avatar))return jsonResponse({error:"Choose one of the available avatars."},400);
-await env.DB.prepare("INSERT INTO user_avatar_preferences(user_id,avatar,updated_at) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET avatar=excluded.avatar,updated_at=excluded.updated_at").bind(current.id,avatar,Date.now()).run();
+try{await env.DB.prepare("INSERT INTO user_avatar_preferences(user_id,avatar,updated_at) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET avatar=excluded.avatar,updated_at=excluded.updated_at").bind(current.id,avatar,Date.now()).run();}catch{return jsonResponse({error:"Expanded avatars are not ready. An administrator must apply database migration 0006 first."},503);}
 const updated=await env.DB.prepare("SELECT u.id,u.name,u.email,u.role,u.status,u.must_change_password,COALESCE(ap.avatar,u.avatar) AS avatar FROM users u LEFT JOIN user_avatar_preferences ap ON ap.user_id=u.id WHERE u.id=?").bind(current.id).first();
 return jsonResponse({ok:true,user:publicUser(updated)});
 }
