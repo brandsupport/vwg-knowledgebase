@@ -54,12 +54,32 @@ function normalizeArticle(body,{edit=false}={}){
   const images=imagesProvided?body.images.map(cleanArticleImage):undefined;
   if(imagesProvided&&images.some(image=>!image))throw new Error("Images must be secure HTTPS links, supported Knowledge Base image paths or valid PNG/JPG/WEBP uploads.");
   if(imagesProvided&&images.reduce((total,image)=>total+(image.startsWith("data:image/")?image.length:0),0)>900000)throw new Error("The combined uploaded images are too large. Reduce the image size and try again.");
+  const attachmentsProvided=Array.isArray(body.attachments);
+  if(attachmentsProvided&&body.attachments.length>4)throw new Error("You can attach up to 4 supporting files.");
+  const allowedAttachments={pdf:"application/pdf",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",pptx:"application/vnd.openxmlformats-officedocument.presentationml.presentation",txt:"text/plain",csv:"text/csv"};
+  const attachments=attachmentsProvided?body.attachments.map(item=>{
+    if(!item||typeof item!=="object")throw new Error("A supporting file is invalid.");
+    const name=String(item.name||"").replace(/[\\/:*?"<>|\\u0000-\\u001F]/g,"_").trim().slice(0,120);
+    const ext=(name.split(".").pop()||"").toLowerCase(),mime=allowedAttachments[ext],data=String(item.data||"");
+    if(!name||!mime||item.type!==mime||!data.startsWith("data:"+mime+";base64,"))throw new Error("Supporting files must be PDF, DOCX, XLSX, PPTX, TXT or CSV.");
+    const match=data.match(/^data:([^;]+);base64,([A-Za-z0-9+/]+={0,2})$/);
+    if(!match)throw new Error("A supporting file could not be verified.");
+    let raw;try{raw=atob(match[2]);}catch{throw new Error("A supporting file is not valid base64 data.");}
+    if(!raw.length||raw.length>200*1024)throw new Error("Each supporting file must be 200 KB or smaller.");
+    if(ext==="pdf"&&!raw.startsWith("%PDF-"))throw new Error("A PDF attachment has an invalid file signature.");
+    if(["docx","xlsx","pptx"].includes(ext)&&!(raw.charCodeAt(0)===0x50&&raw.charCodeAt(1)===0x4b))throw new Error("An Office document has an invalid file signature.");
+    if(["txt","csv"].includes(ext)&&raw.includes("\u0000"))throw new Error("Text attachments cannot contain binary data.");
+    return {name,type:mime,size:raw.length,data};
+  }):undefined;
+  if(attachmentsProvided&&attachments.reduce((total,item)=>total+item.data.length,0)>500000)throw new Error("Supporting files exceed the combined upload limit.");
   const sourceReference=String(body.sourceReference??body.source_reference??body.sourceUrl??body.source_url??"").replace(/[\u0000-\u001F\u007F]/g," ").replace(/\s+/g," ").trim().slice(0,500);
   const html=bodyToHtml(content);
   const plain=content.replace(/\s+/g," ").trim();
   const article={title,cat:categoryId,tags,html,source:"kb",source_url:"",source_reference:sourceReference,search_text:(title+" "+plain+" "+tags.join(" ")+" "+sourceReference).toLowerCase()};
   if(images!==undefined)article.images=images;
   if(!edit&&images===undefined)article.images=[];
+  if(attachments!==undefined)article.attachments=attachments;
+  if(!edit&&attachments===undefined)article.attachments=[];
   return article;
 }
 function safeJson(value){try{return JSON.parse(value);}catch{return null;}}
