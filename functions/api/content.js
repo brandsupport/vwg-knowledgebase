@@ -1,5 +1,6 @@
 import{getSessionUser,isSameOrigin,jsonResponse,readJson}from"../_lib/auth.js";
 import{normalizeArticle,safeJson}from"../_lib/content.js";
+import{notifyAdmins}from"../_lib/notifications.js";
 
 export async function onRequest(ctx){
   const{request,env}=ctx;
@@ -41,5 +42,6 @@ export async function onRequest(ctx){
   }:null;
   await env.DB.prepare("INSERT INTO content_requests(id,request_type,article_id,submitted_by,submitter_name,submitter_email,payload_json,original_json,status,created_at) VALUES(?,?,?,?,?,?,?,?, 'pending',?)")
     .bind(id,type,articleId||null,user.id,user.name,user.email,JSON.stringify(article),original?JSON.stringify(original):null,now).run();
+  try{await notifyAdmins(env.DB,{type:type==="edit"?"article-revision":"article-submission",title:type==="edit"?"Article update awaiting review":"New article awaiting review",message:user.name+" submitted “"+article.title+"” for administrator review.",targetUrl:type==="edit"?"/admin#revisions":"/admin#submissions",createdAt:now});}catch(e){}
   return jsonResponse({ok:true,status:"pending",requestId:id,requestType:type},202);
 }
