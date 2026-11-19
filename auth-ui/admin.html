@@ -467,6 +467,7 @@ async function refreshAll(){
 document.getElementById('refreshAll').addEventListener('click',refreshAll);
 loadAdminIdentity();
 refreshAll();
+setInterval(()=>{loadAdminNotifications().catch(()=>{});loadPasswordRequests().catch(()=>{});},60000);
 
 </script>
 </body>
