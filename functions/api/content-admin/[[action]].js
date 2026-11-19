@@ -38,7 +38,7 @@ export async function onRequest(ctx){
     }
     if(action==="history"){
       const articleId=String(new URL(request.url).searchParams.get("articleId")||"");
-      if(!/^\\d{1,16}$/.test(articleId))return jsonResponse({error:"A valid article identifier is required."},400);
+      if(!/^\d{1,16}$/.test(articleId))return jsonResponse({error:"A valid article identifier is required."},400);
       const rows=await env.DB.prepare("SELECT id,original_json,updated_json,submitted_by,approved_by,approved_at FROM article_revision_history WHERE article_id=? ORDER BY approved_at DESC").bind(articleId).all();
       return jsonResponse({revisions:(rows.results||[]).map(row=>({id:row.id,original:safeJson(row.original_json),updated:safeJson(row.updated_json),submittedBy:row.submitted_by,approvedBy:row.approved_by,approvedAt:row.approved_at}))});
     }
