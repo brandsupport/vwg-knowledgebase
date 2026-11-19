@@ -262,7 +262,7 @@ function previewFor(request){
   const wrap=el('details','review-preview'),summary=el('summary','', 'Preview article');
   const body=el('div','preview-body');
   body.innerHTML=request.payload.html||'<p>No article body supplied.</p>';
-  if(Array.isArray(request.payload.images))request.payload.images.forEach(url=>{if(typeof url==='string'&&url.startsWith('https://')){const img=el('img');img.src=url;img.alt='Submitted article image';img.loading='lazy';body.append(img);}});
+  if(Array.isArray(request.payload.images))request.payload.images.forEach(url=>{if(typeof url==='string'&&(url.startsWith('https://')||/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(url)||/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9_-][A-Za-z0-9._/-]*$/.test(url))&&!url.includes('..')){const img=el('img');img.src=url;img.alt='Submitted article image';img.loading='lazy';body.append(img);}});
   wrap.append(summary,body);
   if(request.original){
     const old=el('details','review-preview'),oldSummary=el('summary','','Original published version');
