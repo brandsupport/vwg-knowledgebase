@@ -89,6 +89,18 @@
       "title": "Training & Product Knowledge",
       "short": "Training",
       "icon": "🎓"
+    },
+    {
+      "id": 16,
+      "title": "Announcements",
+      "short": "Announcements",
+      "icon": "📣"
+    },
+    {
+      "id": 17,
+      "title": "Hub Articles",
+      "short": "Hub Articles",
+      "icon": "📚"
     }
   ],
   "articles": [
