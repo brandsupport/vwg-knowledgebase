@@ -428,7 +428,8 @@ function renderArticleRequest(articleId){
               <div class="form-helper">${editing?'Your existing article images are shown above. Remove any image you no longer need.':'Images are automatically resized and optimised before submission.'}</div>
               <div class="article-form-field source-field">
                 <label for="requestSource">Source / reference <span class="form-optional">Optional</span></label>
-                <input class="kb-form-control" id="requestSource" type="text" inputmode="text" maxlength="500" value="${escapeHtml(source)}" placeholder="e.g. VW bulletin, internal procedure, email reference">
+                <input class="kb-form-control" id="requestSource" type="text" inputmode="text" maxlength="500" value="${escapeHtml(source)}" placeholder="e.g. VW bulletin 12345, internal procedure">
+                <div class="form-helper">Enter a short text reference, not a web link.</div>
               </div>
             </div>
           </section>
