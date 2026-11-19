@@ -162,7 +162,6 @@ async function loadContentPanels(){
     const card=el('article','published-card'),head=el('div','published-head'),left=el('div'),title=el('h3','',item.article.title||'Untitled article'),meta=el('div','meta',(categoryNames[item.article.cat]||'Knowledge Base')+' · '+item.label+' · '+new Date(item.when).toLocaleString()),link=el('a','','Open article ↗');
     link.href='/#/article/'+encodeURIComponent(item.id);left.append(title,meta);head.append(left,link);card.append(head);published.append(card);
   });
-}
 
   const recycleList=document.getElementById('recycleBin');recycleList.replaceChildren();
   document.getElementById('recycleCount').textContent=recycle.items?.length?'('+recycle.items.length+')':'';
