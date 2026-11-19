@@ -9,7 +9,7 @@
 .brand{font-size:12px;letter-spacing:.18em;color:#82d6ff;font-weight:800}h1{margin:20px 0 8px}.muted{color:#aab7ca}
 .row{padding:13px 0;border-bottom:1px solid #ffffff16}.label{display:block;color:#8193aa;font-size:12px;margin-bottom:4px}
 .avatar-top{display:flex;align-items:center;gap:15px;margin:20px 0 12px}.avatar-current{width:64px;height:64px;display:grid;place-items:center;border-radius:50%;font-size:38px;background:linear-gradient(145deg,#16364b,#34244c);border:1px solid #ffffff28}
-.avatar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;margin:14px 0}
+.avatar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(48px,1fr));gap:9px;margin:14px 0;max-height:380px;overflow:auto;padding:4px}
 .avatar-choice{aspect-ratio:1;border:1px solid #34445d;border-radius:14px;background:#0b1525;color:#fff;font-size:26px;cursor:pointer;transition:.18s ease}
 .avatar-choice:hover{border-color:#35b9ef;box-shadow:0 0 15px #35b9ef35;transform:translateY(-1px)}
 .avatar-choice.selected{border-color:#76e0ce;background:linear-gradient(145deg,#16455a,#3a2854);box-shadow:0 0 0 2px #35b9ef55,0 0 19px #35b9ef28}
@@ -17,7 +17,7 @@
 .button{display:inline-block;padding:12px 15px;border-radius:10px;background:linear-gradient(115deg,#35b9ef,#76e0ce);color:#071321;font-weight:750;text-decoration:none;border:0;cursor:pointer;font-size:14px}
 .secondary{background:#263750;color:#eef6ff}.button:disabled{opacity:.55;cursor:wait}
 .message{min-height:22px;margin-top:12px;color:#9fe6d8;font-size:13px}
-@media(max-width:480px){.card{padding:22px 18px}.avatar-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:480px){.card{padding:22px 18px}.avatar-grid{grid-template-columns:repeat(6,minmax(0,1fr));max-height:340px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body>
 <main class="card"><div class="brand">VWG · BRAND SUPPORT</div><h1>Your profile</h1><p class="muted">Personalise your Knowledge Base profile. Your selected avatar appears beside your profile throughout the Knowledge Base.</p>
@@ -28,7 +28,7 @@
 <div class="actions"><a class="button" href="/">Open Knowledge Base</a><a class="button secondary" href="/#/favorites">Favorite articles</a><a class="button secondary" id="admin" href="/admin" hidden>Admin dashboard</a><a class="button secondary" href="/change-password">Change password</a><button id="logout" class="button secondary" type="button">Sign out</button></div>
 <p id="message" class="message" aria-live="polite"></p></main>
 <script>
-const AVATARS=["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦄"];
+const AVATARS=["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"];
 let selectedAvatar='👤';
 const grid=document.getElementById('avatarGrid'),preview=document.getElementById('avatarPreview'),message=document.getElementById('message'),save=document.getElementById('saveAvatar');
 function renderAvatars(){
