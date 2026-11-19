@@ -1,0 +1,20 @@
+import{getSessionUser,hashPassword,isSameOrigin,jsonResponse,randomSecret,readJson}from"../../_lib/auth.js";
+async function getAdmin(request,env){const user=await getSessionUser(request,env);return user&&user.role==="admin"?user:null;}
+export async function onRequest(ctx){const{request,env}=ctx;if(env.AUTH_ENABLED!=="true"||!env.DB)return jsonResponse({error:"Authentication is not enabled."},503);const admin=await getAdmin(request,env);if(!admin)return jsonResponse({error:"Administrator access required."},403);const action=Array.isArray(ctx.params.action)?ctx.params.action[0]:ctx.params.action;
+if(action!=="users")return jsonResponse({error:"Not found."},404);
+if(request.method==="GET"){const rows=await env.DB.prepare("SELECT id,name,email,role,status,created_at,last_login_at FROM users ORDER BY CASE status WHEN 'pending' THEN 0 WHEN 'active' THEN 1 ELSE 2 END,created_at DESC").all();return jsonResponse({users:rows.results||[]});}
+if(request.method!=="POST")return jsonResponse({error:"Method not allowed."},405);if(!isSameOrigin(request))return jsonResponse({error:"Invalid request origin."},403);
+let body;try{body=await readJson(request);}catch{return jsonResponse({error:"Invalid admin request."},400);}const id=String(body.id||""),operation=String(body.action||"");if(!id||id.length>80)return jsonResponse({error:"Invalid account."},400);
+const target=await env.DB.prepare("SELECT id,role,status FROM users WHERE id=?").bind(id).first();if(!target)return jsonResponse({error:"Account not found."},404);
+if(target.id===admin.id&&["suspend","delete","demote","reset_password"].includes(operation))return jsonResponse({error:"You cannot apply this action to your own administrator account."},400);
+if(["delete","suspend","demote"].includes(operation)&&target.role==="admin"){const count=await env.DB.prepare("SELECT COUNT(*) AS count FROM users WHERE role='admin' AND status='active'").first();if(Number(count&&count.count||0)<=1)return jsonResponse({error:"You cannot remove or suspend the last active administrator."},400);}
+const now=Date.now();
+if(operation==="approve"){if(target.status!=="pending")return jsonResponse({error:"Only pending accounts can be approved."},400);await env.DB.prepare("UPDATE users SET status='active',approved_at=?,approved_by=? WHERE id=?").bind(now,admin.id,id).run();return jsonResponse({ok:true,message:"Account approved."});}
+if(operation==="suspend"){await env.DB.prepare("UPDATE users SET status='suspended' WHERE id=?").bind(id).run();await env.DB.prepare("DELETE FROM sessions WHERE user_id=?").bind(id).run();return jsonResponse({ok:true,message:"Account suspended and active sessions revoked."});}
+if(operation==="activate"){await env.DB.prepare("UPDATE users SET status='active',approved_at=COALESCE(approved_at,?),approved_by=COALESCE(approved_by,?) WHERE id=?").bind(now,admin.id,id).run();return jsonResponse({ok:true,message:"Account activated."});}
+if(operation==="promote"){if(target.status!=="active")return jsonResponse({error:"Only active accounts can become administrators."},400);await env.DB.prepare("UPDATE users SET role='admin' WHERE id=?").bind(id).run();return jsonResponse({ok:true,message:"Administrator access granted."});}
+if(operation==="demote"){await env.DB.prepare("UPDATE users SET role='member' WHERE id=?").bind(id).run();return jsonResponse({ok:true,message:"Administrator access removed."});}
+if(operation==="delete"){await env.DB.prepare("DELETE FROM users WHERE id=?").bind(id).run();return jsonResponse({ok:true,message:"Account removed."});}
+if(operation==="reset_password"){const temporaryPassword=randomSecret(18),passwordHash=await hashPassword(temporaryPassword);await env.DB.prepare("UPDATE users SET password_hash=?,must_change_password=1 WHERE id=?").bind(passwordHash,id).run();await env.DB.prepare("DELETE FROM sessions WHERE user_id=?").bind(id).run();return jsonResponse({ok:true,temporaryPassword,message:"Temporary password created. It is shown only once; share it privately."});}
+return jsonResponse({error:"Unknown account action."},400);
+}

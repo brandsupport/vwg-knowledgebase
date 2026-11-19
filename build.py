@@ -285,6 +285,15 @@ def main():
             message,
         )
 
+    # Copy authentication screens into the Pages build output.
+    auth_pages_dir = os.path.join(ROOT, "auth-ui")
+    for auth_page in ("login.html", "signup.html", "account.html", "admin.html", "change-password.html"):
+        auth_source = os.path.join(auth_pages_dir, auth_page)
+        if not os.path.isfile(auth_source):
+            raise SystemExit(f"Missing authentication page: {auth_source}")
+        shutil.copyfile(auth_source, os.path.join(OUT_DIR, auth_page))
+        print(f"Copied authentication page to dist/{auth_page}")
+
     # Publish the De-tag Challenge's supporting brand assets.
     game_assets = os.path.join(ROOT, "assets", "game")
     if os.path.isdir(game_assets):

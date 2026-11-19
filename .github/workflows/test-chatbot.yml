@@ -10,6 +10,9 @@ on:
       - "src/**"
       - "tests/**"
       - "worker/**"
+      - "functions/**"
+      - "auth-ui/**"
+      - "migrations/**"
       - "knowledge-rush-prototype/**"
       - "Knowledge_rush_assets/**"
       - "knowledge-games.html"
@@ -24,6 +27,9 @@ on:
       - "src/**"
       - "tests/**"
       - "worker/**"
+      - "functions/**"
+      - "auth-ui/**"
+      - "migrations/**"
       - "knowledge-rush-prototype/**"
       - "Knowledge_rush_assets/**"
       - "knowledge-games.html"
@@ -66,6 +72,12 @@ jobs:
           node --input-type=module --check < knowledge-rush-prototype/three-BnZyOd0w.js
       - name: Check Worker JavaScript syntax
         run: node --input-type=module --check < worker/src/index.js
+      - name: Check Pages Functions JavaScript syntax
+        run: |
+          for file in $(find functions -name "*.js"); do
+            echo "Checking $file"
+            node --input-type=module --check < "$file"
+          done
       - name: Check Knowledge Rush gameplay module syntax
         run: node --input-type=module --check < knowledge-rush-prototype/gameplay-config.js
       - name: Test Knowledge Rush gameplay helpers
