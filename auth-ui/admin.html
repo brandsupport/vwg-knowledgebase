@@ -299,7 +299,8 @@ function previewFor(request){
   body.innerHTML=request.payload.html||'<p>No article body supplied.</p>';
   if(Array.isArray(request.payload.images))request.payload.images.forEach(url=>{if(typeof url==='string'&&(url.startsWith('https://')||/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(url)||/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9_-][A-Za-z0-9._/-]*$/.test(url))&&!url.includes('..')){const img=el('img');img.src=url;img.alt='Submitted article image';img.loading='lazy';body.append(img);}});
   if(Array.isArray(request.payload.attachments))request.payload.attachments.forEach(item=>{
-    if(!item||typeof item.name!=='string'||typeof item.data!=='string'||!/^data:(?:application\\/pdf|application\\/vnd\\.openxmlformats-officedocument\\.(?:wordprocessingml\\.document|spreadsheetml\\.sheet|presentationml\\.presentation)|text\\/(?:plain|csv));base64,/.test(item.data))return;
+    const allowedPrefixes=['data:application/pdf;base64,','data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,','data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,','data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64,','data:text/plain;base64,','data:text/csv;base64,'];
+    if(!item||typeof item.name!=='string'||typeof item.data!=='string'||!allowedPrefixes.some(prefix=>item.data.startsWith(prefix)))return;
     const link=el('a','preview-attachment','📎 '+item.name);link.href=item.data;link.download=item.name;link.rel='noopener';body.append(link);
   });
   const sourceReference=String(request.payload.source_reference||'').trim();
