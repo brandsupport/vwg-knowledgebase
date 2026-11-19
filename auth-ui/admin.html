@@ -4,101 +4,250 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Administration · VWG Brand Support</title>
 <link rel="icon" type="image/png" sizes="64x64" href="__FAVICON__">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;font-family:system-ui;background:#080d18;color:#f4f6fb}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:28px;background:radial-gradient(ellipse at 50% 0,#1a3150 0,transparent 55%),#080d18}
-.wrap{max-width:1180px;margin:auto}.brand{font-size:12px;letter-spacing:.18em;color:#82d6ff;font-weight:800}
-.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-h1{margin:14px 0 6px;font-size:28px}.muted{color:#9fb0c6}.actions,.tabs{display:flex;gap:8px;flex-wrap:wrap}
-.button,.tab{border:1px solid #34445d;border-radius:9px;padding:9px 13px;background:#17263a;color:#eef6ff;font-weight:700;cursor:pointer;text-decoration:none;font-size:13px}
-.button.primary{border-color:transparent;background:linear-gradient(115deg,#35b9ef,#76e0ce);color:#071321}
-.button.danger{background:#582a37;color:#ffdce3}.button:disabled{opacity:.55;cursor:wait}
-.tabs{margin:26px 0 18px;border-bottom:1px solid #ffffff20;padding-bottom:12px}
-.tab{background:transparent;color:#aab7ca}.tab.active,.tab:hover{color:#071321;background:linear-gradient(115deg,#35b9ef,#76e0ce);border-color:transparent}
-.panel{display:none}.panel.active{display:block}
-.tablewrap,.review-card,.published-card{overflow:auto;border:1px solid #ffffff20;border-radius:14px;margin-top:14px;background:#101a2b}
-table{width:100%;border-collapse:collapse;min-width:780px}th,td{text-align:left;padding:13px;border-bottom:1px solid #ffffff12;font-size:13px}
-th{color:#91a4bc;background:#0d1727}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#29364b;font-size:11px}
-.pending{background:#534328;color:#ffdf9a}.active{background:#174a43;color:#a7f3d0}.suspended{background:#582a37;color:#ffdce3}
-.message{margin:14px 0;color:#9fe6d8;min-height:22px}.empty{padding:24px;color:#9fb0c6;text-align:center}
-.review-list,.published-list{display:grid;gap:14px}.review-card,.published-card{padding:18px 20px;margin:0;overflow:visible}
+:root{color-scheme:dark;--bg:#090c16;--surface:#111827;--surface-2:#151f31;--surface-3:#0d1523;--ink:#eaf2ff;--muted:#91a2bd;--muted-2:#71839e;--line:rgba(183,204,235,.13);--cyan:#00dff5;--purple:#b65cff;--mint:#76e0ce;--red:#ff7389;--amber:#f6c66b;--shadow:0 22px 70px rgba(0,0,0,.28);font-family:'Sora',system-ui,sans-serif}
+*{box-sizing:border-box}
+html{min-width:320px;background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--ink);background:radial-gradient(ellipse at 14% 0,rgba(0,210,245,.10),transparent 32rem),radial-gradient(ellipse at 92% 8%,rgba(182,92,255,.09),transparent 34rem),var(--bg);font-size:14px;line-height:1.55}
+button,input,textarea{font:inherit}
+button{color:inherit}
+a{color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.admin-topbar{position:sticky;top:0;z-index:20;background:rgba(9,12,22,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1480px;margin:auto;padding:13px 30px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand-lockup{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+.brand-mark{width:42px;height:42px;display:grid;place-items:center;flex:0 0 auto;border:1px solid rgba(0,223,245,.36);border-radius:13px;background:linear-gradient(145deg,rgba(0,223,245,.14),rgba(182,92,255,.12));box-shadow:0 0 24px rgba(0,223,245,.10);font:700 18px 'Space Grotesk',sans-serif;color:var(--cyan)}
+.brand-copy{display:grid;line-height:1.2}
+.brand-title{font:700 14px 'Space Grotesk',sans-serif;letter-spacing:.01em}
+.brand-subtitle{margin-top:4px;color:var(--muted-2);font:10px 'JetBrains Mono',monospace;letter-spacing:.17em;text-transform:uppercase}
+.topbar-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.admin-identity{display:flex;align-items:center;gap:9px;padding:5px 11px 5px 6px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.035);color:var(--muted);font-size:12px}
+.admin-top-avatar{width:29px;height:29px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#16364b,#34244c);font-size:17px}
+.wrap{max-width:1480px;margin:0 auto;padding:34px 30px 80px}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin:4px 0 25px}
+.hero-copy{min-width:0}
+.eyebrow{display:flex;align-items:center;gap:9px;color:var(--cyan);font:11px 'JetBrains Mono',monospace;letter-spacing:.15em;text-transform:uppercase}
+.eyebrow:before{content:"";width:20px;height:1px;background:var(--cyan);box-shadow:0 0 9px var(--cyan)}
+h1{margin:10px 0 8px;font:700 clamp(30px,4vw,42px)/1.08 'Space Grotesk',sans-serif;letter-spacing:-.035em}
+.hero-copy p{max-width:700px;margin:0;color:var(--muted);font-size:13px}
+.hero-actions{display:flex;gap:9px;flex:0 0 auto;flex-wrap:wrap}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:#192438;color:var(--ink);font-size:12px;font-weight:700;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease}
+.button:hover{border-color:rgba(0,223,245,.46);background:#1c2c43;transform:translateY(-1px)}
+.button.primary{border-color:transparent;background:linear-gradient(110deg,#26c6e9,#76e0ce);color:#061520;box-shadow:0 6px 20px rgba(0,223,245,.13)}
+.button.primary:hover{filter:brightness(1.07);box-shadow:0 8px 24px rgba(0,223,245,.20)}
+.button.danger{border-color:rgba(255,115,137,.24);background:rgba(255,83,111,.10);color:#ffb0bd}
+.button.danger:hover{border-color:rgba(255,115,137,.55);background:rgba(255,83,111,.16)}
+.button:disabled{opacity:.48;cursor:wait;transform:none}
+.button.small{min-height:31px;padding:6px 9px;border-radius:8px;font-size:11px}
+#refreshAll:before{content:"↻";font-size:15px;line-height:1}
+.message{display:flex;align-items:center;min-height:0;margin:0 0 17px;padding:0;color:var(--muted);font-size:12px}
+.message:not(:empty){min-height:40px;padding:9px 13px;border:1px solid rgba(0,223,245,.18);border-radius:10px;background:rgba(0,223,245,.055);color:#bdeef5}
+.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 25px}
+.metric{position:relative;min-width:0;padding:17px 18px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));box-shadow:0 10px 30px rgba(0,0,0,.10);overflow:hidden}
+.metric:after{content:"";position:absolute;width:90px;height:90px;right:-36px;top:-43px;border-radius:50%;background:var(--metric-glow,rgba(0,223,245,.12));filter:blur(25px);pointer-events:none}
+.metric-label{position:relative;z-index:1;color:var(--muted);font-size:11px;font-weight:600}
+.metric-value{position:relative;z-index:1;margin-top:4px;font:700 28px/1.1 'Space Grotesk',sans-serif;letter-spacing:-.04em}
+.metric:nth-child(2){--metric-glow:rgba(246,198,107,.22)}.metric:nth-child(3){--metric-glow:rgba(0,223,245,.20)}.metric:nth-child(4){--metric-glow:rgba(182,92,255,.20)}.metric:nth-child(5){--metric-glow:rgba(255,115,137,.17)}
+.metric-foot{position:relative;z-index:1;margin-top:5px;color:var(--muted-2);font-size:10px}
+.workspace{border:1px solid var(--line);border-radius:18px;background:rgba(14,21,34,.82);box-shadow:var(--shadow);overflow:visible}
+.tabs-wrap{padding:12px 16px 0;border-bottom:1px solid var(--line);background:rgba(255,255,255,.018);border-radius:18px 18px 0 0}
+.tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:#31445e transparent}
+.tab{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 15px;border:0;border-radius:10px 10px 0 0;background:transparent;color:var(--muted);font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
+.tab:hover{background:rgba(255,255,255,.035);color:var(--ink)}
+.tab.active{color:var(--ink);background:rgba(0,223,245,.065)}
+.tab.active:after{content:"";position:absolute;height:2px;bottom:0;left:12px;right:12px;background:linear-gradient(90deg,var(--cyan),var(--purple));box-shadow:0 0 12px rgba(0,223,245,.4)}
+.tab-count{min-width:18px;height:19px;display:inline-grid;place-items:center;padding:0 5px;border-radius:99px;background:rgba(255,255,255,.08);color:var(--muted);font:10px 'JetBrains Mono',monospace}
+.tab.active .tab-count{background:rgba(0,223,245,.15);color:var(--cyan)}
+.panel{display:none;padding:23px}
+.panel.active{display:block}
+.panel[hidden]{display:none!important}
+.panel-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:17px}
+.panel-title{margin:0;font:700 19px 'Space Grotesk',sans-serif;letter-spacing:-.02em}
+.panel-desc{margin:5px 0 0;color:var(--muted);font-size:11.5px;max-width:700px}
+.panel-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.search-wrap{position:relative;min-width:min(260px,100%)}
+.search-wrap:before{content:"⌕";position:absolute;left:12px;top:50%;transform:translateY(-52%);color:var(--muted-2);font-size:20px;pointer-events:none}
+.search-input{width:100%;min-height:38px;padding:8px 12px 8px 36px;border:1px solid var(--line);border-radius:10px;background:#0b1422;color:var(--ink);font-size:12px;outline:none}
+.search-input::placeholder{color:#73839a}
+.search-input:focus{border-color:rgba(0,223,245,.65);box-shadow:0 0 0 3px rgba(0,223,245,.09)}
+.tablewrap{border:1px solid var(--line);border-radius:13px;background:#0c1523;overflow:visible}
+table{width:100%;border-collapse:separate;border-spacing:0;table-layout:auto}
+th,td{text-align:left;padding:13px 14px;border-bottom:1px solid rgba(183,204,235,.09);font-size:11.5px;vertical-align:middle}
+th{position:sticky;top:70px;background:#121d2d;color:#8698b3;font:10px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+th:first-child{border-radius:12px 0 0 0}th:last-child{border-radius:0 12px 0 0}
+td{color:#d8e3f4}
+tbody tr{transition:background .14s ease}
+tbody tr:hover{background:rgba(255,255,255,.025)}
+tbody tr:last-child td{border-bottom:0}
+td[data-label="Email"]{color:var(--muted);overflow-wrap:anywhere}
+td[data-label="Role"]{text-transform:capitalize;color:#b9c8df}
+.user-name-cell{display:flex;align-items:center;gap:10px;min-width:150px}
+.user-name-cell strong{font-size:12px;font-weight:600}
+.user-avatar{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:50%;font-size:19px;background:linear-gradient(145deg,rgba(0,223,245,.14),rgba(182,92,255,.16));border:1px solid rgba(0,223,245,.18)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:#1a2639;color:#c8d5e7;font:10px 'JetBrains Mono',monospace;text-transform:capitalize;white-space:nowrap}
+.pill:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.8}
+.pill.pending{border-color:rgba(246,198,107,.22);background:rgba(246,198,107,.08);color:var(--amber)}
+.pill.active{border-color:rgba(118,224,206,.22);background:rgba(118,224,206,.08);color:var(--mint)}
+.pill.suspended{border-color:rgba(255,115,137,.22);background:rgba(255,115,137,.08);color:#ff9eaf}
+.user-actions{display:flex;align-items:center;gap:7px}
+.user-more{position:relative}
+.user-more>summary{display:inline-flex;align-items:center;justify-content:center;min-height:31px;padding:5px 9px;border:1px solid var(--line);border-radius:8px;background:#172338;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;list-style:none}
+.user-more>summary::-webkit-details-marker{display:none}
+.user-more>summary:after{content:"⌄";margin-left:5px;color:var(--cyan)}
+.user-action-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:10;min-width:190px;padding:6px;border:1px solid rgba(183,204,235,.18);border-radius:11px;background:#111c2c;box-shadow:0 16px 36px rgba(0,0,0,.4);display:grid;gap:4px}
+.user-action-menu .button{justify-content:flex-start;width:100%;border:0;background:transparent;transform:none}
+.user-action-menu .button:hover{background:rgba(255,255,255,.055)}
+.user-action-menu .button.danger{color:#ff9eaf}
+.review-list,.published-list{display:grid;gap:12px}
+.review-card,.published-card{min-width:0;padding:18px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));box-shadow:0 9px 26px rgba(0,0,0,.11);transition:border-color .16s ease,transform .16s ease}
+.review-card:hover,.published-card:hover{border-color:rgba(0,223,245,.24)}
 .review-head,.published-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
-.review-head h3,.published-head h3{margin:0 0 6px;font-size:16px}.meta{font-size:12px;color:#8fa2ba}
-.review-preview{margin-top:14px;border-top:1px solid #ffffff16;padding-top:12px}
-.review-preview summary{color:#82d6ff;font-size:13px;font-weight:700;cursor:pointer}
-.preview-body{margin-top:12px;padding:15px;border-radius:10px;background:#0b1322;color:#e6edf7;font-size:13px;line-height:1.65;overflow-wrap:anywhere}
-.preview-body h3,.preview-body h4{color:#82d6ff;margin:16px 0 7px}.preview-body p{margin:0 0 12px}.preview-body img{max-width:100%;height:auto;border-radius:9px;margin:7px 0}
-.review-note{width:100%;min-height:66px;resize:vertical;padding:11px 12px;border:1px solid transparent;border-radius:10px;background:linear-gradient(#0b1322,#0b1322) padding-box,conic-gradient(from var(--auth-glow-angle),#35b9ef,#8265ff,#76e0ce,#35b9ef) border-box;color:#fff;font:inherit;font-size:13px;outline:none}
-@property --auth-glow-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
-@keyframes auth-neon-spin{to{--auth-glow-angle:360deg}}
-.review-note:focus{animation:auth-neon-spin 2.4s linear infinite;box-shadow:0 0 0 1px #35b9ef55,0 0 16px #35b9ef45}
+.review-head h3,.published-head h3{margin:0 0 6px;font:600 15px/1.3 'Space Grotesk',sans-serif;overflow-wrap:anywhere}
+.meta{font-size:10.5px;color:var(--muted-2);line-height:1.5}
+.review-preview{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.review-preview summary{display:inline-flex;align-items:center;gap:8px;color:var(--cyan);font-size:11.5px;font-weight:700;cursor:pointer;list-style:none}
+.review-preview summary::-webkit-details-marker{display:none}
+.review-preview summary:after{content:"＋";font-size:12px;color:var(--muted)}
+.review-preview[open] summary:after{content:"−"}
+.preview-body{max-height:420px;overflow:auto;margin-top:11px;padding:17px;border:1px solid rgba(183,204,235,.09);border-radius:10px;background:#09111e;color:#dce7f6;font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.preview-body h3,.preview-body h4{color:#7ce6f2;margin:16px 0 7px}.preview-body p{margin:0 0 12px}.preview-body img{max-width:100%;height:auto;border-radius:8px;margin:7px 0}
+.review-note{display:block;width:100%;min-height:76px;resize:vertical;margin-top:14px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#0b1422;color:var(--ink);font:12px/1.6 'Sora',sans-serif;outline:none}
+.review-note::placeholder{color:#72839a}
+.review-note:focus{border-color:rgba(0,223,245,.6);box-shadow:0 0 0 3px rgba(0,223,245,.08)}
 .review-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}
-.published-card a{color:#82d6ff;text-decoration:none;font-size:13px}.published-card a:hover{text-decoration:underline}
-.help{margin-top:20px;font-size:12px;color:#8193aa;line-height:1.6}
-.user-name-cell{display:flex;align-items:center;gap:9px;min-width:170px}
-.user-avatar{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border-radius:50%;font-size:19px;background:linear-gradient(145deg,#16364b,#34244c);border:1px solid #ffffff24}
-@media(max-width:650px){body{padding:18px 12px}.review-card,.published-card{padding:14px}.top .actions{width:100%}.top .actions>*{flex:1;text-align:center}}
-@media(prefers-reduced-motion:reduce){.review-note{animation:none!important}}
+.published-head a{display:inline-flex;align-items:center;gap:6px;color:var(--cyan);font-size:11px;font-weight:700;text-decoration:none}
+.published-head a:hover{text-decoration:underline}
+.empty{display:grid;justify-items:center;gap:6px;padding:42px 20px;border:1px dashed rgba(183,204,235,.17);border-radius:13px;background:rgba(255,255,255,.015);color:var(--muted);text-align:center;font-size:12px}
+.help{margin:14px 2px 0;color:var(--muted-2);font-size:10.5px;line-height:1.6}
+#userSearchEmpty{margin-top:12px}
+[hidden]{display:none!important}
+@media(max-width:1050px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.topbar-inner,.wrap{padding-left:22px;padding-right:22px}}
+@media(max-width:760px){.hero{align-items:flex-start;flex-direction:column}.hero-actions{width:100%}.hero-actions .button{flex:1}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:17px}.tabs-wrap{padding:9px 9px 0}.tab{padding:0 11px}.topbar-inner{padding:11px 16px}.wrap{padding:25px 16px 55px}}
+@media(max-width:620px){
+  .tablewrap{border:0;background:transparent;overflow:visible}
+  table,tbody{display:block;width:100%}
+  thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  tbody{display:grid;gap:10px}
+  tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0e1827}
+  tbody tr:hover{background:#111d2e}
+  td{display:flex;flex-direction:column;gap:4px;min-width:0;padding:9px;border:0!important;overflow-wrap:anywhere}
+  td:before{content:attr(data-label);color:var(--muted-2);font:9px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+  td[data-label="Colleague"],td[data-label="Email"],td[data-label="Actions"]{grid-column:1/-1}
+  td[data-label="Actions"]{padding-top:10px;border-top:1px solid var(--line)!important}
+  .user-name-cell{min-width:0}.user-actions{flex-wrap:wrap}
+  .user-action-menu{right:auto;left:0}
+}
+@media(max-width:420px){.metrics{gap:8px}.metric{padding:13px}.metric-value{font-size:24px}.metric-foot{font-size:9px}.admin-identity span:last-child{display:none}.topbar-actions .button{padding:8px 10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<main class="wrap">
-  <div class="top">
-    <div><div class="brand">VWG · BRAND SUPPORT</div><h1>Administration</h1><div class="muted">Manage colleague access, review content and maintain the Knowledge Base.</div></div>
-    <div class="actions"><a class="button" href="/">Knowledge Base</a><a class="button" href="/account">My account</a><button class="button" id="refreshAll">Refresh</button></div>
+<header class="admin-topbar">
+  <div class="topbar-inner">
+    <a class="brand-lockup" href="/" aria-label="VWG Brand Support Knowledge Base">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-copy"><span class="brand-title">VWG Brand Support</span><span class="brand-subtitle">Knowledge Base · Admin</span></span>
+    </a>
+    <div class="topbar-actions">
+      <div class="admin-identity"><span class="admin-top-avatar" id="adminTopAvatar">👤</span><span id="adminTopName">Administrator</span></div>
+      <a class="button" href="/">Knowledge Base <span aria-hidden="true">↗</span></a>
+      <a class="button" href="/account">My account</a>
+    </div>
   </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-copy"><div class="eyebrow">Administration workspace</div><h1>Control centre</h1><p>Manage colleague access, review knowledge contributions and keep the Knowledge Base organised.</p></div>
+    <div class="hero-actions"><button class="button primary" id="refreshAll" type="button">Refresh workspace</button></div>
+  </section>
   <div id="message" class="message" aria-live="polite"></div>
-  <nav class="tabs" aria-label="Administration sections">
-    <button class="tab active" data-panel="users">Users</button>
-    <button class="tab" data-panel="submissions">New submissions <span id="submissionCount"></span></button>
-    <button class="tab" data-panel="revisions">Article revisions <span id="revisionCount"></span></button>
-    <button class="tab" data-panel="articles">Published articles</button>
-    <button class="tab" data-panel="recycle">Recycle bin <span id="recycleCount"></span></button>
-  </nav>
-
-  <section class="panel active" id="panel-users">
-    <div class="tablewrap"><table><thead><tr><th>Colleague</th><th>Email</th><th>Role</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead><tbody id="users"><tr><td colspan="6" class="empty">Loading accounts…</td></tr></tbody></table></div>
-    <p class="help">Pending accounts cannot sign in until approved. Temporary passwords are shown once when reset; share them privately.</p>
+  <section class="metrics" aria-label="Workspace overview">
+    <article class="metric"><div class="metric-label">Total accounts</div><div class="metric-value" id="metricUsers">—</div><div class="metric-foot">Registered colleagues</div></article>
+    <article class="metric"><div class="metric-label">Pending access</div><div class="metric-value" id="metricPendingUsers">—</div><div class="metric-foot">Awaiting approval</div></article>
+    <article class="metric"><div class="metric-label">New submissions</div><div class="metric-value" id="metricSubmissions">—</div><div class="metric-foot">Content to review</div></article>
+    <article class="metric"><div class="metric-label">Article revisions</div><div class="metric-value" id="metricRevisions">—</div><div class="metric-foot">Suggested updates</div></article>
+    <article class="metric"><div class="metric-label">Recycle bin</div><div class="metric-value" id="metricRecycle">—</div><div class="metric-foot">Removed articles</div></article>
   </section>
-  <section class="panel" id="panel-submissions"><div id="submissions" class="review-list"><div class="empty">Loading submissions…</div></div></section>
-  <section class="panel" id="panel-revisions">
-    <div id="revisions" class="review-list"><div class="empty">Loading revision requests…</div></div>
-    <p class="help">Approving an edit replaces the published version for everyone. The previous version and approved update are recorded in revision history.</p>
+  <section class="workspace">
+    <div class="tabs-wrap"><nav class="tabs" role="tablist" aria-label="Administration sections">
+      <button class="tab active" type="button" role="tab" aria-selected="true" data-panel="users">Users</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-panel="submissions">New submissions <span class="tab-count" id="submissionCount">0</span></button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-panel="revisions">Article revisions <span class="tab-count" id="revisionCount">0</span></button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-panel="articles">Published articles</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-panel="recycle">Recycle bin <span class="tab-count" id="recycleCount">0</span></button>
+    </nav></div>
+    <section class="panel active" id="panel-users" role="tabpanel">
+      <div class="panel-head"><div><h2 class="panel-title">Colleague accounts</h2><p class="panel-desc">Approve access, manage administrator privileges and help colleagues recover their accounts.</p></div>
+        <div class="panel-tools"><label class="search-wrap"><input class="search-input" id="userSearch" type="search" placeholder="Search name, email or status…" aria-label="Search user accounts"></label></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th>Colleague</th><th>Email</th><th>Role</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead><tbody id="users"><tr><td colspan="6" class="empty">Loading accounts…</td></tr></tbody></table></div>
+      <div class="empty" id="userSearchEmpty" hidden>No accounts match your search. Try another name, email or status.</div>
+      <p class="help">Pending accounts cannot sign in until approved. Temporary passwords are shown once when reset; share them privately.</p>
+    </section>
+    <section class="panel" id="panel-submissions" role="tabpanel" hidden>
+      <div class="panel-head"><div><h2 class="panel-title">New article submissions</h2><p class="panel-desc">Review each contribution before it becomes visible to the team.</p></div></div>
+      <div id="submissions" class="review-list"><div class="empty">Loading submissions…</div></div>
+    </section>
+    <section class="panel" id="panel-revisions" role="tabpanel" hidden>
+      <div class="panel-head"><div><h2 class="panel-title">Suggested article updates</h2><p class="panel-desc">Compare the suggested change with the currently published content before approving it.</p></div></div>
+      <div id="revisions" class="review-list"><div class="empty">Loading revision requests…</div></div>
+      <p class="help">Approving an edit replaces the published version for everyone. The previous version and approved update are recorded in revision history.</p>
+    </section>
+    <section class="panel" id="panel-articles" role="tabpanel" hidden>
+      <div class="panel-head"><div><h2 class="panel-title">Published contributions</h2><p class="panel-desc">Browse newly approved contributions and articles with approved updates.</p></div></div>
+      <div id="published" class="published-list"><div class="empty">Loading published contributions…</div></div>
+    </section>
+    <section class="panel" id="panel-recycle" role="tabpanel" hidden>
+      <div class="panel-head"><div><h2 class="panel-title">Recycle bin</h2><p class="panel-desc">Restore removed articles or permanently delete them when you are certain they are no longer needed.</p></div></div>
+      <div id="recycleBin" class="published-list"><div class="empty">Loading recycle bin…</div></div>
+    </section>
   </section>
-  <section class="panel" id="panel-articles">
-    <div class="muted">Approved contributions and articles that have received a published update. Existing Knowledge Base articles can be opened and edited using “Suggest an update” on their article page.</div>
-    <div id="published" class="published-list" style="margin-top:14px"><div class="empty">Loading published contributions…</div></div>
-  </section>
-  <section class="panel" id="panel-recycle"><div class="muted">Deleted articles are hidden from the Knowledge Base. Restore them or permanently delete them. Permanent deletion cannot be undone.</div><div id="recycleBin" class="published-list" style="margin-top:14px"><div class="empty">Loading recycle bin…</div></div></section>
+  <p class="help" style="text-align:center;margin-top:18px">VWG Brand Support · Knowledge Base administration</p>
 </main>
 <script>
+
 const message=document.getElementById('message');
 const tbody=document.getElementById('users');
 const categoryNames={1:'Transfers',2:'Stock',3:'Order Mods',4:'Pricing',5:'Demo Funding',6:'Registration',7:'Delays',8:'Adoption',9:'Brand-Specific',10:'Procedures',11:'Contacts',12:'Call Notes',13:'Reference',14:'Tools & Links',15:'Training',16:'Announcements',17:'Hub Articles'};
 function el(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node;}
 function button(label,action,id,kind){const b=el('button','button '+(kind||''),label);b.type='button';b.addEventListener('click',()=>performUserAction(action,id));return b;}
-function switchPanel(name){document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.panel===name));document.querySelectorAll('.panel').forEach(panel=>panel.classList.toggle('active',panel.id==='panel-'+name));}
+function switchPanel(name){document.querySelectorAll('.tab').forEach(tab=>{const active=tab.dataset.panel===name;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active));});document.querySelectorAll('.panel').forEach(panel=>{const active=panel.id==='panel-'+name;panel.classList.toggle('active',active);panel.hidden=!active;});}
+const userSearch=document.getElementById('userSearch');
+if(userSearch)userSearch.addEventListener('input',()=>filterUsers(userSearch.value));
+function filterUsers(query){const q=String(query||'').trim().toLowerCase();let shown=0;tbody.querySelectorAll('tr[data-search]').forEach(row=>{const match=!q||row.dataset.search.includes(q);row.hidden=!match;if(match)shown++;});const empty=document.getElementById('userSearchEmpty');if(empty)empty.hidden=shown!==0;}
+async function loadAdminIdentity(){try{const r=await fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'}),d=await r.json();if(!r.ok||!d.user)return;const avatar=document.getElementById('adminTopAvatar'),name=document.getElementById('adminTopName');if(avatar)avatar.textContent=d.user.avatar||'👤';if(name)name.textContent=d.user.name||'Administrator';}catch(e){}}
 document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>switchPanel(tab.dataset.panel)));
 async function loadUsers(){
   tbody.replaceChildren();const r=await fetch('/api/admin/users'),d=await r.json();
   if(!r.ok){tbody.append(el('tr'));message.textContent=d.error||'Could not load accounts.';return;}
-  if(!d.users.length){const tr=el('tr'),td=el('td','empty','No registrations yet.');td.colSpan=6;tr.append(td);tbody.append(tr);return;}
-  for(const u of d.users){
-    const tr=el('tr'),name=el('td'),nameWrap=el('div','user-name-cell'),avatar=el('span','user-avatar',u.avatar||'👤'),nameText=el('strong','',u.name),email=el('td','',u.email),role=el('td','',u.role),status=el('td'),pill=el('span','pill '+u.status,u.status),created=el('td','',new Date(u.created_at).toLocaleString()),actions=el('td'),group=el('div','actions');
+  const allUsers=d.users||[];
+  document.getElementById('metricUsers').textContent=allUsers.length;
+  document.getElementById('metricPendingUsers').textContent=allUsers.filter(u=>u.status==='pending').length;
+  if(!allUsers.length){const tr=el('tr'),td=el('td','empty','No registrations yet.');td.colSpan=6;tr.append(td);tbody.append(tr);return;}
+  for(const u of allUsers){
+    const tr=el('tr'),name=el('td'),nameWrap=el('div','user-name-cell'),avatar=el('span','user-avatar',u.avatar||'👤'),nameText=el('strong','',u.name),email=el('td','',u.email),role=el('td','',u.role),status=el('td'),pill=el('span','pill '+u.status,u.status),created=el('td','',new Date(u.created_at).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})),actions=el('td'),group=el('div','user-actions');
+    tr.dataset.search=[u.name,u.email,u.role,u.status].join(' ').toLowerCase();
     nameWrap.append(avatar,nameText);name.append(nameWrap);status.append(pill);
     if(u.status==='pending')group.append(button('Approve','approve',u.id,'primary'));
-    if(u.status==='active')group.append(button('Suspend','suspend',u.id,'danger'));
-    if(u.status==='suspended')group.append(button('Reactivate','activate',u.id,'primary'));
-    if(u.role==='member'&&u.status==='active')group.append(button('Make admin','promote',u.id));
-    if(u.role==='admin'&&u.status==='active')group.append(button('Demote','demote',u.id));
-    group.append(button('Reset password','reset_password',u.id),button('Remove','delete',u.id,'danger'));
-    actions.append(group);tr.append(name,email,role,status,created,actions);tbody.append(tr);
+    else if(u.status==='suspended')group.append(button('Reactivate','activate',u.id,'primary'));
+    const more=el('details','user-more'),summary=el('summary','','Manage'),menu=el('div','user-action-menu');
+    if(u.status==='active')menu.append(button('Suspend access','suspend',u.id,'danger'));
+    if(u.role==='member'&&u.status==='active')menu.append(button('Make administrator','promote',u.id));
+    if(u.role==='admin'&&u.status==='active')menu.append(button('Remove administrator','demote',u.id));
+    menu.append(button('Reset password','reset_password',u.id),button('Remove account','delete',u.id,'danger'));
+    more.append(summary,menu);group.append(more);actions.append(group);
+    tr.children.length=0;
+    [[name,'Colleague'],[email,'Email'],[role,'Role'],[status,'Status'],[created,'Registered'],[actions,'Actions']].forEach(([cell,label])=>{cell.dataset.label=label;tr.append(cell);});
+    tbody.append(tr);
   }
+  filterUsers(userSearch?.value||'');
 }
 async function performUserAction(action,id){
   if(['delete','suspend','demote'].includes(action)&&!confirm('Are you sure you want to '+action.replace('_',' ')+' this account?'))return;
   message.textContent='Updating account…';
-  const r=await fetch('/api/admin/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,id})}),d=await r.json();
+  let r,d;try{r=await fetch('/api/admin/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,id})});d=await r.json();}catch(e){message.textContent='The server could not be reached. Please retry.';return;}
   if(!r.ok){message.textContent=d.error||'The change failed.';return;}
   await loadUsers();
   message.textContent=d.temporaryPassword?'Temporary password (shown once): '+d.temporaryPassword+' — copy it now and share it privately.':(d.message||'Account updated.');
@@ -150,6 +299,9 @@ async function loadContentPanels(){
   ]);
   if(subs.error||edits.error||articles.error||recycle.error)throw new Error(subs.error||edits.error||articles.error||recycle.error);
   const submissionRequests=subs.requests||[],revisionRequests=edits.requests||[];
+  document.getElementById('metricSubmissions').textContent=submissionRequests.length;
+  document.getElementById('metricRevisions').textContent=revisionRequests.length;
+  document.getElementById('metricRecycle').textContent=(recycle.items||[]).length;
   document.getElementById('submissionCount').textContent=submissionRequests.length?'('+submissionRequests.length+')':'';
   document.getElementById('revisionCount').textContent=revisionRequests.length?'('+revisionRequests.length+')':'';
   renderRequestList(document.getElementById('submissions'),submissionRequests,'new');
@@ -193,7 +345,9 @@ async function refreshAll(){
   catch(error){message.textContent=error.message||'Could not refresh administration data.';}
 }
 document.getElementById('refreshAll').addEventListener('click',refreshAll);
+loadAdminIdentity();
 refreshAll();
+
 </script>
 </body>
 </html>
