@@ -52,7 +52,7 @@ function normalizeArticle(body,{edit=false}={}){
   const imagesProvided=Array.isArray(body.images);
   if(imagesProvided&&body.images.length>8)throw new Error("You can attach up to 8 images.");
   const images=imagesProvided?body.images.map(cleanArticleImage):undefined;
-  if(imagesProvided&&images.some((image,index)=>!image||image!==String(body.images[index]??"").trim()))throw new Error("Images must be secure HTTPS links, supported Knowledge Base image paths or valid PNG/JPG/WEBP uploads.");
+  if(imagesProvided&&images.some(image=>!image))throw new Error("Images must be secure HTTPS links, supported Knowledge Base image paths or valid PNG/JPG/WEBP uploads.");
   if(imagesProvided&&images.reduce((total,image)=>total+(image.startsWith("data:image/")?image.length:0),0)>900000)throw new Error("The combined uploaded images are too large. Reduce the image size and try again.");
   const sourceUrl=cleanHttps(body.sourceUrl??body.source_url);
   const html=bodyToHtml(content);
