@@ -1,57 +1,48 @@
 # Tally Bridge Worker — VWG Knowledge Base
 
-This is a **separate** Cloudflare Worker for Tally-to-GitHub intake. Do not replace the existing AI Assistant Worker.
+This is the separate Cloudflare Worker that receives Tally webhooks. Do not replace the AI Assistant Worker.
 
-## Flow
+## New moderated flow
 
-Tally webhook → this Worker → data/tally_submissions/<responseId>.json → existing GitHub Actions build/deploy → Knowledge Base.
+Tally webhook → Tally Bridge Worker (HMAC signature verification) → Pages Function /api/tally-ingest (shared secret) → D1 content_requests (pending) → administrator preview and approval → published D1 article.
 
-The Worker preserves raw Tally JSON. The repository's existing import_tally.py maps labelled fields and image upload URLs, so the current article processing stays unchanged.
+The Worker no longer commits new Tally submissions directly into the live GitHub article source. This ensures new Tally submissions cannot bypass administrator approval. Existing published articles remain unchanged.
 
-## Deploy in Cloudflare Dashboard
+## Worker configuration
 
-1. Open **Workers & Pages** and choose **Create** → **Worker**.
-2. Name it vwg-tally-bridge and create/deploy the starter.
-3. Open the Worker editor and replace its code with worker.js from this folder. Save and deploy.
-4. Open **Settings → Variables and Secrets** and add these plain-text variables:
-   - GITHUB_OWNER = brandsupport
-   - GITHUB_REPO = vwg-knowledgebase
-   - GITHUB_BRANCH = main
-   - TALLY_FORM_ID = the actual form ID from a Tally webhook payload (recommended)
-5. Add these as **Secrets**, not plain text:
-   - GITHUB_TOKEN = a GitHub fine-grained personal access token limited to brandsupport/vwg-knowledgebase, with **Contents: Read and write** permission.
-   - TALLY_SIGNING_SECRET = the signing secret configured for the Tally webhook.
-6. Deploy again after setting variables/secrets.
-7. Test https://<your-worker>.workers.dev/health in a browser. It should return {"ok":true,"service":"vwg-tally-bridge"}.
+In Cloudflare → Workers & Pages → select the Tally Bridge Worker → Settings → Variables and Secrets, configure:
+
+**Plain-text variable**
+- KB_INGEST_URL = https://vwg-brandsupport-kb.pages.dev/api/tally-ingest
+- TALLY_FORM_ID = the form ID from a real Tally webhook payload (recommended)
+
+**Secrets**
+- TALLY_SIGNING_SECRET = the signing secret configured in Tally
+- KB_INGEST_TOKEN = a random value with at least 32 characters
+
+In Cloudflare Pages → vwg-brandsupport-kb → Settings → Variables and Secrets → Production, add a **Secret**:
+
+- TALLY_INGEST_TOKEN = the exact same value as the Worker secret KB_INGEST_TOKEN
+
+Never send either token in chat or commit it to GitHub. Keep the existing D1 binding named DB on Pages.
 
 ## Connect Tally
 
-1. Open the published VWG Knowledgebase — Submit an Article form in Tally.
-2. Go to **Integrations → Webhooks** and create a webhook for form responses.
-3. Use https://<your-worker>.workers.dev/tally as the endpoint.
-4. Enable a signing secret and use the same value as TALLY_SIGNING_SECRET.
-5. No custom HTTP headers are needed.
-6. Keep the old Zap active only if it still works; once this bridge passes all tests, pause/disable the old Zap to avoid duplicate submissions.
+1. Keep the current Tally form and webhook endpoint. The bridge continues to verify the Tally HMAC signature.
+2. Add Announcements and Hub Articles as options in the existing Category question. Keep the other categories unchanged.
+3. Keep the webhook pointed at the current Tally Bridge Worker /tally endpoint.
+4. Once the new Worker secrets and Pages secret are configured and deployed, a new Tally response should be added to the administrator's New submissions queue.
+5. It should not appear in the published Knowledge Base until an administrator approves it.
+
+## Built-in Knowledge Base form
+
+The Knowledge Base also has its own Submit an article entry in the profile menu. It includes the same core fields: title, category, tags, article content, screenshot/image links and source link. It supports the two new categories and sends all requests directly to the D1 approval queue.
 
 ## Security and reliability
 
-- Requires the Tally-Signature HMAC SHA-256 signature.
-- Optionally set TALLY_FORM_ID to reject webhooks from other forms.
-- GitHub token is stored as a Cloudflare Secret and never returned by the Worker.
-- Response IDs map to deterministic filenames; repeat deliveries are acknowledged without overwriting the original.
-- Failures return a non-2xx response so Tally can retry.
-- Image fields are preserved as Tally upload URLs. The existing importer accepts HTTPS image references; test a real image upload to confirm it remains accessible when the article is viewed.
-- Only POST requests to /, /tally, and /webhook are accepted, plus GET /health.
-
-## GitHub token
-
-Create a fine-grained token under GitHub **Settings → Developer settings → Personal access tokens → Fine-grained tokens**. Restrict repository access to vwg-knowledgebase; grant only **Contents: Read and write**. Never paste the token into source code or chat.
-
-## Testing before retiring Zapier
-
-1. Health check returns HTTP 200.
-2. Submit a text-only test article and confirm a new JSON file appears in data/tally_submissions/.
-3. Confirm GitHub Actions succeeds and the article appears on the site.
-4. Submit an article with an image and verify it renders.
-5. Replay the same webhook and confirm it does not overwrite/create a second article.
-6. Test invalid signatures are rejected.
+- Tally webhooks must have a valid Tally-Signature HMAC-SHA256 header.
+- The bridge checks the optional form ID to reject unrelated forms.
+- The shared Worker-to-Pages secret protects the intake endpoint.
+- Response IDs are stored uniquely, so repeated webhook deliveries do not create duplicate review requests.
+- Tally images are accepted as HTTPS upload URLs; administrators can preview images before approval.
+- Failed forwarding returns a non-2xx response so Tally can retry.
