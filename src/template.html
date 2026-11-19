@@ -23,6 +23,8 @@
       <span class="nav-link" id="navHomeLink" onclick="navigate('home')">Home</span>
       <span class="nav-link" id="navCatLink" onclick="toggleMegaMenu(event)">Categories &#9662;</span>
       <a class="nav-link" href="knowledge-games.html" style="text-decoration:none">🎮 Knowledge Games</a>
+      <span class="nav-link" id="navAnnouncementsLink" onclick="navigate('announcements')">📣 Announcements</span>
+      <span class="nav-link" id="navHubArticlesLink" onclick="navigate('hub')">📚 Hub Articles</span>
       <span class="nav-link" id="navFavoritesLink" onclick="navigate('favorites')">☆ Favorites</span>
     </nav>
     <div class="header-search">
@@ -37,6 +39,7 @@
     <div class="profile-menu" id="profileMenu" hidden>
       <div class="profile-menu-heading" id="profileName">My account</div>
       <a href="/account">Profile &amp; settings</a>
+      <a href="#/submit" id="profileSubmitLink">Submit an article</a>
       <a href="/admin" id="profileAdminLink" hidden>Admin dashboard</a>
       <button type="button" id="profileLogout">Sign out</button>
     </div>
