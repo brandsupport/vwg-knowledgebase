@@ -6,7 +6,6 @@ When enabled:
 - The global middleware protects all pages and static assets using D1-backed sessions.
 - /login and /signup are the public authentication screens.
 - Every self-service registration is a pending member account and requires manual administrator approval. Administrator privileges are granted separately from the public sign-up form.
-- New signups remain pending until an administrator approves them.
 - /admin provides approve, suspend, reactivate, promote/demote, remove and temporary-password actions.
 - /api/favorites stores each signed-in colleague’s saved article IDs in D1; favorites are private to that user and cascade away if the account is deleted.
 - /api/content stores new submissions and edit suggestions as pending D1 requests, and serves only approved D1 additions and article overrides.
