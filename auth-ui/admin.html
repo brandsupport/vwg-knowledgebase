@@ -108,7 +108,7 @@ function previewFor(request){
   wrap.append(summary,body);
   if(request.original){
     const old=el('details','review-preview'),oldSummary=el('summary','','Original published version');
-    const oldBody=el('div','preview-body');oldBody.innerHTML=request.original.html||'<p>Original content unavailable.</p>';
+    const oldBody=el('div','preview-body');oldBody.textContent=request.original.text||'Original content unavailable.';
     old.append(oldSummary,oldBody);wrap.append(old);
   }
   return wrap;
