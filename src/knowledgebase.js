@@ -382,35 +382,59 @@ function renderArticleRequest(articleId){
         <p class="article-form-intro">${editing?'Suggest a clearer or more up-to-date version. Your changes will be reviewed before replacing the published article.':'Add something useful to the team’s knowledge. Your contribution will be reviewed by an administrator before it is published.'}</p>
         <div class="article-form-review-note"><span class="review-note-dot"></span>${editing?'Your changes stay pending until an administrator approves them.':'Every contribution is reviewed before it appears in the Knowledge Base.'}</div>
         <form id="articleRequestForm" class="article-request-form">
-          <label for="requestTitle">Article title</label>
-          <input class="kb-form-control" id="requestTitle" maxlength="180" required value="${editing?escapeHtml(article.title):''}" placeholder="Enter a clear article title">
-          <label for="requestCategory">Category</label>
-          <select class="kb-form-control" id="requestCategory" required>${categoryOptions}</select>
-          <label for="requestTags">Tags / keywords</label>
-          <input class="kb-form-control" id="requestTags" maxlength="500" value="${editing?escapeHtml((article.tags||[]).join(', ')):''}" placeholder="e.g. SLI, Audi, Transport">
-          <label for="requestBody">Article content</label>
-          <textarea class="kb-form-control kb-form-textarea" id="requestBody" required minlength="10" maxlength="30000" placeholder="Write the article here. Use ## for headings, - for bullet points and 1. for numbered steps.">${editing?escapeHtml(htmlToEditorText(article.html)):''}</textarea>
-          <label for="requestImageFiles">Screenshots and images</label>
-          <div class="image-upload-field">
-            <input class="image-file-input" id="requestImageFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple>
-            <label class="image-upload-dropzone" id="imageUploadDropzone" for="requestImageFiles">
-              <span class="image-upload-icon" aria-hidden="true">↑</span>
-              <span class="image-upload-copy"><strong>Choose images to upload</strong><small>or drag and drop them here · PNG, JPG or WEBP · up to 8 images</small></span>
-              <span class="image-upload-browse">Browse files</span>
-            </label>
-            <div id="imageUploadStatus" class="image-upload-status" aria-live="polite">No new images selected.</div>
-            <div id="imagePreviewGrid" class="image-preview-grid"></div>
-          </div>
-          <details class="image-links-fallback">
-            <summary>Or add images using secure HTTPS links</summary>
-            <textarea class="kb-form-control" id="requestImageLinks" rows="2" placeholder="Paste one HTTPS image link per line"></textarea>
-          </details>
-          <div class="form-helper">${editing?'Your existing article images are shown above. Remove any image you no longer need.':'Images are automatically resized and optimised before submission.'}</div>
-          <label for="requestSource">Source / reference link (optional)</label>
-          <input class="kb-form-control" id="requestSource" type="url" value="${escapeHtml(source)}" placeholder="https://...">
+          <section class="article-form-section">
+            <div class="article-form-section-head"><span class="article-form-step">01</span><div><h2>Article details</h2><p>Give the contribution a clear title and category.</p></div></div>
+            <div class="article-form-fields">
+              <label for="requestTitle">Article title <span class="form-required">*</span></label>
+              <input class="kb-form-control" id="requestTitle" maxlength="180" required value="${editing?escapeHtml(article.title):''}" placeholder="Enter a clear article title">
+              <div class="article-form-field-grid">
+                <div class="article-form-field">
+                  <label for="requestCategory">Category <span class="form-required">*</span></label>
+                  <select class="kb-form-control" id="requestCategory" required>${categoryOptions}</select>
+                </div>
+                <div class="article-form-field">
+                  <label for="requestTags">Tags / keywords <span class="form-optional">Optional</span></label>
+                  <input class="kb-form-control" id="requestTags" maxlength="500" value="${editing?escapeHtml((article.tags||[]).join(', ')):''}" placeholder="e.g. SLI, Audi, Transport">
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="article-form-section">
+            <div class="article-form-section-head"><span class="article-form-step">02</span><div><h2>Article content</h2><p>Explain the process in clear steps another colleague can follow.</p></div></div>
+            <div class="article-form-fields">
+              <label for="requestBody">Content <span class="form-required">*</span></label>
+              <textarea class="kb-form-control kb-form-textarea" id="requestBody" required minlength="10" maxlength="30000" placeholder="Write the article here. Use ## for headings, - for bullet points and 1. for numbered steps.">${editing?escapeHtml(htmlToEditorText(article.html)):''}</textarea>
+              <div class="form-field-tip">Include any relevant status codes, checks, system references or exceptions.</div>
+            </div>
+          </section>
+          <section class="article-form-section">
+            <div class="article-form-section-head"><span class="article-form-step">03</span><div><h2>Images and references</h2><p>Add screenshots that make the instructions easier to understand.</p></div></div>
+            <div class="article-form-fields">
+              <label for="requestImageFiles">Screenshots and images <span class="form-optional">Optional</span></label>
+              <div class="image-upload-field">
+                <input class="image-file-input" id="requestImageFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+                <label class="image-upload-dropzone" id="imageUploadDropzone" for="requestImageFiles">
+                  <span class="image-upload-icon" aria-hidden="true">↑</span>
+                  <span class="image-upload-copy"><strong>Choose images to upload</strong><small>or drag and drop them here · PNG, JPG or WEBP · up to 8 images</small></span>
+                  <span class="image-upload-browse">Browse files</span>
+                </label>
+                <div id="imageUploadStatus" class="image-upload-status" aria-live="polite">No new images selected.</div>
+                <div id="imagePreviewGrid" class="image-preview-grid"></div>
+              </div>
+              <details class="image-links-fallback">
+                <summary>Or add images using secure HTTPS links</summary>
+                <textarea class="kb-form-control" id="requestImageLinks" rows="2" placeholder="Paste one HTTPS image link per line"></textarea>
+              </details>
+              <div class="form-helper">${editing?'Your existing article images are shown above. Remove any image you no longer need.':'Images are automatically resized and optimised before submission.'}</div>
+              <div class="article-form-field source-field">
+                <label for="requestSource">Source / reference link <span class="form-optional">Optional</span></label>
+                <input class="kb-form-control" id="requestSource" type="url" value="${escapeHtml(source)}" placeholder="https://...">
+              </div>
+            </div>
+          </section>
           <div class="article-form-actions">
-            <button class="load-more" type="button" onclick="${cancelAction}">Cancel</button>
-            <button class="article-form-submit" id="requestSubmit" type="submit">${editing?'Send update for approval':'Submit for approval'}</button>
+            <button class="form-cancel-button" type="button" onclick="${cancelAction}">Cancel</button>
+            <button class="article-form-submit" id="requestSubmit" type="submit">${editing?'Send update for approval':'Submit for review'}</button>
           </div>
           <div class="article-form-message" id="requestMessage" role="status" aria-live="polite"></div>
         </form>
