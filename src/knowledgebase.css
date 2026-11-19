@@ -837,3 +837,113 @@ code{font-family:var(--font-mono); background:var(--code-bg); color:var(--code-i
 :root[data-theme="light"] .article-form-step{background:rgba(0,146,184,.07);border-color:rgba(0,146,184,.2)}
 :root[data-theme="light"] .article-form-section-head h2,:root[data-theme="light"] .article-form-fields>label,:root[data-theme="light"] .article-form-field>label{color:#172033}
 @media(max-width:620px){.article-form-field-grid{grid-template-columns:1fr;gap:0}.article-form-section-head{margin-bottom:12px}.article-form-section{padding-bottom:19px;margin-bottom:18px}}
+
+
+/* ---------- Responsive layout + hidden-state safeguards ---------- */
+:where([hidden]){display:none!important}
+html,body{max-width:100%;overflow-x:clip}
+@supports not (overflow:clip){html,body{overflow-x:hidden}}
+img,video,canvas,iframe{max-width:100%}
+.page,.header-inner,.article-page,.article-detail,.article-form-shell,.footer-inner{min-width:0}
+.feed-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.mega-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.article-source-note{margin-top:16px;padding:11px 13px;border:1px solid var(--line);border-left:3px solid var(--neon-1);border-radius:9px;background:var(--surface);color:var(--ink-soft);font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.article-source-note strong{color:var(--neon-1);margin-right:5px}
+.article-body table{width:max-content;min-width:100%}
+.article-body pre{white-space:pre-wrap;overflow-wrap:anywhere}
+
+@media(max-width:1100px){
+  .header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand brand" "search tools" "nav nav";gap:10px 12px;padding:12px clamp(14px,3vw,26px)}
+  .brand-block{grid-area:brand;min-width:0}
+  .header-search{grid-area:search;width:100%;min-width:0;max-width:none;margin:0}
+  .header-tools{grid-area:tools;justify-self:end;margin:0;gap:7px}
+  .main-nav{grid-area:nav;width:100%;min-width:0;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;padding:0 0 3px;scrollbar-width:thin}
+  .main-nav .nav-link{flex:0 0 auto}
+  .mega-grid{padding-left:clamp(14px,3vw,26px);padding-right:clamp(14px,3vw,26px)}
+  .page{padding-left:clamp(16px,3vw,28px);padding-right:clamp(16px,3vw,28px)}
+}
+@media(max-width:760px){
+  .hero{padding:34px 0 6px}
+  .hero h1{font-size:clamp(30px,6.5vw,42px);max-width:18ch}
+  .hero p{font-size:14px;max-width:62ch}
+  .featured-card{grid-template-columns:minmax(0,1fr) minmax(130px,.55fr);margin:26px 0 34px}
+  .featured-text{padding:24px 22px}
+  .featured-text h2{font-size:clamp(19px,3.2vw,24px);overflow-wrap:anywhere}
+  .featured-visual{min-height:160px;font-size:54px}
+  .feed-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+  .article-page{padding:28px 0 64px}
+  .article-detail h1{font-size:clamp(26px,5vw,33px);overflow-wrap:anywhere}
+  .article-body{font-size:14px}
+  .footer-inner{padding:26px clamp(16px,3vw,28px) 36px}
+  .article-form-shell{width:100%}
+}
+@media(max-width:560px){
+  .header-inner{gap:9px 8px;padding:10px 13px}
+  .brand-mark{width:40px;height:40px;border-radius:12px}
+  .brand-title{font-size:13px}
+  .logo-glow{width:26px;height:26px}
+  .header-search input{height:42px;padding:10px 12px 10px 38px;font-size:13px}
+  .header-search .icon{left:13px}
+  .theme-toggle,.profile-button{width:38px;height:38px}
+  .header-tools{gap:6px}
+  .main-nav{gap:2px}
+  .nav-link{padding:7px 8px;font-size:11.5px}
+  .page{padding-left:14px;padding-right:14px;padding-bottom:58px}
+  .search-page{padding-top:22px}
+  .hero{padding-top:28px}
+  .hero h1{font-size:clamp(28px,8vw,36px);max-width:none}
+  .hero p{font-size:13.5px;margin-bottom:19px}
+  .hero-search{margin-bottom:21px}
+  .hero-search input{font-size:14px;padding:14px 14px 14px 42px}
+  .stat-row{gap:7px}
+  .stat-chip{flex:1 1 calc(33.333% - 7px);min-width:0;padding:9px 10px}
+  .stat-chip .num{font-size:21px}
+  .stat-chip .label{font-size:10px}
+  .featured-card{grid-template-columns:1fr;margin:22px 0 30px}
+  .featured-text{padding:21px 19px}
+  .featured-visual{min-height:96px;font-size:44px}
+  .feed-grid{grid-template-columns:minmax(0,1fr);gap:11px}
+  .article-card{padding:16px}
+  .article-page{padding:20px 0 54px}
+  .article-detail h1{font-size:clamp(24px,7vw,30px);line-height:1.16;margin-bottom:16px}
+  .article-detail-actions{align-items:stretch;gap:9px;padding:10px}
+  .article-save-action{width:100%}
+  .article-detail-action-spacer{display:none}
+  .article-admin-actions{width:100%;margin:0;padding:11px 0 0;border-left:0;border-top:1px solid var(--line);justify-content:flex-start}
+  .article-admin-label{width:100%}
+  .article-admin-actions .article-action-button{flex:1 1 130px;min-width:0}
+  .article-detail-actions>.article-action-button{width:100%}
+  .article-form-shell{border-radius:16px}
+  .article-form-shell>.back-link{margin-left:17px;margin-right:17px}
+  .article-form-shell>.article-form-kicker,.article-form-shell>h1,.article-form-shell>.article-form-intro,.article-form-shell>.article-form-review-note{margin-left:17px;margin-right:17px}
+  .article-request-form{padding:18px 16px 20px}
+  .article-form-section-head{gap:9px}
+  .article-form-section-head p{font-size:10px}
+  .image-upload-dropzone{gap:10px;padding:13px}
+  .image-upload-copy small{overflow-wrap:anywhere}
+  .image-upload-browse{margin-left:50px}
+  .image-preview-grid{grid-template-columns:repeat(auto-fit,minmax(105px,1fr))}
+  .article-form-actions{justify-content:stretch;gap:8px}
+  .article-form-actions>*{flex:1 1 130px;min-width:0}
+  .favorites-heading h1,.content-section-heading h1{font-size:28px}
+  .footer-inner{gap:15px}
+  .footer-links{gap:12px}
+  .kb-chat-launcher{right:12px;bottom:12px;max-width:calc(100vw - 24px);padding:11px 14px;font-size:12px}
+  .kb-chat-panel{right:8px;bottom:66px;width:calc(100vw - 16px);max-height:calc(100dvh - 82px)}
+}
+@media(max-width:380px){
+  .header-inner{padding-left:10px;padding-right:10px}
+  .brand-title{font-size:12px}
+  .brand-block{gap:8px}
+  .header-search input{font-size:12px}
+  .header-tools{gap:5px}
+  .theme-toggle,.profile-button{width:36px;height:36px}
+  .nav-link{padding:7px 7px;font-size:10.5px}
+  .stat-chip{padding:8px}
+  .stat-chip .num{font-size:19px}
+  .article-card .num{font-size:10px}
+  .article-admin-actions .article-action-button{flex-basis:100%}
+  .article-form-shell>.article-form-kicker,.article-form-shell>h1,.article-form-shell>.article-form-intro,.article-form-shell>.article-form-review-note{margin-left:14px;margin-right:14px}
+  .article-request-form{padding-left:13px;padding-right:13px}
+  .image-upload-dropzone{gap:8px;padding:11px}
+}
