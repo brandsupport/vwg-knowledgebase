@@ -50,7 +50,7 @@ export async function onRequest(ctx){
   try{body=await readJson(request,50000);}catch{return jsonResponse({error:"Invalid admin request."},400);}
   if(action==="delete"){
     const articleId=String(body.articleId||""),article=body.article;
-    if(!/^\\d{1,16}$/.test(articleId)||!article||String(article.id)!==articleId||!article.title)return jsonResponse({error:"A valid article is required."},400);
+    if(!/^\d{1,16}$/.test(articleId)||!article||String(article.id)!==articleId||!article.title)return jsonResponse({error:"A valid article is required."},400);
     await env.DB.prepare("INSERT INTO article_recycle_bin(article_id,article_json,source_type,deleted_at,deleted_by) VALUES(?,?,?,?,?) ON CONFLICT(article_id) DO NOTHING")
       .bind(articleId,JSON.stringify(article),"knowledge-base",Date.now(),admin.id).run();
     await env.DB.prepare("DELETE FROM article_favorites WHERE article_id=?").bind(articleId).run();
@@ -58,21 +58,21 @@ export async function onRequest(ctx){
   }
   if(action==="restore"){
     const articleId=String(body.articleId||"");
-    if(!/^\\d{1,16}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
-    const result=await env.DB.prepare("UPDATE article_recycle_bin SET permanently_deleted=1 WHERE article_id=?").bind(articleId).run();
+    if(!/^\d{1,16}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
+    const result=await env.DB.prepare("DELETE FROM article_recycle_bin WHERE article_id=? AND permanently_deleted=0").bind(articleId).run();
     if(!result.meta?.changes)return jsonResponse({error:"This article is not in the recycle bin."},404);
     return jsonResponse({ok:true,status:"restored"});
   }
   if(action==="permanent-delete"){
     const articleId=String(body.articleId||"");
-    if(!/^\\d{1,16}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
+    if(!/^\d{1,16}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
     const item=await env.DB.prepare("SELECT article_id FROM article_recycle_bin WHERE article_id=?").bind(articleId).first();
     if(!item)return jsonResponse({error:"This article is not in the recycle bin."},404);
     await env.DB.batch([
       env.DB.prepare("DELETE FROM published_articles WHERE id=?").bind(articleId),
       env.DB.prepare("DELETE FROM article_overrides WHERE article_id=?").bind(articleId),
       env.DB.prepare("DELETE FROM article_favorites WHERE article_id=?").bind(articleId),
-      env.DB.prepare("DELETE FROM article_recycle_bin WHERE article_id=?").bind(articleId)
+      env.DB.prepare("UPDATE article_recycle_bin SET permanently_deleted=1 WHERE article_id=? AND permanently_deleted=0").bind(articleId)
     ]);
     return jsonResponse({ok:true,status:"permanently-deleted"});
   }
