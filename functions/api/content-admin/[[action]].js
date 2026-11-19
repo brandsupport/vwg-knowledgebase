@@ -28,22 +28,54 @@ export async function onRequest(ctx){
     }
     if(action==="articles"){
       const [published,overrides]=await Promise.all([
-        env.DB.prepare("SELECT id,article_json,published_at FROM published_articles ORDER BY published_at DESC").all(),
-        env.DB.prepare("SELECT article_id,article_json,updated_at FROM article_overrides ORDER BY updated_at DESC").all()
+        env.DB.prepare("SELECT id,article_json,published_at FROM published_articles WHERE id NOT IN (SELECT article_id FROM article_recycle_bin) ORDER BY published_at DESC").all(),
+        env.DB.prepare("SELECT article_id,article_json,updated_at FROM article_overrides WHERE article_id NOT IN (SELECT article_id FROM article_recycle_bin) ORDER BY updated_at DESC").all()
       ]);
       return jsonResponse({
         published:(published.results||[]).map(row=>({id:row.id,publishedAt:row.published_at,article:safeJson(row.article_json)})).filter(x=>x.article),
         updated:(overrides.results||[]).map(row=>({id:row.article_id,updatedAt:row.updated_at,article:safeJson(row.article_json)})).filter(x=>x.article)
       });
     }
+    if(action==="recycle-bin"){
+      const rows=await env.DB.prepare("SELECT article_id,article_json,deleted_at,deleted_by FROM article_recycle_bin ORDER BY deleted_at DESC").all();
+      return jsonResponse({items:(rows.results||[]).map(row=>({id:row.article_id,article:safeJson(row.article_json),deletedAt:row.deleted_at,deletedBy:row.deleted_by})).filter(x=>x.article)});
+    }
     return jsonResponse({error:"Not found."},404);
   }
 
   if(request.method!=="POST")return jsonResponse({error:"Method not allowed."},405);
   if(!isSameOrigin(request))return jsonResponse({error:"Invalid request origin."},403);
-  if(action!=="review")return jsonResponse({error:"Not found."},404);
+  if(!["review","delete","restore","permanent-delete"].includes(action))return jsonResponse({error:"Not found."},404);
   let body;
-  try{body=await readJson(request,50000);}catch{return jsonResponse({error:"Invalid review request."},400);}
+  try{body=await readJson(request,50000);}catch{return jsonResponse({error:"Invalid admin request."},400);}
+  if(action==="delete"){
+    const articleId=String(body.articleId||""),article=body.article;
+    if(!/^\\d{1,16}$/.test(articleId)||!article||String(article.id)!==articleId||!article.title)return jsonResponse({error:"A valid article is required."},400);
+    await env.DB.prepare("INSERT INTO article_recycle_bin(article_id,article_json,source_type,deleted_at,deleted_by) VALUES(?,?,?,?,?) ON CONFLICT(article_id) DO NOTHING")
+      .bind(articleId,JSON.stringify(article),"knowledge-base",Date.now(),admin.id).run();
+    await env.DB.prepare("DELETE FROM article_favorites WHERE article_id=?").bind(articleId).run();
+    return jsonResponse({ok:true,status:"deleted"});
+  }
+  if(action==="restore"){
+    const articleId=String(body.articleId||"");
+    if(!/^\\d{1,16}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
+    const result=await env.DB.prepare("DELETE FROM article_recycle_bin WHERE article_id=?").bind(articleId).run();
+    if(!result.meta?.changes)return jsonResponse({error:"This article is not in the recycle bin."},404);
+    return jsonResponse({ok:true,status:"restored"});
+  }
+  if(action==="permanent-delete"){
+    const articleId=String(body.articleId||"");
+    if(!/^\\d{1,16}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
+    const item=await env.DB.prepare("SELECT article_id FROM article_recycle_bin WHERE article_id=?").bind(articleId).first();
+    if(!item)return jsonResponse({error:"This article is not in the recycle bin."},404);
+    await env.DB.batch([
+      env.DB.prepare("DELETE FROM published_articles WHERE id=?").bind(articleId),
+      env.DB.prepare("DELETE FROM article_overrides WHERE article_id=?").bind(articleId),
+      env.DB.prepare("DELETE FROM article_favorites WHERE article_id=?").bind(articleId),
+      env.DB.prepare("DELETE FROM article_recycle_bin WHERE article_id=?").bind(articleId)
+    ]);
+    return jsonResponse({ok:true,status:"permanently-deleted"});
+  }
   const requestId=String(body.requestId||"");
   const decision=String(body.decision||"");
   const note=String(body.note||"").trim().slice(0,2000);
