@@ -36,7 +36,8 @@ export async function onRequest(ctx){
     cat:Number(body.originalArticle.cat)||article.cat,
     tags:Array.isArray(body.originalArticle.tags)?body.originalArticle.tags.slice(0,8):[],
     text:String(body.originalArticle.html||"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").trim().slice(0,30000),
-    source_url:String(body.originalArticle.source_url||"").slice(0,2000)
+    source_url:String(body.originalArticle.source_url||"").slice(0,2000),
+    source_reference:String(body.originalArticle.source_reference||"").slice(0,500)
   }:null;
   await env.DB.prepare("INSERT INTO content_requests(id,request_type,article_id,submitted_by,submitter_name,submitter_email,payload_json,original_json,status,created_at) VALUES(?,?,?,?,?,?,?,?, 'pending',?)")
     .bind(id,type,articleId||null,user.id,user.name,user.email,JSON.stringify(article),original?JSON.stringify(original):null,now).run();
