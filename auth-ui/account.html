@@ -28,7 +28,7 @@
 <div class="actions"><a class="button" href="/">Open Knowledge Base</a><a class="button secondary" href="/#/favorites">Favorite articles</a><a class="button secondary" id="admin" href="/admin" hidden>Admin dashboard</a><a class="button secondary" href="/change-password">Change password</a><button id="logout" class="button secondary" type="button">Sign out</button></div>
 <p id="message" class="message" aria-live="polite"></p></main>
 <script>
-const AVATARS=["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"];
+const AVATARS=["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦭","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"];
 let selectedAvatar='👤';
 const grid=document.getElementById('avatarGrid'),preview=document.getElementById('avatarPreview'),message=document.getElementById('message'),save=document.getElementById('saveAvatar');
 function renderAvatars(){
