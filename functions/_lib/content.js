@@ -59,7 +59,7 @@ function normalizeArticle(body,{edit=false}={}){
   const allowedAttachments={pdf:"application/pdf",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",pptx:"application/vnd.openxmlformats-officedocument.presentationml.presentation",txt:"text/plain",csv:"text/csv"};
   const attachments=attachmentsProvided?body.attachments.map(item=>{
     if(!item||typeof item!=="object")throw new Error("A supporting file is invalid.");
-    const name=String(item.name||"").replace(/[\\/:*?"<>|\\u0000-\\u001F]/g,"_").trim().slice(0,120);
+    const name=String(item.name||"").replaceAll("/","_").replaceAll(String.fromCharCode(92),"_").replace(/[:*?"<>|\u0000-\u001F]/g,"_").trim().slice(0,120);
     const ext=(name.split(".").pop()||"").toLowerCase(),mime=allowedAttachments[ext],data=String(item.data||"");
     if(!name||!mime||item.type!==mime||!data.startsWith("data:"+mime+";base64,"))throw new Error("Supporting files must be PDF, DOCX, XLSX, PPTX, TXT or CSV.");
     const match=data.match(/^data:([^;]+);base64,([A-Za-z0-9+/]+={0,2})$/);
