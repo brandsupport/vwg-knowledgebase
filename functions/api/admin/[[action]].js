@@ -8,7 +8,7 @@ export async function onRequest(ctx){
  const action=Array.isArray(ctx.params.action)?ctx.params.action[0]:ctx.params.action;
  if(request.method==="GET"){
   if(action==="users"){
-   const rows=await env.DB.prepare("SELECT u.id,u.name,u.email,COALESCE(ap.avatar,u.avatar) AS avatar,u.role,u.status,u.created_at,u.last_login_at FROM users u LEFT JOIN user_avatar_preferences ap ON ap.user_id=u.id ORDER BY CASE u.status WHEN 'pending' THEN 0 WHEN 'active' THEN 1 ELSE 2 END,u.created_at DESC").all();
+   let rows;try{rows=await env.DB.prepare("SELECT u.id,u.name,u.email,COALESCE(ap.avatar,u.avatar) AS avatar,u.role,u.status,u.created_at,u.last_login_at FROM users u LEFT JOIN user_avatar_preferences ap ON ap.user_id=u.id ORDER BY CASE u.status WHEN 'pending' THEN 0 WHEN 'active' THEN 1 ELSE 2 END,u.created_at DESC").all();}catch{rows=await env.DB.prepare("SELECT id,name,email,avatar,role,status,created_at,last_login_at FROM users ORDER BY CASE status WHEN 'pending' THEN 0 WHEN 'active' THEN 1 ELSE 2 END,created_at DESC").all();}
    return jsonResponse({users:rows.results||[]});
   }
   if(action==="notifications"){
