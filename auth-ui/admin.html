@@ -118,7 +118,7 @@ td[data-label="Role"]{text-transform:capitalize;color:#b9c8df}
 .review-preview summary:after{content:"＋";font-size:12px;color:var(--muted)}
 .review-preview[open] summary:after{content:"−"}
 .preview-body{max-height:420px;overflow:auto;margin-top:11px;padding:17px;border:1px solid rgba(183,204,235,.09);border-radius:10px;background:#09111e;color:#dce7f6;font-size:12px;line-height:1.7;overflow-wrap:anywhere}
-.preview-body h3,.preview-body h4{color:#7ce6f2;margin:16px 0 7px}.preview-body p{margin:0 0 12px}.preview-body img{max-width:100%;height:auto;border-radius:8px;margin:7px 0}
+.preview-body h3,.preview-body h4{color:#7ce6f2;margin:16px 0 7px}.preview-body p{margin:0 0 12px}.preview-body img{max-width:100%;height:auto;border-radius:8px;margin:7px 0}.preview-body .preview-source{margin-top:14px;padding:9px 11px;border-left:3px solid var(--cyan);background:rgba(0,223,245,.055);color:#b9d5df;overflow-wrap:anywhere}
 .review-note{display:block;width:100%;min-height:76px;resize:vertical;margin-top:14px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#0b1422;color:var(--ink);font:12px/1.6 'Sora',sans-serif;outline:none}
 .review-note::placeholder{color:#72839a}
 .review-note:focus{border-color:rgba(0,223,245,.6);box-shadow:0 0 0 3px rgba(0,223,245,.08)}
@@ -269,6 +269,8 @@ function previewFor(request){
   const body=el('div','preview-body');
   body.innerHTML=request.payload.html||'<p>No article body supplied.</p>';
   if(Array.isArray(request.payload.images))request.payload.images.forEach(url=>{if(typeof url==='string'&&(url.startsWith('https://')||/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(url)||/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9_-][A-Za-z0-9._/-]*$/.test(url))&&!url.includes('..')){const img=el('img');img.src=url;img.alt='Submitted article image';img.loading='lazy';body.append(img);}});
+  const sourceReference=String(request.payload.source_reference||'').trim();
+  if(sourceReference){const source=el('p','preview-source','Source / reference: '+sourceReference);body.append(source);}
   wrap.append(summary,body);
   if(request.original){
     const old=el('details','review-preview'),oldSummary=el('summary','','Original published version');
