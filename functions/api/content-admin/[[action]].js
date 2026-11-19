@@ -37,7 +37,7 @@ export async function onRequest(ctx){
       });
     }
     if(action==="recycle-bin"){
-      const rows=await env.DB.prepare("SELECT article_id,article_json,deleted_at,deleted_by FROM article_recycle_bin ORDER BY deleted_at DESC").all();
+      const rows=await env.DB.prepare("SELECT article_id,article_json,deleted_at,deleted_by FROM article_recycle_bin WHERE permanently_deleted=0 ORDER BY deleted_at DESC").all();
       return jsonResponse({items:(rows.results||[]).map(row=>({id:row.article_id,article:safeJson(row.article_json),deletedAt:row.deleted_at,deletedBy:row.deleted_by})).filter(x=>x.article)});
     }
     return jsonResponse({error:"Not found."},404);
@@ -59,7 +59,7 @@ export async function onRequest(ctx){
   if(action==="restore"){
     const articleId=String(body.articleId||"");
     if(!/^\\d{1,16}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
-    const result=await env.DB.prepare("DELETE FROM article_recycle_bin WHERE article_id=?").bind(articleId).run();
+    const result=await env.DB.prepare("UPDATE article_recycle_bin SET permanently_deleted=1 WHERE article_id=?").bind(articleId).run();
     if(!result.meta?.changes)return jsonResponse({error:"This article is not in the recycle bin."},404);
     return jsonResponse({ok:true,status:"restored"});
   }
