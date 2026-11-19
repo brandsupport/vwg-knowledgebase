@@ -1,6 +1,172 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin dashboard · VWG Brand Support</title><link rel="icon" type="image/png" sizes="64x64" href="__FAVICON__"><style>:root{color-scheme:dark;font-family:system-ui;background:#080d18;color:#f4f6fb}*{box-sizing:border-box}body{margin:0;padding:28px;background:radial-gradient(ellipse at 50% 0,#1a3150 0,transparent 55%),#080d18}.wrap{max-width:1100px;margin:auto}.brand{font-size:12px;letter-spacing:.18em;color:#82d6ff;font-weight:800}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}h1{margin:16px 0 6px}.muted{color:#9fb0c6}.actions{display:flex;gap:8px;flex-wrap:wrap}.button{border:0;border-radius:9px;padding:9px 12px;background:#263750;color:#eef6ff;font-weight:700;cursor:pointer;text-decoration:none;font-size:13px}.primary{background:#73dccc;color:#071321}.danger{background:#582a37;color:#ffdce3}.tablewrap{overflow:auto;border:1px solid #ffffff20;border-radius:14px;margin-top:22px;background:#101a2b}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:13px;border-bottom:1px solid #ffffff12;font-size:13px}th{color:#91a4bc;background:#0d1727}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#29364b;font-size:11px}.pending{background:#534328;color:#ffdf9a}.active{background:#174a43;color:#a7f3d0}.suspended{background:#582a37;color:#ffdce3}.message{margin:14px 0;color:#9fe6d8;min-height:22px}.empty{padding:20px;color:#9fb0c6}.help{margin-top:20px;font-size:12px;color:#8193aa;line-height:1.6}@property --auth-glow-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administration · VWG Brand Support</title>
+<link rel="icon" type="image/png" sizes="64x64" href="__FAVICON__">
+<style>
+:root{color-scheme:dark;font-family:system-ui;background:#080d18;color:#f4f6fb}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:28px;background:radial-gradient(ellipse at 50% 0,#1a3150 0,transparent 55%),#080d18}
+.wrap{max-width:1180px;margin:auto}.brand{font-size:12px;letter-spacing:.18em;color:#82d6ff;font-weight:800}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+h1{margin:14px 0 6px;font-size:28px}.muted{color:#9fb0c6}.actions,.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.button,.tab{border:1px solid #34445d;border-radius:9px;padding:9px 13px;background:#17263a;color:#eef6ff;font-weight:700;cursor:pointer;text-decoration:none;font-size:13px}
+.button.primary{border-color:transparent;background:linear-gradient(115deg,#35b9ef,#76e0ce);color:#071321}
+.button.danger{background:#582a37;color:#ffdce3}.button:disabled{opacity:.55;cursor:wait}
+.tabs{margin:26px 0 18px;border-bottom:1px solid #ffffff20;padding-bottom:12px}
+.tab{background:transparent;color:#aab7ca}.tab.active,.tab:hover{color:#071321;background:linear-gradient(115deg,#35b9ef,#76e0ce);border-color:transparent}
+.panel{display:none}.panel.active{display:block}
+.tablewrap,.review-card,.published-card{overflow:auto;border:1px solid #ffffff20;border-radius:14px;margin-top:14px;background:#101a2b}
+table{width:100%;border-collapse:collapse;min-width:780px}th,td{text-align:left;padding:13px;border-bottom:1px solid #ffffff12;font-size:13px}
+th{color:#91a4bc;background:#0d1727}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#29364b;font-size:11px}
+.pending{background:#534328;color:#ffdf9a}.active{background:#174a43;color:#a7f3d0}.suspended{background:#582a37;color:#ffdce3}
+.message{margin:14px 0;color:#9fe6d8;min-height:22px}.empty{padding:24px;color:#9fb0c6;text-align:center}
+.review-list,.published-list{display:grid;gap:14px}.review-card,.published-card{padding:18px 20px;margin:0;overflow:visible}
+.review-head,.published-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.review-head h3,.published-head h3{margin:0 0 6px;font-size:16px}.meta{font-size:12px;color:#8fa2ba}
+.review-preview{margin-top:14px;border-top:1px solid #ffffff16;padding-top:12px}
+.review-preview summary{color:#82d6ff;font-size:13px;font-weight:700;cursor:pointer}
+.preview-body{margin-top:12px;padding:15px;border-radius:10px;background:#0b1322;color:#e6edf7;font-size:13px;line-height:1.65;overflow-wrap:anywhere}
+.preview-body h3,.preview-body h4{color:#82d6ff;margin:16px 0 7px}.preview-body p{margin:0 0 12px}.preview-body img{max-width:100%;height:auto;border-radius:9px;margin:7px 0}
+.review-note{width:100%;min-height:66px;resize:vertical;padding:11px 12px;border:1px solid transparent;border-radius:10px;background:linear-gradient(#0b1322,#0b1322) padding-box,conic-gradient(from var(--auth-glow-angle),#35b9ef,#8265ff,#76e0ce,#35b9ef) border-box;color:#fff;font:inherit;font-size:13px;outline:none}
+@property --auth-glow-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
 @keyframes auth-neon-spin{to{--auth-glow-angle:360deg}}
-input,textarea,select{border:1px solid transparent;background:linear-gradient(#0b1322,#0b1322) padding-box,conic-gradient(from var(--auth-glow-angle),#35b9ef,#8265ff,#76e0ce,#35b9ef) border-box;transition:box-shadow .2s ease,filter .2s ease}
-input:hover,textarea:hover,select:hover{box-shadow:0 0 11px #35b9ef24}
-input:focus,textarea:focus,select:focus{outline:none;animation:auth-neon-spin 2.4s linear infinite;box-shadow:0 0 0 1px #35b9ef55,0 0 16px #35b9ef45,0 0 28px #76e0ce25}
-@media(prefers-reduced-motion:reduce){input:focus,textarea:focus,select:focus{animation:none;background:linear-gradient(#0b1322,#0b1322) padding-box,linear-gradient(110deg,#35b9ef,#76e0ce) border-box}}</style></head><body><main class="wrap"><div class="top"><div><div class="brand">VWG · BRAND SUPPORT</div><h1>Access administration</h1><div class="muted">Review registrations and manage colleague access.</div></div><div class="actions"><a class="button" href="/">Knowledge Base</a><a class="button" href="/account">My account</a><button class="button" id="refresh">Refresh list</button></div></div><div id="message" class="message" aria-live="polite"></div><section class="tablewrap"><table><thead><tr><th>Colleague</th><th>Email</th><th>Role</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead><tbody id="users"><tr><td colspan="6" class="empty">Loading accounts…</td></tr></tbody></table></section><p class="help">Pending accounts cannot sign in until approved. Temporary passwords are shown only once when you reset a colleague's password. Share them privately, never in a public channel.</p></main><script>const tbody=document.getElementById('users'),message=document.getElementById('message');function button(label,action,id,kind){const b=document.createElement('button');b.className='button '+(kind||'');b.textContent=label;b.addEventListener('click',()=>perform(action,id));return b;}async function load(){message.textContent='';tbody.replaceChildren();const r=await fetch('/api/admin/users'),d=await r.json();if(!r.ok){message.textContent=d.error||'Could not load accounts.';return;}if(!d.users.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=6;td.className='empty';td.textContent='No registrations yet.';tr.append(td);tbody.append(tr);return;}for(const u of d.users){const tr=document.createElement('tr'),name=document.createElement('td'),email=document.createElement('td'),role=document.createElement('td'),status=document.createElement('td'),pill=document.createElement('span'),created=document.createElement('td'),actions=document.createElement('td'),group=document.createElement('div');name.textContent=u.name;email.textContent=u.email;role.textContent=u.role;pill.className='pill '+u.status;pill.textContent=u.status;status.append(pill);created.textContent=new Date(u.created_at).toLocaleString();group.className='actions';if(u.status==='pending')group.append(button('Approve','approve',u.id,'primary'));if(u.status==='active')group.append(button('Suspend','suspend',u.id,'danger'));if(u.status==='suspended')group.append(button('Reactivate','activate',u.id,'primary'));if(u.role==='member'&&u.status==='active')group.append(button('Make admin','promote',u.id));if(u.role==='admin'&&u.status==='active')group.append(button('Demote','demote',u.id));group.append(button('Reset password','reset_password',u.id));group.append(button('Remove','delete',u.id,'danger'));actions.append(group);tr.append(name,email,role,status,created,actions);tbody.append(tr);}}async function perform(action,id){if(['delete','suspend','demote'].includes(action)&&!confirm('Are you sure you want to '+action.replace('_',' ')+' this account?'))return;message.textContent='Updating account…';const r=await fetch('/api/admin/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,id})}),d=await r.json();if(!r.ok){message.textContent=d.error||'The change failed.';return;}const resultMessage=d.temporaryPassword?'Temporary password (shown once): '+d.temporaryPassword+' — copy it now and share it privately.':(d.message||'Account updated.');await load();message.textContent=resultMessage;if(d.temporaryPassword){try{await navigator.clipboard.writeText(d.temporaryPassword);message.textContent+=' It was also copied to your clipboard.';}catch(e){}}}document.getElementById('refresh').addEventListener('click',load);load();</script></body></html>
+.review-note:focus{animation:auth-neon-spin 2.4s linear infinite;box-shadow:0 0 0 1px #35b9ef55,0 0 16px #35b9ef45}
+.review-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}
+.published-card a{color:#82d6ff;text-decoration:none;font-size:13px}.published-card a:hover{text-decoration:underline}
+.help{margin-top:20px;font-size:12px;color:#8193aa;line-height:1.6}
+@media(max-width:650px){body{padding:18px 12px}.review-card,.published-card{padding:14px}.top .actions{width:100%}.top .actions>*{flex:1;text-align:center}}
+@media(prefers-reduced-motion:reduce){.review-note{animation:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <div><div class="brand">VWG · BRAND SUPPORT</div><h1>Administration</h1><div class="muted">Manage colleague access, review content and maintain the Knowledge Base.</div></div>
+    <div class="actions"><a class="button" href="/">Knowledge Base</a><a class="button" href="/account">My account</a><button class="button" id="refreshAll">Refresh</button></div>
+  </div>
+  <div id="message" class="message" aria-live="polite"></div>
+  <nav class="tabs" aria-label="Administration sections">
+    <button class="tab active" data-panel="users">Users</button>
+    <button class="tab" data-panel="submissions">New submissions <span id="submissionCount"></span></button>
+    <button class="tab" data-panel="revisions">Article revisions <span id="revisionCount"></span></button>
+    <button class="tab" data-panel="articles">Published contributions</button>
+  </nav>
+
+  <section class="panel active" id="panel-users">
+    <div class="tablewrap"><table><thead><tr><th>Colleague</th><th>Email</th><th>Role</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead><tbody id="users"><tr><td colspan="6" class="empty">Loading accounts…</td></tr></tbody></table></div>
+    <p class="help">Pending accounts cannot sign in until approved. Temporary passwords are shown once when reset; share them privately.</p>
+  </section>
+  <section class="panel" id="panel-submissions"><div id="submissions" class="review-list"><div class="empty">Loading submissions…</div></div></section>
+  <section class="panel" id="panel-revisions">
+    <div id="revisions" class="review-list"><div class="empty">Loading revision requests…</div></div>
+    <p class="help">Approving an edit replaces the published version for everyone. The previous version and approved update are recorded in revision history.</p>
+  </section>
+  <section class="panel" id="panel-articles">
+    <div class="muted">Approved contributions and articles that have received a published update. Existing Knowledge Base articles can be opened and edited using “Suggest an update” on their article page.</div>
+    <div id="published" class="published-list" style="margin-top:14px"><div class="empty">Loading published contributions…</div></div>
+  </section>
+</main>
+<script>
+const message=document.getElementById('message');
+const tbody=document.getElementById('users');
+const categoryNames={1:'Transfers',2:'Stock',3:'Order Mods',4:'Pricing',5:'Demo Funding',6:'Registration',7:'Delays',8:'Adoption',9:'Brand-Specific',10:'Procedures',11:'Contacts',12:'Call Notes',13:'Reference',14:'Tools & Links',15:'Training',16:'Announcements',17:'Hub Articles'};
+function el(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node;}
+function button(label,action,id,kind){const b=el('button','button '+(kind||''),label);b.type='button';b.addEventListener('click',()=>performUserAction(action,id));return b;}
+function switchPanel(name){document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.panel===name));document.querySelectorAll('.panel').forEach(panel=>panel.classList.toggle('active',panel.id==='panel-'+name));}
+document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>switchPanel(tab.dataset.panel)));
+async function loadUsers(){
+  tbody.replaceChildren();const r=await fetch('/api/admin/users'),d=await r.json();
+  if(!r.ok){tbody.append(el('tr'));message.textContent=d.error||'Could not load accounts.';return;}
+  if(!d.users.length){const tr=el('tr'),td=el('td','empty','No registrations yet.');td.colSpan=6;tr.append(td);tbody.append(tr);return;}
+  for(const u of d.users){
+    const tr=el('tr'),name=el('td','',u.name),email=el('td','',u.email),role=el('td','',u.role),status=el('td'),pill=el('span','pill '+u.status,u.status),created=el('td','',new Date(u.created_at).toLocaleString()),actions=el('td'),group=el('div','actions');
+    status.append(pill);
+    if(u.status==='pending')group.append(button('Approve','approve',u.id,'primary'));
+    if(u.status==='active')group.append(button('Suspend','suspend',u.id,'danger'));
+    if(u.status==='suspended')group.append(button('Reactivate','activate',u.id,'primary'));
+    if(u.role==='member'&&u.status==='active')group.append(button('Make admin','promote',u.id));
+    if(u.role==='admin'&&u.status==='active')group.append(button('Demote','demote',u.id));
+    group.append(button('Reset password','reset_password',u.id),button('Remove','delete',u.id,'danger'));
+    actions.append(group);tr.append(name,email,role,status,created,actions);tbody.append(tr);
+  }
+}
+async function performUserAction(action,id){
+  if(['delete','suspend','demote'].includes(action)&&!confirm('Are you sure you want to '+action.replace('_',' ')+' this account?'))return;
+  message.textContent='Updating account…';
+  const r=await fetch('/api/admin/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,id})}),d=await r.json();
+  if(!r.ok){message.textContent=d.error||'The change failed.';return;}
+  await loadUsers();
+  message.textContent=d.temporaryPassword?'Temporary password (shown once): '+d.temporaryPassword+' — copy it now and share it privately.':(d.message||'Account updated.');
+  if(d.temporaryPassword){try{await navigator.clipboard.writeText(d.temporaryPassword);message.textContent+=' It was also copied to your clipboard.';}catch(e){}}
+}
+function previewFor(request){
+  const wrap=el('details','review-preview'),summary=el('summary','', 'Preview article');
+  const body=el('div','preview-body');
+  body.innerHTML=request.payload.html||'<p>No article body supplied.</p>';
+  if(Array.isArray(request.payload.images))request.payload.images.forEach(url=>{if(typeof url==='string'&&url.startsWith('https://')){const img=el('img');img.src=url;img.alt='Submitted article image';img.loading='lazy';body.append(img);}});
+  wrap.append(summary,body);
+  if(request.original){
+    const old=el('details','review-preview'),oldSummary=el('summary','','Original published version');
+    const oldBody=el('div','preview-body');oldBody.innerHTML=request.original.html||'<p>Original content unavailable.</p>';
+    old.append(oldSummary,oldBody);wrap.append(old);
+  }
+  return wrap;
+}
+async function reviewRequest(request,decision,note,card){
+  if(decision==='reject'&&!confirm('Reject this content request?'))return;
+  card.querySelectorAll('button').forEach(b=>b.disabled=true);
+  message.textContent=(decision==='approve'?'Approving':'Rejecting')+' content request…';
+  try{
+    const r=await fetch('/api/content-admin/review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requestId:request.id,decision,note})}),d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Review action failed.');
+    message.textContent=decision==='approve'?'Content approved and published.':'Content request rejected.';
+    await loadContentPanels();
+  }catch(error){message.textContent=error.message;card.querySelectorAll('button').forEach(b=>b.disabled=false);}
+}
+function renderRequestList(container,requests,kind){
+  container.replaceChildren();
+  if(!requests.length){container.append(el('div','empty',kind==='new'?'No new article submissions are waiting for review.':'No article revisions are waiting for review.'));return;}
+  for(const request of requests){
+    const card=el('article','review-card'),head=el('div','review-head'),left=el('div'),title=el('h3','',request.payload.title||'Untitled submission'),meta=el('div','meta',(categoryNames[request.payload.cat]||'Knowledge Base')+' · '+request.submitterName+' · '+new Date(request.submittedAt).toLocaleString()),pill=el('span','pill pending','Pending review');
+    left.append(title,meta);head.append(left,pill);
+    const preview=previewFor(request),note=el('textarea','review-note');note.placeholder='Optional review note (required context for a rejection is recommended)';
+    const actions=el('div','review-actions'),approve=el('button','button primary','Approve & publish'),reject=el('button','button danger','Reject');
+    approve.addEventListener('click',()=>reviewRequest(request,'approve',note.value,card));
+    reject.addEventListener('click',()=>reviewRequest(request,'reject',note.value,card));
+    actions.append(reject,approve);card.append(head,preview,note,actions);container.append(card);
+  }
+}
+async function loadContentPanels(){
+  const [subs,edits,articles]=await Promise.all([
+    fetch('/api/content-admin/submissions').then(r=>r.json()),
+    fetch('/api/content-admin/revisions').then(r=>r.json()),
+    fetch('/api/content-admin/articles').then(r=>r.json())
+  ]);
+  if(subs.error||edits.error||articles.error)throw new Error(subs.error||edits.error||articles.error);
+  const submissionRequests=subs.requests||[],revisionRequests=edits.requests||[];
+  document.getElementById('submissionCount').textContent=submissionRequests.length?'('+submissionRequests.length+')':'';
+  document.getElementById('revisionCount').textContent=revisionRequests.length?'('+revisionRequests.length+')':'';
+  renderRequestList(document.getElementById('submissions'),submissionRequests,'new');
+  renderRequestList(document.getElementById('revisions'),revisionRequests,'edit');
+  const published=document.getElementById('published');published.replaceChildren();
+  const entries=[
+    ...(articles.published||[]).map(item=>({id:item.id,article:item.article,when:item.publishedAt,label:'Published contribution'})),
+    ...(articles.updated||[]).map(item=>({id:item.id,article:item.article,when:item.updatedAt,label:'Approved article update'}))
+  ].sort((a,b)=>Number(b.when)-Number(a.when));
+  if(!entries.length){published.append(el('div','empty','No contributed articles or approved updates have been published yet.'));return;}
+  entries.forEach(item=>{
+    const card=el('article','published-card'),head=el('div','published-head'),left=el('div'),title=el('h3','',item.article.title||'Untitled article'),meta=el('div','meta',(categoryNames[item.article.cat]||'Knowledge Base')+' · '+item.label+' · '+new Date(item.when).toLocaleString()),link=el('a','','Open article ↗');
+    link.href='/#/article/'+encodeURIComponent(item.id);left.append(title,meta);head.append(left,link);card.append(head);published.append(card);
+  });
+}
+async function refreshAll(){
+  message.textContent='Refreshing administration data…';
+  try{await Promise.all([loadUsers(),loadContentPanels()]);message.textContent='Administration data refreshed.';}
+  catch(error){message.textContent=error.message||'Could not refresh administration data.';}
+}
+document.getElementById('refreshAll').addEventListener('click',refreshAll);
+refreshAll();
+</script>
+</body>
+</html>
