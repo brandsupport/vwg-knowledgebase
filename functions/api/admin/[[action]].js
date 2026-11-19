@@ -12,15 +12,19 @@ export async function onRequest(ctx){
    return jsonResponse({users:rows.results||[]});
   }
   if(action==="notifications"){
-   const[rows,count]=await Promise.all([
-    env.DB.prepare("SELECT id,type,title,message,target_url,created_at,read_at FROM admin_notifications WHERE admin_id=? ORDER BY created_at DESC LIMIT 60").bind(admin.id).all(),
-    env.DB.prepare("SELECT COUNT(*) AS count FROM admin_notifications WHERE admin_id=? AND read_at IS NULL").bind(admin.id).first()
-   ]);
-   return jsonResponse({notifications:rows.results||[],unreadCount:Number(count?.count||0)});
+   try{
+    const[rows,count]=await Promise.all([
+     env.DB.prepare("SELECT id,type,title,message,target_url,created_at,read_at FROM admin_notifications WHERE admin_id=? ORDER BY created_at DESC LIMIT 60").bind(admin.id).all(),
+     env.DB.prepare("SELECT COUNT(*) AS count FROM admin_notifications WHERE admin_id=? AND read_at IS NULL").bind(admin.id).first()
+    ]);
+    return jsonResponse({notifications:rows.results||[],unreadCount:Number(count?.count||0)});
+   }catch{return jsonResponse({error:"Admin notifications are not ready. Apply database migration 0006 first."},503);}
   }
   if(action==="password-requests"){
-   const rows=await env.DB.prepare("SELECT p.id,p.created_at,u.id AS user_id,u.name,u.email FROM password_reset_requests p JOIN users u ON u.id=p.user_id WHERE p.status='pending' AND u.status='active' ORDER BY p.created_at ASC").all();
-   return jsonResponse({requests:rows.results||[]});
+   try{
+    const rows=await env.DB.prepare("SELECT p.id,p.created_at,u.id AS user_id,u.name,u.email FROM password_reset_requests p JOIN users u ON u.id=p.user_id WHERE p.status='pending' AND u.status='active' ORDER BY p.created_at ASC").all();
+    return jsonResponse({requests:rows.results||[]});
+   }catch{return jsonResponse({error:"Password recovery is not ready. Apply database migration 0006 first."},503);}
   }
   return jsonResponse({error:"Not found."},404);
  }
@@ -30,32 +34,36 @@ export async function onRequest(ctx){
  const now=Date.now();
  if(action==="notifications"){
   const operation=String(body.action||"");
-  if(operation==="mark-read"){
-   const id=String(body.id||"");
-   if(!id||id.length>80)return jsonResponse({error:"Invalid notification."},400);
-   await env.DB.prepare("UPDATE admin_notifications SET read_at=COALESCE(read_at,?) WHERE id=? AND admin_id=?").bind(now,id,admin.id).run();
-   return jsonResponse({ok:true});
-  }
-  if(operation==="mark-all-read"){
-   await env.DB.prepare("UPDATE admin_notifications SET read_at=? WHERE admin_id=? AND read_at IS NULL").bind(now,admin.id).run();
-   return jsonResponse({ok:true});
-  }
-  return jsonResponse({error:"Unknown notification action."},400);
+  try{
+   if(operation==="mark-read"){
+    const id=String(body.id||"");
+    if(!id||id.length>80)return jsonResponse({error:"Invalid notification."},400);
+    await env.DB.prepare("UPDATE admin_notifications SET read_at=COALESCE(read_at,?) WHERE id=? AND admin_id=?").bind(now,id,admin.id).run();
+    return jsonResponse({ok:true});
+   }
+   if(operation==="mark-all-read"){
+    await env.DB.prepare("UPDATE admin_notifications SET read_at=? WHERE admin_id=? AND read_at IS NULL").bind(now,admin.id).run();
+    return jsonResponse({ok:true});
+   }
+   return jsonResponse({error:"Unknown notification action."},400);
+  }catch{return jsonResponse({error:"Admin notifications are not ready. Apply database migration 0006 first."},503);}
  }
  if(action==="password-requests"){
   if(String(body.action||"")!=="issue-temporary-password")return jsonResponse({error:"Unknown password recovery action."},400);
   const requestId=String(body.requestId||"");
   if(!requestId||requestId.length>80)return jsonResponse({error:"Invalid recovery request."},400);
-  const recovery=await env.DB.prepare("SELECT p.id,p.user_id,p.status,u.status AS user_status FROM password_reset_requests p JOIN users u ON u.id=p.user_id WHERE p.id=?").bind(requestId).first();
-  if(!recovery||recovery.status!=="pending")return jsonResponse({error:"This password request has already been handled."},404);
-  if(recovery.user_status!=="active")return jsonResponse({error:"This account is not active. Reactivate it before issuing a temporary password."},400);
-  const temporaryPassword=randomSecret(18),passwordHash=await hashPassword(temporaryPassword);
-  await env.DB.batch([
-   env.DB.prepare("UPDATE users SET password_hash=?,must_change_password=1 WHERE id=?").bind(passwordHash,recovery.user_id),
-   env.DB.prepare("DELETE FROM sessions WHERE user_id=?").bind(recovery.user_id),
-   env.DB.prepare("UPDATE password_reset_requests SET status='resolved',resolved_at=?,resolved_by=? WHERE id=? AND status='pending'").bind(now,admin.id,requestId)
-  ]);
-  return jsonResponse({ok:true,temporaryPassword,message:"Temporary password created. It is shown once; copy it and share it privately."});
+  try{
+   const recovery=await env.DB.prepare("SELECT p.id,p.user_id,p.status,u.status AS user_status FROM password_reset_requests p JOIN users u ON u.id=p.user_id WHERE p.id=?").bind(requestId).first();
+   if(!recovery||recovery.status!=="pending")return jsonResponse({error:"This password request has already been handled."},404);
+   if(recovery.user_status!=="active")return jsonResponse({error:"This account is not active. Reactivate it before issuing a temporary password."},400);
+   const temporaryPassword=randomSecret(18),passwordHash=await hashPassword(temporaryPassword);
+   await env.DB.batch([
+    env.DB.prepare("UPDATE users SET password_hash=?,must_change_password=1 WHERE id=?").bind(passwordHash,recovery.user_id),
+    env.DB.prepare("DELETE FROM sessions WHERE user_id=?").bind(recovery.user_id),
+    env.DB.prepare("UPDATE password_reset_requests SET status='resolved',resolved_at=?,resolved_by=? WHERE id=? AND status='pending'").bind(now,admin.id,requestId)
+   ]);
+   return jsonResponse({ok:true,temporaryPassword,message:"Temporary password created. It is shown once; copy it and share it privately."});
+  }catch{return jsonResponse({error:"Password recovery is not ready. Apply database migration 0006 first."},503);}
  }
  if(action!=="users")return jsonResponse({error:"Not found."},404);
  const id=String(body.id||""),operation=String(body.action||"");
