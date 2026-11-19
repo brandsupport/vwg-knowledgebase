@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS article_recycle_bin (
   article_json TEXT NOT NULL,
   source_type TEXT NOT NULL DEFAULT 'knowledge-base',
   deleted_at INTEGER NOT NULL,
-  deleted_by TEXT REFERENCES users(id) ON DELETE SET NULL
+  deleted_by TEXT REFERENCES users(id) ON DELETE SET NULL,
+  permanently_deleted INTEGER NOT NULL DEFAULT 0 CHECK (permanently_deleted IN (0,1))
 );
 CREATE INDEX IF NOT EXISTS idx_article_recycle_bin_deleted_at
   ON article_recycle_bin(deleted_at DESC);
