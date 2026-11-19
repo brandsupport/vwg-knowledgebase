@@ -371,7 +371,6 @@ function renderArticleRequest(articleId){
   const editing=Boolean(article);
   const cancelAction=editing?"navigate('article',{articleId:"+Number(article.id)+"})":"navigate('home')";
   const categoryOptions=CATS.map(category=>'<option value="'+category.id+'"'+(editing&&Number(article.cat)===Number(category.id)?' selected':'')+'>'+escapeHtml(category.title)+'</option>').join('');
-  const images=editing?(article.images||[]).filter(url=>typeof url==='string'&&url.startsWith('https://')).join(String.fromCharCode(10)):'';
   const source=editing?article.source_url||'':'';
   el.innerHTML=`
     <div class="page search-page">
@@ -441,7 +440,7 @@ function renderArticleRequest(articleId){
       </div>
     </div>`;
   const imageState=(editing&&Array.isArray(article.images)?article.images:[])
-    .filter(src=>typeof src==='string'&&(src.startsWith('https://')||/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(src)||/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9._/-]+$/.test(src)))
+    .filter(src=>typeof src==='string'&&(src.startsWith('https://')||/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(src)||(/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9_-][A-Za-z0-9._/-]*$/.test(src)&&!src.includes('..'))))
     .map((src,index)=>({src,name:'Existing image '+(index+1)}));
   const imageInput=document.getElementById('requestImageFiles');
   const imageDropzone=document.getElementById('imageUploadDropzone');
