@@ -8,13 +8,15 @@ export async function onRequest(ctx){
   if(!user)return jsonResponse({error:"Please sign in to continue."},401);
 
   if(request.method==="GET"){
-    const [published,overrides]=await Promise.all([
-      env.DB.prepare("SELECT article_json FROM published_articles ORDER BY published_at DESC").all(),
-      env.DB.prepare("SELECT article_json FROM article_overrides").all()
+    const [published,overrides,deleted]=await Promise.all([
+      env.DB.prepare("SELECT article_json FROM published_articles WHERE id NOT IN (SELECT article_id FROM article_recycle_bin) ORDER BY published_at DESC").all(),
+      env.DB.prepare("SELECT article_json FROM article_overrides WHERE article_id NOT IN (SELECT article_id FROM article_recycle_bin)").all(),
+      env.DB.prepare("SELECT article_id FROM article_recycle_bin").all()
     ]);
     return jsonResponse({
       articles:(published.results||[]).map(row=>safeJson(row.article_json)).filter(Boolean),
-      overrides:(overrides.results||[]).map(row=>safeJson(row.article_json)).filter(Boolean)
+      overrides:(overrides.results||[]).map(row=>safeJson(row.article_json)).filter(Boolean),
+      deletedIds:(deleted.results||[]).map(row=>String(row.article_id))
     });
   }
   if(request.method!=="POST")return jsonResponse({error:"Method not allowed."},405);
