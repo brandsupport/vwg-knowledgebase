@@ -288,6 +288,7 @@ function renderArticle(articleId){
           <div class="article-body">${a.html}</div>
           ${a.images.map(src => `<img src="${src}" loading="lazy" alt="Reference screenshot for ${escapeHtml(a.title)}">`).join('')}
           <div class="detail-tags">${a.tags.map(t=>renderTagChip(t,false,false)).join('')}</div>
+          ${a.source_reference ? `<div class="article-source-note"><strong>Source / reference:</strong> ${escapeHtml(a.source_reference)}</div>` : ''}
           ${a.source_url ? `<div style="margin-top:10px;"><a class="back-link" href="${escapeHtml(a.source_url)}" target="_blank" rel="noopener" style="margin-bottom:0;">${a.source === 'notion' ? 'View original in Notion' : 'View source'} &#8599;</a></div>` : ''}
         </div>
       </div>
@@ -371,7 +372,7 @@ function renderArticleRequest(articleId){
   const editing=Boolean(article);
   const cancelAction=editing?"navigate('article',{articleId:"+Number(article.id)+"})":"navigate('home')";
   const categoryOptions=CATS.map(category=>'<option value="'+category.id+'"'+(editing&&Number(article.cat)===Number(category.id)?' selected':'')+'>'+escapeHtml(category.title)+'</option>').join('');
-  const source=editing?article.source_url||'':'';
+  const source=editing?(article.source_reference||article.source_url||''):'';
   el.innerHTML=`
     <div class="page search-page">
       <div class="article-form-shell">
@@ -426,8 +427,8 @@ function renderArticleRequest(articleId){
               </details>
               <div class="form-helper">${editing?'Your existing article images are shown above. Remove any image you no longer need.':'Images are automatically resized and optimised before submission.'}</div>
               <div class="article-form-field source-field">
-                <label for="requestSource">Source / reference link <span class="form-optional">Optional</span></label>
-                <input class="kb-form-control" id="requestSource" type="url" value="${escapeHtml(source)}" placeholder="https://...">
+                <label for="requestSource">Source / reference <span class="form-optional">Optional</span></label>
+                <input class="kb-form-control" id="requestSource" type="text" inputmode="text" maxlength="500" value="${escapeHtml(source)}" placeholder="e.g. VW bulletin, internal procedure, email reference">
               </div>
             </div>
           </section>
@@ -521,8 +522,8 @@ function renderArticleRequest(articleId){
       tags:document.getElementById('requestTags').value,
       body:document.getElementById('requestBody').value,
       images:[...imageState.map(item=>item.src),...linkedImages],
-      sourceUrl:document.getElementById('requestSource').value,
-      originalArticle:editing?{id:article.id,title:article.title,cat:article.cat,tags:article.tags,html:article.html,source_url:article.source_url}:undefined
+      sourceReference:document.getElementById('requestSource').value,
+      originalArticle:editing?{id:article.id,title:article.title,cat:article.cat,tags:article.tags,html:article.html,source_url:article.source_url,source_reference:article.source_reference}:undefined
     };
     if(imageState.length+linkedImages.length>MAX_IMAGES){message.textContent='You can attach up to 8 images in total.';return;}
     if(imageState.reduce((sum,item)=>sum+(item.src.startsWith('data:image/')?item.src.length:0),0)>MAX_IMAGE_TOTAL){message.textContent='The uploaded images exceed the combined size limit.';return;}
