@@ -54,10 +54,10 @@ function normalizeArticle(body,{edit=false}={}){
   const images=imagesProvided?body.images.map(cleanArticleImage):undefined;
   if(imagesProvided&&images.some(image=>!image))throw new Error("Images must be secure HTTPS links, supported Knowledge Base image paths or valid PNG/JPG/WEBP uploads.");
   if(imagesProvided&&images.reduce((total,image)=>total+(image.startsWith("data:image/")?image.length:0),0)>900000)throw new Error("The combined uploaded images are too large. Reduce the image size and try again.");
-  const sourceUrl=cleanHttps(body.sourceUrl??body.source_url);
+  const sourceReference=String(body.sourceReference??body.source_reference??body.sourceUrl??body.source_url??"").replace(/[\u0000-\u001F\u007F]/g," ").replace(/\s+/g," ").trim().slice(0,500);
   const html=bodyToHtml(content);
   const plain=content.replace(/\s+/g," ").trim();
-  const article={title,cat:categoryId,tags,html,source:"kb",source_url:sourceUrl,search_text:(title+" "+plain+" "+tags.join(" ")).toLowerCase()};
+  const article={title,cat:categoryId,tags,html,source:"kb",source_url:"",source_reference:sourceReference,search_text:(title+" "+plain+" "+tags.join(" ")+" "+sourceReference).toLowerCase()};
   if(images!==undefined)article.images=images;
   if(!edit&&images===undefined)article.images=[];
   return article;
