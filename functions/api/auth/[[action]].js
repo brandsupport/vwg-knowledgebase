@@ -60,9 +60,10 @@ if(!isSameOrigin(request))return jsonResponse({error:"Invalid request origin."},
 const current=await getSessionUser(request,env);
 if(!current)return jsonResponse({error:"Please sign in again."},401);
 let body;try{body=await readJson(request,2048);}catch{return jsonResponse({error:"Choose a valid profile avatar."},400);}
-const allowed=new Set(["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦭","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"]);
+const allowed=new Set(["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦭","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","👑","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"]);
 const avatar=String(body.avatar||"");
 if(!allowed.has(avatar))return jsonResponse({error:"Choose one of the available avatars."},400);
+if(avatar==="👑"&&current.role!=="admin")return jsonResponse({error:"The crown avatar is reserved for administrators."},403);
 try{await env.DB.prepare("INSERT INTO user_avatar_preferences(user_id,avatar,updated_at) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET avatar=excluded.avatar,updated_at=excluded.updated_at").bind(current.id,avatar,Date.now()).run();}catch{return jsonResponse({error:"Expanded avatars are not ready. An administrator must apply database migration 0006 first."},503);}
 const updated=await env.DB.prepare("SELECT u.id,u.name,u.email,u.role,u.status,u.must_change_password,COALESCE(ap.avatar,u.avatar) AS avatar FROM users u LEFT JOIN user_avatar_preferences ap ON ap.user_id=u.id WHERE u.id=?").bind(current.id).first();
 return jsonResponse({ok:true,user:publicUser(updated)});
