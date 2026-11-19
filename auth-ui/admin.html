@@ -307,8 +307,10 @@ async function loadContentPanels(){
   document.getElementById('metricSubmissions').textContent=submissionRequests.length;
   document.getElementById('metricRevisions').textContent=revisionRequests.length;
   document.getElementById('metricRecycle').textContent=(recycle.items||[]).length;
-  document.getElementById('submissionCount').textContent=submissionRequests.length?'('+submissionRequests.length+')':'';
-  document.getElementById('revisionCount').textContent=revisionRequests.length?'('+revisionRequests.length+')':'';
+  const submissionBadge=document.getElementById('submissionCount'),revisionBadge=document.getElementById('revisionCount'),recycleBadge=document.getElementById('recycleCount');
+  submissionBadge.textContent=submissionRequests.length?String(submissionRequests.length):'';submissionBadge.hidden=!submissionRequests.length;
+  revisionBadge.textContent=revisionRequests.length?String(revisionRequests.length):'';revisionBadge.hidden=!revisionRequests.length;
+  recycleBadge.textContent=(recycle.items||[]).length?String(recycle.items.length):'';recycleBadge.hidden=!(recycle.items||[]).length;
   renderRequestList(document.getElementById('submissions'),submissionRequests,'new');
   renderRequestList(document.getElementById('revisions'),revisionRequests,'edit');
   const published=document.getElementById('published');published.replaceChildren();
@@ -323,7 +325,6 @@ async function loadContentPanels(){
   });
 
   const recycleList=document.getElementById('recycleBin');recycleList.replaceChildren();
-  document.getElementById('recycleCount').textContent=recycle.items?.length?'('+recycle.items.length+')':'';
   if(!recycle.items?.length)recycleList.append(el('div','empty','The recycle bin is empty.'));
   (recycle.items||[]).forEach(item=>{
     const card=el('article','published-card'),head=el('div','published-head'),left=el('div'),title=el('h3','',item.article.title||'Untitled article'),meta=el('div','meta',(categoryNames[item.article.cat]||'Knowledge Base')+' · Deleted '+new Date(item.deletedAt).toLocaleString()),actions=el('div','actions');
