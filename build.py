@@ -291,8 +291,12 @@ def main():
         auth_source = os.path.join(auth_pages_dir, auth_page)
         if not os.path.isfile(auth_source):
             raise SystemExit(f"Missing authentication page: {auth_source}")
-        shutil.copyfile(auth_source, os.path.join(OUT_DIR, auth_page))
-        print(f"Copied authentication page to dist/{auth_page}")
+        publish_html_page(
+            auth_source,
+            os.path.join(OUT_DIR, auth_page),
+            brand_asset_uris,
+            f"Copied authentication page to dist/{auth_page} with shared favicon",
+        )
 
     # Publish the De-tag Challenge's supporting brand assets.
     game_assets = os.path.join(ROOT, "assets", "game")
