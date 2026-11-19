@@ -23,7 +23,7 @@ export async function onRequest(ctx){
   if(request.method!=="POST")return jsonResponse({error:"Method not allowed."},405);
   if(!isSameOrigin(request))return jsonResponse({error:"Invalid request origin."},403);
   let body;
-  try{body=await readJson(request,1200000);}catch{return jsonResponse({error:"The article request is invalid or its images are too large. Reduce image sizes and retry."},400);}
+  try{body=await readJson(request,1700000);}catch{return jsonResponse({error:"The article request is invalid or its uploaded files are too large. Reduce attachment sizes and retry."},400);}
   const type=String(body.requestType||"new");
   if(!["new","edit"].includes(type))return jsonResponse({error:"Unknown request type."},400);
   const articleId=type==="edit"?String(body.articleId||""):"";
