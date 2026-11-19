@@ -2,10 +2,13 @@
  * VWG Knowledge Base — Tally-to-GitHub bridge.
  * This is a separate Worker: do not replace the existing AI Assistant Worker.
  *
- * Required secrets: TALLY_SIGNING_SECRET, GITHUB_TOKEN
- * Required variables: GITHUB_OWNER=brandsupport, GITHUB_REPO=vwg-knowledgebase,
- * GITHUB_BRANCH=main
+ * Required secrets: TALLY_SIGNING_SECRET, KB_INGEST_TOKEN
+ * Required variable: KB_INGEST_URL=https://vwg-brandsupport-kb.pages.dev/api/tally-ingest
  * Optional variable: TALLY_FORM_ID (recommended; use the formId from a Tally event)
+ *
+ * Verified Tally responses are forwarded to Pages Functions and enter the
+ * administrator approval queue. This Worker no longer commits submissions
+ * directly into the published knowledge-base source.
  */
 const encoder = new TextEncoder();
 const MAX_BODY_BYTES = 2000000;
@@ -89,11 +92,15 @@ export default {
       return jsonResponse(404, { ok: false, error: "Not found" });
     }
 
-    if (!env.TALLY_SIGNING_SECRET || !env.GITHUB_TOKEN) {
-      return jsonResponse(503, { ok: false, error: "Worker secrets are not configured" });
+    if (!env.TALLY_SIGNING_SECRET || !env.KB_INGEST_TOKEN || !env.KB_INGEST_URL) {
+      return jsonResponse(503, { ok: false, error: "Tally approval intake settings are not configured" });
     }
-    if (!env.GITHUB_OWNER || !env.GITHUB_REPO || !env.GITHUB_BRANCH) {
-      return jsonResponse(503, { ok: false, error: "GitHub repository settings are not configured" });
+    let ingestUrl;
+    try {
+      ingestUrl = new URL(env.KB_INGEST_URL);
+      if (ingestUrl.protocol !== "https:") throw new Error("HTTPS required");
+    } catch {
+      return jsonResponse(503, { ok: false, error: "KB_INGEST_URL must be a valid HTTPS endpoint" });
     }
 
     const raw = await request.text();
@@ -135,59 +142,36 @@ export default {
       return jsonResponse(400, { ok: false, error: "Submission response ID is missing" });
     }
 
-    const filePath = "data/tally_submissions/" + responseId + ".json";
-    const apiUrl = "https://api.github.com/repos/" +
-      encodeURIComponent(env.GITHUB_OWNER) + "/" +
-      encodeURIComponent(env.GITHUB_REPO) + "/contents/" +
-      filePath.split("/").map(encodeURIComponent).join("/") +
-      "?ref=" + encodeURIComponent(env.GITHUB_BRANCH);
-
     try {
-      // Idempotency: acknowledge retries without overwriting the original article.
-      const existing = await githubRequest(apiUrl, env.GITHUB_TOKEN);
-      if (existing.status === 200) {
-        return jsonResponse(200, { ok: true, duplicate: true, responseId });
-      }
-      if (existing.status !== 404) {
-        const detail = (await existing.text()).slice(0, 400);
-        console.error("Tally bridge GitHub read/check failed", {
-          status: existing.status,
-          detail: detail
+      const intake = await fetch(ingestUrl.href, {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + env.KB_INGEST_TOKEN,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: raw
+      });
+      const detail = await intake.text();
+      if (!intake.ok) {
+        console.error("Tally approval intake failed", {
+          status: intake.status,
+          responseId: responseId,
+          detail: detail.slice(0, 400)
         });
         return jsonResponse(502, {
-          ok: false, error: "Could not check GitHub submission file",
-          status: existing.status, detail
+          ok: false,
+          error: "Could not add the Tally response to the approval queue",
+          status: intake.status
         });
       }
-
-      const content = JSON.stringify(payload, null, 2) + "\n";
-      const put = await githubRequest(apiUrl, env.GITHUB_TOKEN, {
-        method: "PUT",
-        body: JSON.stringify({
-          message: "Add Tally Knowledge Base submission " + responseId,
-          content: toBase64(encoder.encode(content)),
-          branch: env.GITHUB_BRANCH
-        })
-      });
-
-      if (put.status === 201 || put.status === 200) {
-        return jsonResponse(200, { ok: true, responseId: responseId, path: filePath });
-      }
-
-      // Cover the rare case where two copies of one submission arrive together.
-      if (put.status === 409 || put.status === 422) {
-        const check = await githubRequest(apiUrl, env.GITHUB_TOKEN);
-        if (check.status === 200) return jsonResponse(200, { ok: true, duplicate: true, responseId });
-      }
-
-      const detail = (await put.text()).slice(0, 400);
-      console.error("Tally bridge GitHub write failed", {
-        status: put.status,
-        detail: detail
-      });
-      return jsonResponse(502, {
-        ok: false, error: "GitHub could not save the submission",
-        status: put.status, detail
+      let result = {};
+      try { result = JSON.parse(detail); } catch {}
+      return jsonResponse(200, {
+        ok: true,
+        responseId: responseId,
+        status: result.status || "pending",
+        requestId: result.requestId || null
       });
     } catch (error) {
       // Non-2xx lets Tally's retry schedule try again. Log a safe diagnostic in Cloudflare.
