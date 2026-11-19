@@ -6,6 +6,10 @@ on:
     paths:
       - "data/**"
       - "src/**"
+      - "functions/**"
+      - "auth-ui/**"
+      - "migrations/**"
+      - "cloudflare/**"
       - "game.html"
       - "knowledge-crush.html"
       - "knowledge-games.html"
