@@ -587,7 +587,8 @@ function renderArticleRequest(articleId){
       categoryId:Number(document.getElementById('requestCategory').value),
       tags:document.getElementById('requestTags').value,
       body:document.getElementById('requestBody').value,
-      images:[...imageState.map(item=>item.src),...linkedImages],\n      attachments:attachmentState,
+      images:[...imageState.map(item=>item.src),...linkedImages],
+      attachments:attachmentState,
       sourceReference:document.getElementById('requestSource').value,
       originalArticle:editing?{id:article.id,title:article.title,cat:article.cat,tags:article.tags,html:article.html,source_url:article.source_url,source_reference:article.source_reference}:undefined
     };
