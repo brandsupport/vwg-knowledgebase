@@ -96,13 +96,14 @@ async function loadAccountState(){
     const contentResponse=await fetch('/api/content',{credentials:'same-origin',cache:'no-store'});
     if(contentResponse.ok){
       const content=await contentResponse.json();
-      const merged=new Map(BASE_ARTICLES.map(article=>[String(article.id),article]));
+      const deletedIds=new Set((content.deletedIds||[]).map(String));
+      const merged=new Map(BASE_ARTICLES.filter(article=>!deletedIds.has(String(article.id))).map(article=>[String(article.id),article]));
       (content.articles||[]).forEach(article=>merged.set(String(article.id),article));
       (content.overrides||[]).forEach(article=>{
         const key=String(article.id),previous=merged.get(key);
         merged.set(key,{...(previous||{}),...article,images:article.images??previous?.images??[]});
       });
-      ARTICLES=[...merged.values()];
+      ARTICLES=[...merged.values()].filter(article=>!deletedIds.has(String(article.id)));
     }
   }catch(error){}
   accountState.ready=true;
@@ -274,7 +275,7 @@ function renderArticle(articleId){
         <div class="article-detail">
           <div class="cat-label">${cat.icon} ${escapeHtml(cat.title).toUpperCase()} &middot; ${articleLabel(a)}</div>
           <h1>${escapeHtml(a.title)}</h1>
-          <div class="article-detail-actions">${favoriteButtonHtml(a)}<button type="button" class="article-edit-button" onclick="navigate('submit',{articleId:${a.id}})">✎ Suggest an update</button></div>
+          <div class="article-detail-actions">${favoriteButtonHtml(a)}<button type="button" class="article-edit-button" onclick="navigate('submit',{articleId:${a.id}})">✎ Suggest an update</button>${accountState.user&&accountState.user.role==='admin'?'<button type="button" class="article-edit-button" onclick="adminDeleteArticle('+Number(a.id)+')">Move to recycle bin</button>':''}</div>
           <div class="article-body">${a.html}</div>
           ${a.images.map(src => `<img src="${src}" loading="lazy" alt="Reference screenshot for ${escapeHtml(a.title)}">`).join('')}
           <div class="detail-tags">${a.tags.map(t=>renderTagChip(t,false,false)).join('')}</div>
@@ -285,6 +286,16 @@ function renderArticle(articleId){
   `;
 }
 
+async function adminDeleteArticle(articleId){
+  if(!accountState.user||accountState.user.role!=='admin')return;
+  const article=ARTICLES.find(item=>String(item.id)===String(articleId));if(!article)return;
+  if(!confirm('Move “'+article.title+'” to the recycle bin? It can be restored by an administrator.'))return;
+  try{
+    const r=await fetch('/api/content-admin/delete',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({articleId:String(article.id),article})}),d=await r.json();
+    if(!r.ok)throw new Error(d.error||'Could not delete article.');
+    ARTICLES=ARTICLES.filter(item=>String(item.id)!==String(article.id));navigate('home');
+  }catch(error){alert(error.message||'Could not move this article to the recycle bin.');}
+}
 function searchArticles(q){
   const term = q.trim().toLowerCase();
   if(!term) return [];
