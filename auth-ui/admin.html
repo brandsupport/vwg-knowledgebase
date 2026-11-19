@@ -107,6 +107,24 @@ td[data-label="Role"]{text-transform:capitalize;color:#b9c8df}
 .user-action-menu .button:hover{background:rgba(255,255,255,.055)}
 .user-action-menu .button.danger{color:#ff9eaf}
 .review-list,.published-list{display:grid;gap:12px}
+.notification-list,.recovery-list{display:grid;gap:10px}
+.notification-card,.recovery-card{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:15px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.015))}
+.notification-card.unread{border-color:rgba(0,223,245,.36);background:rgba(0,223,245,.045)}
+.notification-copy{min-width:0;flex:1 1 260px}
+.notification-copy strong{display:block;font:600 13px 'Space Grotesk',sans-serif}
+.notification-copy p{margin:5px 0;color:var(--muted);font-size:11.5px}
+.notification-meta{color:var(--muted-2);font:10px 'JetBrains Mono',monospace}
+.comparison-wrap{margin-top:14px;padding:14px;border:1px solid rgba(0,223,245,.17);border-radius:12px;background:rgba(0,0,0,.12)}
+.comparison-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.comparison-column{min-width:0;padding:13px;border:1px solid var(--line);border-radius:10px;background:#0b1422}
+.comparison-column h4{margin:0 0 8px;color:var(--cyan);font:600 12px 'Space Grotesk',sans-serif}
+.comparison-column .comparison-meta{margin-bottom:10px;color:var(--muted-2);font-size:10px}
+.comparison-body{max-height:360px;overflow:auto;color:#dce7f6;font-size:11.5px;line-height:1.65;overflow-wrap:anywhere;white-space:pre-wrap}
+.comparison-body h3,.comparison-body h4{color:#7ce6f2;margin:12px 0 6px}
+.comparison-body p{margin:0 0 9px}
+.comparison-body ul,.comparison-body ol{padding-left:20px}
+@media(max-width:620px){.comparison-grid{grid-template-columns:1fr}}
+
 .review-card,.published-card{min-width:0;padding:18px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));box-shadow:0 9px 26px rgba(0,0,0,.11);transition:border-color .16s ease,transform .16s ease}
 .review-card:hover,.published-card:hover{border-color:rgba(0,223,245,.24)}
 .review-head,.published-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
@@ -185,6 +203,8 @@ td[data-label="Role"]{text-transform:capitalize;color:#b9c8df}
   <section class="workspace">
     <div class="tabs-wrap"><nav class="tabs" role="tablist" aria-label="Administration sections">
       <button class="tab active" type="button" role="tab" aria-selected="true" data-panel="users">Users</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-panel="notifications">Notifications <span class="tab-count" id="notificationCount">0</span></button>
+      <button class="tab" type="button" role="tab" aria-selected="false" data-panel="password-requests">Password requests <span class="tab-count" id="passwordRequestCount">0</span></button>
       <button class="tab" type="button" role="tab" aria-selected="false" data-panel="submissions">New submissions <span class="tab-count" id="submissionCount">0</span></button>
       <button class="tab" type="button" role="tab" aria-selected="false" data-panel="revisions">Article revisions <span class="tab-count" id="revisionCount">0</span></button>
       <button class="tab" type="button" role="tab" aria-selected="false" data-panel="articles">Published articles</button>
@@ -197,6 +217,15 @@ td[data-label="Role"]{text-transform:capitalize;color:#b9c8df}
       <div class="tablewrap"><table><thead><tr><th>Colleague</th><th>Email</th><th>Role</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead><tbody id="users"><tr><td colspan="6" class="empty">Loading accounts…</td></tr></tbody></table></div>
       <div class="empty" id="userSearchEmpty" hidden>No accounts match your search. Try another name, email or status.</div>
       <p class="help">Pending accounts cannot sign in until approved. Temporary passwords are shown once when reset; share them privately.</p>
+    </section>
+    <section class="panel" id="panel-notifications" role="tabpanel" hidden>
+      <div class="panel-head"><div><h2 class="panel-title">Admin notifications</h2><p class="panel-desc">New registrations, article submissions, suggested revisions and password recovery requests appear here.</p></div><div class="panel-tools"><button class="button" id="markAllNotificationsRead" type="button">Mark all as read</button></div></div>
+      <div id="notifications" class="notification-list"><div class="empty">Loading notifications…</div></div>
+    </section>
+    <section class="panel" id="panel-password-requests" role="tabpanel" hidden>
+      <div class="panel-head"><div><h2 class="panel-title">Password recovery requests</h2><p class="panel-desc">Issue a one-time temporary password. It is displayed once so you can share it with the colleague privately.</p></div></div>
+      <div id="passwordRequests" class="recovery-list"><div class="empty">Loading password requests…</div></div>
+      <p class="help">The colleague will be required to choose a new password the next time they sign in. Their existing sessions are revoked when the reset is issued.</p>
     </section>
     <section class="panel" id="panel-submissions" role="tabpanel" hidden>
       <div class="panel-head"><div><h2 class="panel-title">New article submissions</h2><p class="panel-desc">Review each contribution before it becomes visible to the team.</p></div></div>
@@ -303,6 +332,83 @@ function renderRequestList(container,requests,kind){
     actions.append(reject,approve);card.append(head,preview,note,actions);container.append(card);
   }
 }
+async function loadAdminNotifications(){
+  const response=await fetch('/api/admin/notifications',{cache:'no-store'}),data=await response.json();
+  if(!response.ok)throw new Error(data.error||'Could not load admin notifications.');
+  const items=data.notifications||[],list=document.getElementById('notifications');
+  const badge=document.getElementById('notificationCount');
+  badge.textContent=data.unreadCount?String(data.unreadCount):'';badge.hidden=!data.unreadCount;
+  list.replaceChildren();
+  if(!items.length){list.append(el('div','empty','You are all caught up. New admin activity will appear here.'));return;}
+  for(const item of items){
+    const card=el('article','notification-card'+(item.read_at?'':' unread')),copy=el('div','notification-copy'),title=el('strong','',item.title),body=el('p','',item.message),meta=el('div','notification-meta',new Date(item.created_at).toLocaleString()),actions=el('div','actions');
+    copy.append(title,body,meta);
+    const open=el('button','button small',item.read_at?'Open section':'Review notification');open.type='button';
+    open.addEventListener('click',async()=>{
+      try{if(!item.read_at)await fetch('/api/admin/notifications',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'mark-read',id:item.id})});}
+      catch(e){}
+      const target=String(item.target_url||'/admin');
+      if(target.startsWith('/admin#')){const panel=target.split('#')[1];if(document.getElementById('panel-'+panel))switchPanel(panel);else switchPanel('users');}
+      else location.href=target;
+      loadAdminNotifications().catch(()=>{});
+    });
+    actions.append(open);card.append(copy,actions);list.append(card);
+  }
+}
+async function loadPasswordRequests(){
+  const response=await fetch('/api/admin/password-requests',{cache:'no-store'}),data=await response.json();
+  if(!response.ok)throw new Error(data.error||'Could not load password requests.');
+  const requests=data.requests||[],list=document.getElementById('passwordRequests'),badge=document.getElementById('passwordRequestCount');
+  badge.textContent=requests.length?String(requests.length):'';badge.hidden=!requests.length;
+  list.replaceChildren();
+  if(!requests.length){list.append(el('div','empty','There are no outstanding password recovery requests.'));return;}
+  requests.forEach(request=>{
+    const card=el('article','recovery-card'),copy=el('div','notification-copy'),name=el('strong','',request.name),email=el('p','',request.email),meta=el('div','notification-meta','Requested '+new Date(request.created_at).toLocaleString()),issue=el('button','button primary small','Issue temporary password');
+    copy.append(name,email,meta);issue.type='button';issue.addEventListener('click',()=>issueRecoveryPassword(request,card));
+    card.append(copy,issue);list.append(card);
+  });
+}
+async function issueRecoveryPassword(request,card){
+  const action=card.querySelector('button');action.disabled=true;message.textContent='Creating a temporary password…';
+  try{
+    const response=await fetch('/api/admin/password-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'issue-temporary-password',requestId:request.id})}),data=await response.json();
+    if(!response.ok)throw new Error(data.error||'Could not reset this password.');
+    message.textContent='Temporary password for '+request.name+': '+data.temporaryPassword+' — copy it now and share it privately.';
+    try{await navigator.clipboard.writeText(data.temporaryPassword);message.textContent+=' It was also copied to your clipboard.';}catch(e){}
+    await Promise.all([loadPasswordRequests(),loadAdminNotifications()]);
+  }catch(error){message.textContent=error.message;action.disabled=false;}
+}
+document.getElementById('markAllNotificationsRead').addEventListener('click',async()=>{
+  const button=document.getElementById('markAllNotificationsRead');button.disabled=true;
+  try{const response=await fetch('/api/admin/notifications',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'mark-all-read'})}),data=await response.json();if(!response.ok)throw new Error(data.error||'Could not update notifications.');await loadAdminNotifications();}
+  catch(error){message.textContent=error.message;}
+  finally{button.disabled=false;}
+});
+async function compareArticleVersions(articleId,card){
+  let wrap=card.querySelector('.comparison-wrap');
+  if(wrap){wrap.remove();return;}
+  wrap=el('div','comparison-wrap','Loading article history…');card.append(wrap);
+  try{
+    const response=await fetch('/api/content-admin/history?articleId='+encodeURIComponent(articleId),{cache:'no-store'}),data=await response.json();
+    if(!response.ok)throw new Error(data.error||'Could not load article history.');
+    wrap.replaceChildren();
+    const revisions=data.revisions||[];
+    if(!revisions.length){wrap.textContent='No approved revision history is available for this article.';return;}
+    const heading=el('h3','panel-title','Approved version comparison');wrap.append(heading);
+    revisions.forEach((revision,index)=>{
+      const details=el('details','review-preview');details.open=index===0;
+      const summary=el('summary','', 'Revision '+(index+1)+' · '+new Date(revision.approvedAt).toLocaleString());
+      const grid=el('div','comparison-grid');
+      const old=revision.original||{},updated=revision.updated||{};
+      const oldCol=el('section','comparison-column'),newCol=el('section','comparison-column');
+      oldCol.append(el('h4','','Before update'),el('div','comparison-meta',(old.title||'Previous title')+' · '+(categoryNames[old.cat]||'Knowledge Base')));
+      newCol.append(el('h4','','After update'),el('div','comparison-meta',(updated.title||'Updated title')+' · '+(categoryNames[updated.cat]||'Knowledge Base')));
+      const oldBody=el('div','comparison-body',old.text||'The previous article text was not retained in this revision record.');
+      const newBody=el('div','comparison-body');newBody.innerHTML=updated.html||'<p>Updated article content unavailable.</p>';
+      oldCol.append(oldBody);newCol.append(newBody);grid.append(oldCol,newCol);details.append(summary,grid);wrap.append(details);
+    });
+  }catch(error){wrap.textContent=error.message;}
+}
 async function loadContentPanels(){
   const [subs,edits,articles,recycle]=await Promise.all([
     fetch('/api/content-admin/submissions').then(r=>r.json()),
@@ -324,12 +430,12 @@ async function loadContentPanels(){
   const published=document.getElementById('published');published.replaceChildren();
   const entries=[
     ...(articles.published||[]).map(item=>({id:item.id,article:item.article,when:item.publishedAt,label:'Published contribution'})),
-    ...(articles.updated||[]).map(item=>({id:item.id,article:item.article,when:item.updatedAt,label:'Approved article update'}))
+    ...(articles.updated||[]).map(item=>({id:item.id,article:item.article,when:item.updatedAt,label:'Approved article update',isUpdated:true}))
   ].sort((a,b)=>Number(b.when)-Number(a.when));
   if(!entries.length)published.append(el('div','empty','No contributed articles or approved updates have been published yet.'));
   entries.forEach(item=>{
     const card=el('article','published-card'),head=el('div','published-head'),left=el('div'),title=el('h3','',item.article.title||'Untitled article'),meta=el('div','meta',(categoryNames[item.article.cat]||'Knowledge Base')+' · '+item.label+' · '+new Date(item.when).toLocaleString()),link=el('a','','Open article ↗');
-    link.href='/#/article/'+encodeURIComponent(item.id);left.append(title,meta);head.append(left,link);card.append(head);published.append(card);
+    link.href='/#/article/'+encodeURIComponent(item.id);left.append(title,meta);const cardActions=el('div','actions');cardActions.append(link);if(item.isUpdated){const compare=el('button','button small','Compare versions');compare.type='button';compare.addEventListener('click',()=>compareArticleVersions(item.id,card));cardActions.append(compare);}head.append(left,cardActions);card.append(head);published.append(card);
   });
 
   const recycleList=document.getElementById('recycleBin');recycleList.replaceChildren();
@@ -355,7 +461,7 @@ async function recycleAction(action,item,card){
 }
 async function refreshAll(){
   message.textContent='Refreshing administration data…';
-  try{await Promise.all([loadUsers(),loadContentPanels()]);message.textContent='Administration data refreshed.';}
+  try{await Promise.all([loadUsers(),loadContentPanels(),loadAdminNotifications(),loadPasswordRequests()]);message.textContent='Administration data refreshed.';}
   catch(error){message.textContent=error.message||'Could not refresh administration data.';}
 }
 document.getElementById('refreshAll').addEventListener('click',refreshAll);
