@@ -97,11 +97,11 @@ async function loadAccountState(){
     if(contentResponse.ok){
       const content=await contentResponse.json();
       const merged=new Map(BASE_ARTICLES.map(article=>[String(article.id),article]));
+      (content.articles||[]).forEach(article=>merged.set(String(article.id),article));
       (content.overrides||[]).forEach(article=>{
         const key=String(article.id),previous=merged.get(key);
         merged.set(key,{...(previous||{}),...article,images:article.images??previous?.images??[]});
       });
-      (content.articles||[]).forEach(article=>merged.set(String(article.id),article));
       ARTICLES=[...merged.values()];
     }
   }catch(error){}
