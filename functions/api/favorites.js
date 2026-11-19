@@ -16,7 +16,7 @@ export async function onRequest(ctx){
   let body;
   try{body=await readJson(request);}catch{return jsonResponse({error:"Submit a valid favorites request."},400);}
   const articleId=String(body.articleId??"");
-  if(!/^\\d{1,12}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
+  if(!/^\d{1,12}$/.test(articleId))return jsonResponse({error:"Invalid article identifier."},400);
   if(typeof body.favorite!=="boolean")return jsonResponse({error:"Choose whether to save or remove this article."},400);
 
   if(body.favorite){
