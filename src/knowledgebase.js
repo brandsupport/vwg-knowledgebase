@@ -1,6 +1,7 @@
 const DATA = JSON.parse(document.getElementById('site-data').textContent);
 const CATS = DATA.categories;
-const ARTICLES = DATA.articles;
+const BASE_ARTICLES = DATA.articles.slice();
+let ARTICLES = BASE_ARTICLES.slice();
 const catById = Object.fromEntries(CATS.map(c => [c.id, c]));
 
 function articlesForCat(id){ return ARTICLES.filter(a => a.cat === id); }
@@ -91,6 +92,19 @@ async function loadAccountState(){
     accountState.user=null;
     accountState.favorites=new Set();
   }
+  try{
+    const contentResponse=await fetch('/api/content',{credentials:'same-origin',cache:'no-store'});
+    if(contentResponse.ok){
+      const content=await contentResponse.json();
+      const merged=new Map(BASE_ARTICLES.map(article=>[String(article.id),article]));
+      (content.overrides||[]).forEach(article=>{
+        const key=String(article.id),previous=merged.get(key);
+        merged.set(key,{...(previous||{}),...article,images:article.images??previous?.images??[]});
+      });
+      (content.articles||[]).forEach(article=>merged.set(String(article.id),article));
+      ARTICLES=[...merged.values()];
+    }
+  }catch(error){}
   accountState.ready=true;
   renderContent();
 }
@@ -102,7 +116,10 @@ function navigate(route, opts={}){
   const hash = route === 'home' ? (opts.catId ? `#/browse/${opts.catId}` : '#/') :
     route === 'article' ? `#/article/${opts.articleId}` :
     route === 'search' ? `#/search?q=${encodeURIComponent(opts.query||'')}` :
-    route === 'favorites' ? '#/favorites' : '#/';
+    route === 'favorites' ? '#/favorites' :
+    route === 'announcements' ? '#/announcements' :
+    route === 'hub' ? '#/hub-articles' :
+    route === 'submit' ? (opts.articleId ? '#/submit?edit='+opts.articleId : '#/submit') : '#/';
   if(location.hash !== hash) location.hash = hash;
   render();
 }
@@ -145,6 +162,12 @@ function renderHeaderState(){
   document.getElementById('navCatLink').classList.toggle('active', state.route==='home' && !!state.activeCat);
   const favoritesLink=document.getElementById('navFavoritesLink');
   if(favoritesLink) favoritesLink.classList.toggle('active',state.route==='favorites');
+  const announcementsLink=document.getElementById('navAnnouncementsLink');
+  if(announcementsLink) announcementsLink.classList.toggle('active',state.route==='announcements');
+  const hubLink=document.getElementById('navHubArticlesLink');
+  if(hubLink) hubLink.classList.toggle('active',state.route==='hub');
+  const submitLink=document.getElementById('navSubmitLink');
+  if(submitLink) submitLink.classList.toggle('active',state.route==='submit');
   const profileName=document.getElementById('profileName');
   if(profileName) profileName.textContent=accountState.user?accountState.user.name:'My account';
   const adminLink=document.getElementById('profileAdminLink');
@@ -251,7 +274,7 @@ function renderArticle(articleId){
         <div class="article-detail">
           <div class="cat-label">${cat.icon} ${escapeHtml(cat.title).toUpperCase()} &middot; ${articleLabel(a)}</div>
           <h1>${escapeHtml(a.title)}</h1>
-          <div class="article-detail-actions">${favoriteButtonHtml(a)}</div>
+          <div class="article-detail-actions">${favoriteButtonHtml(a)}<button type="button" class="article-edit-button" onclick="navigate('submit',{articleId:${a.id}})">✎ Suggest an update</button></div>
           <div class="article-body">${a.html}</div>
           ${a.images.map(src => `<img src="${src}" loading="lazy" alt="Reference screenshot for ${escapeHtml(a.title)}">`).join('')}
           <div class="detail-tags">${a.tags.map(t=>renderTagChip(t,false,false)).join('')}</div>
@@ -298,6 +321,91 @@ function renderSearch(q){
   `;
 }
 
+
+function renderCategorySection(categoryId,heading,description){
+  const el=document.getElementById('content');
+  const list=ARTICLES.filter(article=>Number(article.cat)===Number(categoryId)).sort((a,b)=>Number(b.id)-Number(a.id));
+  el.innerHTML=`
+    <div class="page search-page">
+      <div class="section-label">VWG Brand Support</div>
+      <div class="content-section-heading">
+        <div><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(description)}</p></div>
+        <span class="favorites-count">${list.length} article${list.length===1?'':'s'}</span>
+      </div>
+      <div class="feed-grid">${list.map(article=>feedCardHtml(article,'')).join('')||'<div class="empty-state">No approved articles in this section yet.</div>'}</div>
+    </div>`;
+}
+function htmlToEditorText(value){
+  const holder=document.createElement('div');
+  holder.innerHTML=String(value||'').replace(/<\\/(p|h3|h4|li|div|ul|ol)>/gi,'function renderFavorites(){\\n');
+  return (holder.innerText||holder.textContent||'').replace(/\\n{3,}/g,'\\n\\n').trim();
+}
+function renderArticleRequest(articleId){
+  const el=document.getElementById('content');
+  const article=articleId?ARTICLES.find(item=>String(item.id)===String(articleId)):null;
+  if(articleId&&!article){
+    el.innerHTML='<div class="page search-page"><div class="empty-state">The article could not be found. Please return to the Knowledge Base and try again.</div></div>';
+    return;
+  }
+  const editing=Boolean(article);
+  const cancelAction=editing?"navigate('article',{articleId:"+Number(article.id)+"})":"navigate('home')";
+  const categoryOptions=CATS.map(category=>'<option value="'+category.id+'"'+(editing&&Number(article.cat)===Number(category.id)?' selected':'')+'>'+escapeHtml(category.title)+'</option>').join('');
+  const images=editing?(article.images||[]).filter(url=>typeof url==='string'&&url.startsWith('https://')).join('\\n'):'';
+  const source=editing?article.source_url||'':'';
+  el.innerHTML=`
+    <div class="page search-page">
+      <div class="article-form-shell">
+        <a class="back-link" onclick="${cancelAction}">&larr; ${editing?'Back to article':'Back to Knowledge Base'}</a>
+        <div class="section-label">${editing?'Article revision request':'Knowledge contribution'}</div>
+        <h1>${editing?'Suggest an article update':'Submit an article'}</h1>
+        <p class="article-form-intro">${editing?'Your suggested changes will be reviewed by an administrator. The published article will remain unchanged until approval.':'Share a useful process, announcement or Hub guide. Your submission will be reviewed before it appears in the Knowledge Base.'}</p>
+        <form id="articleRequestForm" class="article-request-form">
+          <label for="requestTitle">Article title</label>
+          <input class="kb-form-control" id="requestTitle" maxlength="180" required value="${editing?escapeHtml(article.title):''}" placeholder="Enter a clear article title">
+          <label for="requestCategory">Category</label>
+          <select class="kb-form-control" id="requestCategory" required>${categoryOptions}</select>
+          <label for="requestTags">Tags / keywords</label>
+          <input class="kb-form-control" id="requestTags" maxlength="500" value="${editing?escapeHtml((article.tags||[]).join(', ')):''}" placeholder="e.g. SLI, Audi, Transport">
+          <label for="requestBody">Article content</label>
+          <textarea class="kb-form-control kb-form-textarea" id="requestBody" required minlength="10" maxlength="30000" placeholder="Write the article here. Use ## for headings, - for bullet points and 1. for numbered steps.">${editing?escapeHtml(htmlToEditorText(article.html)):''}</textarea>
+          <label for="requestImages">Screenshot / image links (one HTTPS link per line)</label>
+          <textarea class="kb-form-control" id="requestImages" rows="3" placeholder="https://...">${escapeHtml(images)}</textarea>
+          <div class="form-helper">${editing?'Leave this blank to preserve existing article images.':'Use secure HTTPS image links. Existing Tally uploads are also supported.'}</div>
+          <label for="requestSource">Source / reference link (optional)</label>
+          <input class="kb-form-control" id="requestSource" type="url" value="${escapeHtml(source)}" placeholder="https://...">
+          <div class="article-form-actions">
+            <button class="load-more" type="button" onclick="${cancelAction}">Cancel</button>
+            <button class="article-form-submit" id="requestSubmit" type="submit">${editing?'Send update for approval':'Submit for approval'}</button>
+          </div>
+          <div class="article-form-message" id="requestMessage" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>`;
+  document.getElementById('articleRequestForm').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const submit=document.getElementById('requestSubmit'),message=document.getElementById('requestMessage');
+    const imageText=document.getElementById('requestImages').value.trim();
+    const payload={
+      requestType:editing?'edit':'new',
+      articleId:editing?String(article.id):undefined,
+      title:document.getElementById('requestTitle').value,
+      categoryId:Number(document.getElementById('requestCategory').value),
+      tags:document.getElementById('requestTags').value,
+      body:document.getElementById('requestBody').value,
+      images:imageText?imageText.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean):[],
+      sourceUrl:document.getElementById('requestSource').value,
+      originalArticle:editing?{id:article.id,title:article.title,cat:article.cat,tags:article.tags,html:article.html,source_url:article.source_url}:undefined
+    };
+    submit.disabled=true;message.textContent='Sending your request for review…';
+    try{
+      const response=await fetch('/api/content',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      const result=await response.json();
+      if(!response.ok)throw new Error(result.error||'The request could not be submitted.');
+      el.innerHTML='<div class="page search-page"><div class="article-form-shell"><div class="success-mark">✓</div><div class="section-label">Request received</div><h1>Thank you for contributing.</h1><p class="article-form-intro">Your '+(editing?'article update':'article submission')+' is now pending administrator approval. It will not appear in the published Knowledge Base until it has been reviewed.</p><div class="article-form-actions"><button class="article-form-submit" onclick="navigate(\'home\')">Return to Knowledge Base</button></div></div></div>';
+    }catch(error){message.textContent=error.message||'Please retry your submission.';submit.disabled=false;}
+  });
+}
+
 function renderFavorites(){
   const el=document.getElementById('content');
   const saved=ARTICLES.filter(article=>accountState.favorites.has(String(article.id)));
@@ -318,6 +426,9 @@ function renderContent(){
   else if(state.route === 'article') renderArticle(state.articleId);
   else if(state.route === 'search') renderSearch(state.query);
   else if(state.route === 'favorites') renderFavorites();
+  else if(state.route === 'announcements') renderCategorySection(16,'Announcements','Important updates, notices and changes for the Brand Support team.');
+  else if(state.route === 'hub') renderCategorySection(17,'Hub Articles','Guides, procedures and useful articles from the Hub.');
+  else if(state.route === 'submit') renderArticleRequest(state.articleId);
   renderMegaGrid();
   renderHeaderState();
   const si = document.getElementById('searchInput');
@@ -328,6 +439,13 @@ function render(){ renderContent(); window.scrollTo(0,0); }
 function parseHash(){
   const h = location.hash.replace(/^#\/?/, '');
   if(h==='favorites') return {route:'favorites'};
+  if(h==='announcements') return {route:'announcements'};
+  if(h==='hub-articles') return {route:'hub'};
+  if(h==='submit'){
+    const queryString=h.includes('?')?h.slice(h.indexOf('?')+1):'';
+    const edit=new URLSearchParams(queryString).get('edit');
+    return {route:'submit',articleId:edit||null};
+  }
   if(h.startsWith('browse/')) return {route:'home', catId:parseInt(h.split('/')[1],10)};
   if(h.startsWith('article/')) return {route:'article', articleId:parseInt(h.split('/')[1],10)};
   if(h.startsWith('search')) {
