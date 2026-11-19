@@ -27,24 +27,25 @@
       <span class="nav-link" id="navHubArticlesLink" onclick="navigate('hub')">📚 Hub Articles</span>
       <span class="nav-link" id="navFavoritesLink" onclick="navigate('favorites')">☆ Favorites</span>
     </nav>
+    <div class="header-tools">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle display mode">&#9788;</button>
+      <div class="profile-menu-wrap">
+        <button class="profile-button" id="profileButton" type="button" aria-label="Profile and settings" aria-expanded="false" title="Profile and settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.8 20c.7-3.7 3.2-5.6 7.2-5.6s6.5 1.9 7.2 5.6"></path></svg>
+        </button>
+        <div class="profile-menu" id="profileMenu" hidden>
+          <div class="profile-menu-heading" id="profileName">My account</div>
+          <a href="/account">Profile &amp; settings</a>
+          <a href="#/submit" id="profileSubmitLink">Submit an article</a>
+          <a href="/admin" id="profileAdminLink" hidden>Admin dashboard</a>
+          <button type="button" id="profileLogout">Sign out</button>
+        </div>
+      </div>
+    </div>
     <div class="header-search">
       <span class="icon">&#128269;</span>
-      <input id="searchInput" type="text" placeholder="Search…" autocomplete="off">
+      <input id="searchInput" type="text" placeholder="Search articles, brands, codes…" autocomplete="off" aria-label="Search the Knowledge Base">
     </div>
-    <button class="theme-toggle" id="themeToggle" title="Toggle theme">&#9788;</button>
-  <div class="profile-menu-wrap">
-    <button class="profile-button" id="profileButton" type="button" aria-label="Profile and settings" aria-expanded="false" title="Profile and settings">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.8 20c.7-3.7 3.2-5.6 7.2-5.6s6.5 1.9 7.2 5.6"></path></svg>
-    </button>
-    <div class="profile-menu" id="profileMenu" hidden>
-      <div class="profile-menu-heading" id="profileName">My account</div>
-      <a href="/account">Profile &amp; settings</a>
-      <a href="#/submit" id="profileSubmitLink">Submit an article</a>
-      <a href="/admin" id="profileAdminLink" hidden>Admin dashboard</a>
-      <button type="button" id="profileLogout">Sign out</button>
-    </div>
-  </div>
-  </div>
   <div class="mega-menu" id="megaMenu">
     <div class="mega-grid" id="megaGrid"></div>
   </div>
