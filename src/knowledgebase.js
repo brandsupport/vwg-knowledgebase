@@ -171,6 +171,11 @@ function renderHeaderState(){
   if(submitLink) submitLink.classList.toggle('active',state.route==='submit');
   const profileName=document.getElementById('profileName');
   if(profileName) profileName.textContent=accountState.user?accountState.user.name:'My account';
+  const avatar=accountState.user?.avatar||'👤';
+  const profileAvatar=document.getElementById('profileAvatar');
+  const profileMenuAvatar=document.getElementById('profileMenuAvatar');
+  if(profileAvatar) profileAvatar.textContent=avatar;
+  if(profileMenuAvatar) profileMenuAvatar.textContent=avatar;
   const adminLink=document.getElementById('profileAdminLink');
   if(adminLink) adminLink.hidden=!(accountState.user&&accountState.user.role==='admin');
   document.getElementById('footerMeta').textContent = `${ARTICLES.length} articles indexed`;
