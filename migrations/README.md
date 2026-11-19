@@ -1,20 +1,18 @@
 # VWG Knowledge Base authentication setup
 
-Apply the migrations to the production D1 database in this order: 0001_auth.sql, 0002_article_favorites.sql, then 0003_content_management.sql, 0004_article_recycle_bin.sql and 0005_user_avatars.sql. The fifth migration adds a selectable profile avatar to each user account.
+Apply the migrations to the production D1 database in this order: 0001_auth.sql, 0002_article_favorites.sql, then 0003_content_management.sql, 0004_article_recycle_bin.sql, 0005_user_avatars.sql and 0006_admin_notifications_and_recovery.sql. Migration 0006 adds persistent admin notifications, password recovery requests and expanded avatar storage without rebuilding the users table.
 
 1. Cloudflare → Workers & Pages → D1 SQL database → Create database named vwg-kb-auth.
 2. Open the database Console / SQL editor and run the complete contents of 0001_auth.sql.
 3. Run the complete contents of 0002_article_favorites.sql in the same database to create the saved-articles table.
 4. Run the complete contents of 0003_content_management.sql to create the content approval and revision tables.
 5. Run 0004_article_recycle_bin.sql and 0005_user_avatars.sql in the same D1 database if they have not already been applied.
-6. Cloudflare → Workers & Pages → Pages → vwg-brandsupport-kb → Settings → Bindings.
-7. Add a D1 database binding with variable name DB and select vwg-kb-auth.
-8. Add production environment variable BOOTSTRAP_ADMIN_EMAIL with your work email.
-9. Add production secret BOOTSTRAP_ADMIN_CODE with a random value at least 24 characters long.
-10. Add production variable AUTH_ENABLED with the exact text true.
-11. Redeploy Pages so the binding and variables take effect.
+7. Cloudflare → Workers & Pages → Pages → vwg-brandsupport-kb → Settings → Bindings.
+8. Add a D1 database binding with variable name DB and select vwg-kb-auth.
+9. Add production variable AUTH_ENABLED with the exact text true.
+10. Redeploy Pages so the binding and variables take effect.
 
-The first registration using the configured bootstrap email and code becomes the initial active administrator. Other registrations remain pending until approved. After creating your admin account, remove BOOTSTRAP_ADMIN_CODE from production settings. BOOTSTRAP_ADMIN_EMAIL can also be removed once the first admin exists.
+Every public registration is created as a pending member account. An existing administrator must approve the registration and can grant administrator privileges separately. For a brand-new installation with no administrator row, create the first account through /signup and promote it to role="admin" and status="active" in the D1 console using the exact work email; do not expose an admin option in the public registration form.
 
 Do not use a preview database for production accounts. Preview deployments should use a separate database or have AUTH_ENABLED unset.
 
