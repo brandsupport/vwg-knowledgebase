@@ -36,6 +36,12 @@ export async function onRequest(ctx){
         updated:(overrides.results||[]).map(row=>({id:row.article_id,updatedAt:row.updated_at,article:safeJson(row.article_json)})).filter(x=>x.article)
       });
     }
+    if(action==="history"){
+      const articleId=String(new URL(request.url).searchParams.get("articleId")||"");
+      if(!/^\\d{1,16}$/.test(articleId))return jsonResponse({error:"A valid article identifier is required."},400);
+      const rows=await env.DB.prepare("SELECT id,original_json,updated_json,submitted_by,approved_by,approved_at FROM article_revision_history WHERE article_id=? ORDER BY approved_at DESC").bind(articleId).all();
+      return jsonResponse({revisions:(rows.results||[]).map(row=>({id:row.id,original:safeJson(row.original_json),updated:safeJson(row.updated_json),submittedBy:row.submitted_by,approvedBy:row.approved_by,approvedAt:row.approved_at}))});
+    }
     if(action==="recycle-bin"){
       const rows=await env.DB.prepare("SELECT article_id,article_json,deleted_at,deleted_by FROM article_recycle_bin WHERE permanently_deleted=0 ORDER BY deleted_at DESC").all();
       return jsonResponse({items:(rows.results||[]).map(row=>({id:row.article_id,article:safeJson(row.article_json),deletedAt:row.deleted_at,deletedBy:row.deleted_by})).filter(x=>x.article)});
