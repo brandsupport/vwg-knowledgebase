@@ -29,11 +29,14 @@
 <p id="message" class="message" aria-live="polite"></p></main>
 <script>
 const AVATARS=["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦭","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"];
+const ADMIN_ONLY_AVATAR='👑';
+let isAdmin=false;
 let selectedAvatar='👤';
 const grid=document.getElementById('avatarGrid'),preview=document.getElementById('avatarPreview'),message=document.getElementById('message'),save=document.getElementById('saveAvatar');
 function renderAvatars(){
   grid.replaceChildren();
-  AVATARS.forEach((avatar,index)=>{
+  const availableAvatars=isAdmin?[...AVATARS,ADMIN_ONLY_AVATAR]:AVATARS;
+  availableAvatars.forEach((avatar,index)=>{
     const button=document.createElement('button');button.type='button';button.className='avatar-choice'+(avatar===selectedAvatar?' selected':'');button.textContent=avatar;button.title='Avatar '+(index+1);button.setAttribute('aria-label','Choose avatar '+(index+1));button.setAttribute('aria-pressed',String(avatar===selectedAvatar));
     button.addEventListener('click',()=>{selectedAvatar=avatar;preview.textContent=avatar;renderAvatars();message.textContent='Avatar selected. Save to apply it to your profile.';});
     grid.append(button);
@@ -44,8 +47,11 @@ function renderAvatars(){
     const r=await fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'}),d=await r.json();
     if(!r.ok||!d.user){location.href='/login';return;}
     document.getElementById('name').textContent=d.user.name;document.getElementById('email').textContent=d.user.email;document.getElementById('role').textContent=d.user.role;
-    if(d.user.role==='admin')document.getElementById('admin').hidden=false;
-    selectedAvatar=d.user.avatar||'👤';preview.textContent=selectedAvatar;renderAvatars();
+    isAdmin=d.user.role==='admin';
+    if(isAdmin)document.getElementById('admin').hidden=false;
+    selectedAvatar=d.user.avatar||'👤';
+    if(!isAdmin&&selectedAvatar===ADMIN_ONLY_AVATAR)selectedAvatar='👤';
+    preview.textContent=selectedAvatar;renderAvatars();
   }catch(e){message.textContent='Could not load your profile. Refresh and try again.';}
 })();
 save.addEventListener('click',async()=>{
