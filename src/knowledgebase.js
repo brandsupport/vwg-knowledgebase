@@ -351,7 +351,7 @@ function renderArticleRequest(articleId){
   const editing=Boolean(article);
   const cancelAction=editing?"navigate('article',{articleId:"+Number(article.id)+"})":"navigate('home')";
   const categoryOptions=CATS.map(category=>'<option value="'+category.id+'"'+(editing&&Number(article.cat)===Number(category.id)?' selected':'')+'>'+escapeHtml(category.title)+'</option>').join('');
-  const images=editing?(article.images||[]).filter(url=>typeof url==='string'&&url.startsWith('https://')).join('\\n'):'';
+  const images=editing?(article.images||[]).filter(url=>typeof url==='string'&&url.startsWith('https://')).join('\n'):'';
   const source=editing?article.source_url||'':'';
   el.innerHTML=`
     <div class="page search-page">
@@ -393,7 +393,7 @@ function renderArticleRequest(articleId){
       categoryId:Number(document.getElementById('requestCategory').value),
       tags:document.getElementById('requestTags').value,
       body:document.getElementById('requestBody').value,
-      images:imageText?imageText.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean):[],
+      images:imageText?imageText.split(/\r?\n/).map(x=>x.trim()).filter(Boolean):[],
       sourceUrl:document.getElementById('requestSource').value,
       originalArticle:editing?{id:article.id,title:article.title,cat:article.cat,tags:article.tags,html:article.html,source_url:article.source_url}:undefined
     };
