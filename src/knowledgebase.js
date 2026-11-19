@@ -39,9 +39,61 @@ function allTagsFor(list){
   list.forEach(a => a.tags.forEach(t => set.add(t)));
   return [...set].sort();
 }
+function favoriteButtonHtml(article){
+  if(!accountState.user) return '';
+  const saved=accountState.favorites.has(String(article.id));
+  const label=saved?'Remove from favorites':'Save to favorites';
+  return '<button type="button" class="favorite-button'+(saved?' is-favorite':'')+'" aria-pressed="'+saved+'" aria-label="'+label+'" title="'+label+'" onclick="toggleFavorite(event,'+Number(article.id)+')">'+(saved?'★ Saved':'☆ Save')+'</button>';
+}
+async function toggleFavorite(event,articleId){
+  event.preventDefault();
+  event.stopPropagation();
+  if(!accountState.user){location.href='/login';return;}
+  const button=event.currentTarget;
+  const nextSaved=!accountState.favorites.has(String(articleId));
+  button.disabled=true;
+  try{
+    const response=await fetch('/api/favorites',{
+      method:'POST',
+      credentials:'same-origin',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({articleId:String(articleId),favorite:nextSaved})
+    });
+    const data=await response.json();
+    if(!response.ok) throw new Error(data.error||'Could not update favorites.');
+    if(nextSaved) accountState.favorites.add(String(articleId));
+    else accountState.favorites.delete(String(articleId));
+    renderContent();
+  }catch(error){
+    button.disabled=false;
+    button.title=error.message||'Could not update favorites. Please retry.';
+  }
+}
 
 let state = { route:'home', articleId:null, query:'', activeCat:null, activeTag:null };
 let feedLimit = 24;
+const accountState = { user:null, favorites:new Set(), ready:false };
+
+async function loadAccountState(){
+  try{
+    const response=await fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'});
+    const data=response.ok?await response.json():{user:null};
+    accountState.user=data.user||null;
+    accountState.favorites=new Set();
+    if(accountState.user){
+      const favoritesResponse=await fetch('/api/favorites',{credentials:'same-origin',cache:'no-store'});
+      if(favoritesResponse.ok){
+        const favoritesData=await favoritesResponse.json();
+        accountState.favorites=new Set((favoritesData.favorites||[]).map(String));
+      }
+    }
+  }catch(error){
+    accountState.user=null;
+    accountState.favorites=new Set();
+  }
+  accountState.ready=true;
+  renderContent();
+}
 
 function navigate(route, opts={}){
   closeMegaMenu();
@@ -49,7 +101,8 @@ function navigate(route, opts={}){
   feedLimit = 24;
   const hash = route === 'home' ? (opts.catId ? `#/browse/${opts.catId}` : '#/') :
     route === 'article' ? `#/article/${opts.articleId}` :
-    route === 'search' ? `#/search?q=${encodeURIComponent(opts.query||'')}` : '#/';
+    route === 'search' ? `#/search?q=${encodeURIComponent(opts.query||'')}` :
+    route === 'favorites' ? '#/favorites' : '#/';
   if(location.hash !== hash) location.hash = hash;
   render();
 }
@@ -90,6 +143,12 @@ function renderMegaGrid(){
 function renderHeaderState(){
   document.getElementById('navHomeLink').classList.toggle('active', state.route==='home' && !state.activeCat);
   document.getElementById('navCatLink').classList.toggle('active', state.route==='home' && !!state.activeCat);
+  const favoritesLink=document.getElementById('navFavoritesLink');
+  if(favoritesLink) favoritesLink.classList.toggle('active',state.route==='favorites');
+  const profileName=document.getElementById('profileName');
+  if(profileName) profileName.textContent=accountState.user?accountState.user.name:'My account';
+  const adminLink=document.getElementById('profileAdminLink');
+  if(adminLink) adminLink.hidden=!(accountState.user&&accountState.user.role==='admin');
   document.getElementById('footerMeta').textContent = `${ARTICLES.length} articles indexed`;
 }
 
@@ -135,7 +194,10 @@ function renderHome(){
           <div class="eyebrow">Featured · ${escapeHtml(featCat.short)}</div>
           <h2>${escapeHtml(featured.title)}</h2>
           <p>${escapeHtml(snippetFor(featured,''))}</p>
-          <span class="featured-cta" onclick="navigate('article',{articleId:${featured.id}})">Read the article &rarr;</span>
+          <div class="featured-actions">
+            <span class="featured-cta" onclick="navigate('article',{articleId:${featured.id}})">Read the article &rarr;</span>
+            ${favoriteButtonHtml(featured)}
+          </div>
         </div>
         <div class="featured-visual">${featCat.icon}</div>
       </div>
@@ -163,7 +225,10 @@ function feedCardHtml(a, q){
   const cat = catById[a.cat];
   return `
     <div class="article-card" onclick="navigate('article',{articleId:${a.id}})">
-      <span class="num">${cat.icon} ${escapeHtml(cat.short).toUpperCase()} &middot; ${articleLabel(a)}</span>
+      <div class="article-card-meta">
+        <span class="num">${cat.icon} ${escapeHtml(cat.short).toUpperCase()} &middot; ${articleLabel(a)}</span>
+        ${favoriteButtonHtml(a)}
+      </div>
       <div class="title">${q ? highlight(a.title,q) : escapeHtml(a.title)}</div>
       <div class="snippet">${q ? highlight(snippetFor(a,q),q) : escapeHtml(snippetFor(a,''))}</div>
       <div class="card-tags">${a.tags.map(t=>renderTagChip(t,false,false)).join('')}</div>
@@ -186,6 +251,7 @@ function renderArticle(articleId){
         <div class="article-detail">
           <div class="cat-label">${cat.icon} ${escapeHtml(cat.title).toUpperCase()} &middot; ${articleLabel(a)}</div>
           <h1>${escapeHtml(a.title)}</h1>
+          <div class="article-detail-actions">${favoriteButtonHtml(a)}</div>
           <div class="article-body">${a.html}</div>
           ${a.images.map(src => `<img src="${src}" loading="lazy" alt="Reference screenshot for ${escapeHtml(a.title)}">`).join('')}
           <div class="detail-tags">${a.tags.map(t=>renderTagChip(t,false,false)).join('')}</div>
@@ -232,10 +298,26 @@ function renderSearch(q){
   `;
 }
 
+function renderFavorites(){
+  const el=document.getElementById('content');
+  const saved=ARTICLES.filter(article=>accountState.favorites.has(String(article.id)));
+  el.innerHTML=`
+    <div class="page search-page">
+      <div class="favorites-heading">
+        <div><div class="section-label">Your library</div><h1>Favorite articles</h1><p>Articles you save are kept in your account and available whenever you sign in.</p></div>
+        <span class="favorites-count">${saved.length} saved</span>
+      </div>
+      <div class="feed-grid">
+        ${saved.map(article=>feedCardHtml(article,'')).join('')||'<div class="empty-state">You have not saved any articles yet. Use the ☆ Save button on an article to keep it here.</div>'}
+      </div>
+    </div>`;
+}
+
 function renderContent(){
   if(state.route === 'home') renderHome();
   else if(state.route === 'article') renderArticle(state.articleId);
   else if(state.route === 'search') renderSearch(state.query);
+  else if(state.route === 'favorites') renderFavorites();
   renderMegaGrid();
   renderHeaderState();
   const si = document.getElementById('searchInput');
@@ -245,6 +327,7 @@ function render(){ renderContent(); window.scrollTo(0,0); }
 
 function parseHash(){
   const h = location.hash.replace(/^#\/?/, '');
+  if(h==='favorites') return {route:'favorites'};
   if(h.startsWith('browse/')) return {route:'home', catId:parseInt(h.split('/')[1],10)};
   if(h.startsWith('article/')) return {route:'article', articleId:parseInt(h.split('/')[1],10)};
   if(h.startsWith('search')) {
@@ -273,6 +356,33 @@ function onSearchKeydown(e){
 }
 document.getElementById('searchInput').addEventListener('input', onHeaderSearchInput);
 document.getElementById('searchInput').addEventListener('keydown', onSearchKeydown);
+
+const profileButton=document.getElementById('profileButton');
+const profileMenu=document.getElementById('profileMenu');
+function closeProfileMenu(){
+  if(profileMenu) profileMenu.hidden=true;
+  if(profileButton) profileButton.setAttribute('aria-expanded','false');
+}
+if(profileButton&&profileMenu){
+  profileButton.addEventListener('click',event=>{
+    event.stopPropagation();
+    profileMenu.hidden=!profileMenu.hidden;
+    profileButton.setAttribute('aria-expanded',String(!profileMenu.hidden));
+  });
+  profileMenu.addEventListener('click',event=>event.stopPropagation());
+  document.addEventListener('click',closeProfileMenu);
+}
+const profileLogout=document.getElementById('profileLogout');
+if(profileLogout){
+  profileLogout.addEventListener('click',async()=>{
+    profileLogout.disabled=true;
+    try{
+      const response=await fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'});
+      if(response.ok) location.href='/login';
+      else profileLogout.disabled=false;
+    }catch(error){profileLogout.disabled=false;}
+  });
+}
 
 document.addEventListener('click', (e) => {
   const menu = document.getElementById('megaMenu');
@@ -505,4 +615,5 @@ applyStoredTheme();
 const initial = parseHash();
 state = { route:initial.route, articleId:initial.articleId??null, query:initial.query??'', activeCat:initial.catId??null, activeTag:null };
 render();
+loadAccountState();
 
