@@ -60,7 +60,7 @@ if(!isSameOrigin(request))return jsonResponse({error:"Invalid request origin."},
 const current=await getSessionUser(request,env);
 if(!current)return jsonResponse({error:"Please sign in again."},401);
 let body;try{body=await readJson(request,2048);}catch{return jsonResponse({error:"Choose a valid profile avatar."},400);}
-const allowed=new Set(["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"]);
+const allowed=new Set(["👤","🦁","🐼","🦊","🐺","🐸","🐧","🐯","🐨","🦉","🐙","🐬","🦭","🦄","🐻","🐮","🐵","🐹","🐰","🦝","🦓","🦒","🐘","🦛","🦔","🐢","🐳","🦈","🦋","🐝","🐞","🐲","🐉","🦖","🦕","🦜","🦩","🦚","🐦","🐱","🐶","🐴","🐭","🦇","🦦","🦥","🦨","🦡","🦫","🦢","🦤","🚗","🚙","🏎️","🚕","🚓","🚑","🚌","🚚","🚀","🌟","🔥","⚡","🎯","🎮","🧠","🛠️","🌈","💎","🎧","🏁"]);
 const avatar=String(body.avatar||"");
 if(!allowed.has(avatar))return jsonResponse({error:"Choose one of the available avatars."},400);
 try{await env.DB.prepare("INSERT INTO user_avatar_preferences(user_id,avatar,updated_at) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET avatar=excluded.avatar,updated_at=excluded.updated_at").bind(current.id,avatar,Date.now()).run();}catch{return jsonResponse({error:"Expanded avatars are not ready. An administrator must apply database migration 0006 first."},503);}
