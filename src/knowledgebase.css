@@ -816,3 +816,24 @@ code{font-family:var(--font-mono); background:var(--code-bg); color:var(--code-i
   .article-admin-label{width:100%}
   .article-admin-actions .article-action-button{flex:1}
 }
+
+
+/* Guided sections inside the contribution editor */
+.article-form-section{padding:0 0 24px;margin:0 0 23px;border-bottom:1px solid var(--line)}
+.article-form-section:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:0}
+.article-form-section-head{display:flex;align-items:flex-start;gap:12px;margin:0 0 17px}
+.article-form-step{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border:1px solid rgba(0,229,255,.22);border-radius:9px;background:rgba(0,229,255,.07);color:var(--neon-1);font:11px var(--font-mono)}
+.article-form-section-head h2{margin:0 0 4px;color:var(--ink);font:600 15px var(--font-display)}
+.article-form-section-head p{margin:0;color:var(--ink-soft);font-size:10.5px;line-height:1.5}
+.article-form-fields{display:block}
+.article-form-fields>label,.article-form-field>label{display:block;margin:13px 0 7px;color:var(--ink);font-size:11.5px;font-weight:700}
+.article-form-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:2px}
+.article-form-field{min-width:0}
+.form-required{color:var(--neon-1);font-size:11px}
+.form-optional{margin-left:5px;color:var(--ink-soft);font-size:9px;font-weight:500}
+.form-field-tip{margin:7px 2px 0;color:var(--ink-soft);font-size:10px;line-height:1.55}
+.article-form-field.source-field{margin-top:14px}
+.article-form-shell .article-form-fields .kb-form-textarea{min-height:250px}
+:root[data-theme="light"] .article-form-step{background:rgba(0,146,184,.07);border-color:rgba(0,146,184,.2)}
+:root[data-theme="light"] .article-form-section-head h2,:root[data-theme="light"] .article-form-fields>label,:root[data-theme="light"] .article-form-field>label{color:#172033}
+@media(max-width:620px){.article-form-field-grid{grid-template-columns:1fr;gap:0}.article-form-section-head{margin-bottom:12px}.article-form-section{padding-bottom:19px;margin-bottom:18px}}
