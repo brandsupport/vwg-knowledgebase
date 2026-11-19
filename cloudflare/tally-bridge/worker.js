@@ -30,15 +30,6 @@ function constantTimeEqual(a, b) {
   return diff === 0;
 }
 
-function toBase64(bytes) {
-  let binary = "";
-  const chunkSize = 0x8000;
-  for (let i = 0; i < bytes.length; i += chunkSize) {
-    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
-  }
-  return btoa(binary);
-}
-
 async function verifyTallySignature(payload, received, secret) {
   if (!received || !secret) return false;
   // Matches Tally's documented example: HMAC-SHA256 of JSON.stringify(parsedPayload).
@@ -64,21 +55,6 @@ function safeResponseId(payload) {
   if (typeof candidate !== "string" || !candidate.trim()) return null;
   const safe = candidate.trim().replace(/[^A-Za-z0-9_-]/g, "-").slice(0, 100);
   return safe || null;
-}
-
-async function githubRequest(url, token, options) {
-  options = options || {};
-  return fetch(url, {
-    method: options.method || "GET",
-    body: options.body,
-    headers: {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "VWG-Knowledgebase-Tally-Bridge",
-      Authorization: "Bearer " + token,
-      "X-GitHub-Api-Version": "2022-11-28",
-      "Content-Type": "application/json"
-    }
-  });
 }
 
 export default {
