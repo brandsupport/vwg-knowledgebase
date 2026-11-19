@@ -50,7 +50,8 @@ th{color:#91a4bc;background:#0d1727}.pill{display:inline-block;padding:4px 8px;b
     <button class="tab active" data-panel="users">Users</button>
     <button class="tab" data-panel="submissions">New submissions <span id="submissionCount"></span></button>
     <button class="tab" data-panel="revisions">Article revisions <span id="revisionCount"></span></button>
-    <button class="tab" data-panel="articles">Published contributions</button>
+    <button class="tab" data-panel="articles">Published articles</button>
+    <button class="tab" data-panel="recycle">Recycle bin <span id="recycleCount"></span></button>
   </nav>
 
   <section class="panel active" id="panel-users">
@@ -66,6 +67,7 @@ th{color:#91a4bc;background:#0d1727}.pill{display:inline-block;padding:4px 8px;b
     <div class="muted">Approved contributions and articles that have received a published update. Existing Knowledge Base articles can be opened and edited using “Suggest an update” on their article page.</div>
     <div id="published" class="published-list" style="margin-top:14px"><div class="empty">Loading published contributions…</div></div>
   </section>
+  <section class="panel" id="panel-recycle"><div class="muted">Deleted articles are hidden from the Knowledge Base. Restore them or permanently delete them. Permanent deletion cannot be undone.</div><div id="recycleBin" class="published-list" style="margin-top:14px"><div class="empty">Loading recycle bin…</div></div></section>
 </main>
 <script>
 const message=document.getElementById('message');
@@ -138,12 +140,13 @@ function renderRequestList(container,requests,kind){
   }
 }
 async function loadContentPanels(){
-  const [subs,edits,articles]=await Promise.all([
+  const [subs,edits,articles,recycle]=await Promise.all([
     fetch('/api/content-admin/submissions').then(r=>r.json()),
     fetch('/api/content-admin/revisions').then(r=>r.json()),
-    fetch('/api/content-admin/articles').then(r=>r.json())
+    fetch('/api/content-admin/articles').then(r=>r.json()),
+    fetch('/api/content-admin/recycle-bin').then(r=>r.json())
   ]);
-  if(subs.error||edits.error||articles.error)throw new Error(subs.error||edits.error||articles.error);
+  if(subs.error||edits.error||articles.error||recycle.error)throw new Error(subs.error||edits.error||articles.error||recycle.error);
   const submissionRequests=subs.requests||[],revisionRequests=edits.requests||[];
   document.getElementById('submissionCount').textContent=submissionRequests.length?'('+submissionRequests.length+')':'';
   document.getElementById('revisionCount').textContent=revisionRequests.length?'('+revisionRequests.length+')':'';
@@ -154,11 +157,34 @@ async function loadContentPanels(){
     ...(articles.published||[]).map(item=>({id:item.id,article:item.article,when:item.publishedAt,label:'Published contribution'})),
     ...(articles.updated||[]).map(item=>({id:item.id,article:item.article,when:item.updatedAt,label:'Approved article update'}))
   ].sort((a,b)=>Number(b.when)-Number(a.when));
-  if(!entries.length){published.append(el('div','empty','No contributed articles or approved updates have been published yet.'));return;}
+  if(!entries.length)published.append(el('div','empty','No contributed articles or approved updates have been published yet.'));
   entries.forEach(item=>{
     const card=el('article','published-card'),head=el('div','published-head'),left=el('div'),title=el('h3','',item.article.title||'Untitled article'),meta=el('div','meta',(categoryNames[item.article.cat]||'Knowledge Base')+' · '+item.label+' · '+new Date(item.when).toLocaleString()),link=el('a','','Open article ↗');
     link.href='/#/article/'+encodeURIComponent(item.id);left.append(title,meta);head.append(left,link);card.append(head);published.append(card);
   });
+}
+
+  const recycleList=document.getElementById('recycleBin');recycleList.replaceChildren();
+  document.getElementById('recycleCount').textContent=recycle.items?.length?'('+recycle.items.length+')':'';
+  if(!recycle.items?.length)recycleList.append(el('div','empty','The recycle bin is empty.'));
+  (recycle.items||[]).forEach(item=>{
+    const card=el('article','published-card'),head=el('div','published-head'),left=el('div'),title=el('h3','',item.article.title||'Untitled article'),meta=el('div','meta',(categoryNames[item.article.cat]||'Knowledge Base')+' · Deleted '+new Date(item.deletedAt).toLocaleString()),actions=el('div','actions');
+    const restore=el('button','button primary','Restore'),purge=el('button','button danger','Permanently delete');
+    restore.addEventListener('click',()=>recycleAction('restore',item,card));
+    purge.addEventListener('click',()=>recycleAction('permanent-delete',item,card));
+    actions.append(restore,purge);left.append(title,meta);head.append(left,actions);card.append(head);recycleList.append(card);
+  });
+}
+async function recycleAction(action,item,card){
+  const permanent=action==='permanent-delete';
+  if(!confirm(permanent?'Permanently delete “'+item.article.title+'”? This cannot be undone.':'Restore “'+item.article.title+'”?'))return;
+  card.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{
+    const r=await fetch('/api/content-admin/'+action,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({articleId:String(item.id)})}),d=await r.json();
+    if(!r.ok)throw new Error(d.error||'The action failed.');
+    message.textContent=permanent?'Article permanently deleted.':'Article restored.';
+    await loadContentPanels();
+  }catch(error){message.textContent=error.message;card.querySelectorAll('button').forEach(b=>b.disabled=false);}
 }
 async function refreshAll(){
   message.textContent='Refreshing administration data…';
