@@ -8,6 +8,15 @@ function cleanHttps(value){
   if(!raw)return "";
   try{const url=new URL(raw);return url.protocol==="https:"?url.href:"";}catch{return "";}
 }
+function cleanArticleImage(value){
+  const raw=String(value??"").trim();
+  if(!raw)return "";
+  const https=cleanHttps(raw);
+  if(https)return https;
+  if(/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(raw)&&raw.length<=380000)return raw;
+  if(/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9_-][A-Za-z0-9._/-]*$/.test(raw)&&!raw.includes(".."))return raw;
+  return "";
+}
 function bodyToHtml(body){
   const lines=String(body??"").replace(/\r\n?/g,"\n").split("\n");
   const out=[];let listType="",listItems=[];
@@ -40,15 +49,17 @@ function normalizeArticle(body,{edit=false}={}){
   if(content.length<10||content.length>30000)throw new Error("Article content must be between 10 and 30,000 characters.");
   const rawTags=Array.isArray(body.tags)?body.tags.join(","):String(body.tags??"");
   const tags=[...new Set(rawTags.split(/[,;\n]/).map(x=>x.trim()).filter(Boolean))].slice(0,8);
-  const imagesProvided=Array.isArray(body.images)&&body.images.length>0;
-  const images=imagesProvided?body.images.map(cleanHttps).filter(Boolean).slice(0,8):undefined;
-  if(imagesProvided&&images.length!==body.images.length)throw new Error("Images must be valid HTTPS links.");
+  const imagesProvided=Array.isArray(body.images);
+  if(imagesProvided&&body.images.length>8)throw new Error("You can attach up to 8 images.");
+  const images=imagesProvided?body.images.map(cleanArticleImage):undefined;
+  if(imagesProvided&&images.some((image,index)=>!image||image!==String(body.images[index]??"").trim()))throw new Error("Images must be secure HTTPS links, supported Knowledge Base image paths or valid PNG/JPG/WEBP uploads.");
+  if(imagesProvided&&images.reduce((total,image)=>total+(image.startsWith("data:image/")?image.length:0),0)>900000)throw new Error("The combined uploaded images are too large. Reduce the image size and try again.");
   const sourceUrl=cleanHttps(body.sourceUrl??body.source_url);
   const html=bodyToHtml(content);
   const plain=content.replace(/\s+/g," ").trim();
   const article={title,cat:categoryId,tags,html,source:"kb",source_url:sourceUrl,search_text:(title+" "+plain+" "+tags.join(" ")).toLowerCase()};
   if(images!==undefined)article.images=images;
-  if(!edit)article.images=images||[];
+  if(!edit&&images===undefined)article.images=[];
   return article;
 }
 function safeJson(value){try{return JSON.parse(value);}catch{return null;}}
