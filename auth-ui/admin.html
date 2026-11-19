@@ -117,6 +117,12 @@ td[data-label="Role"]{text-transform:capitalize;color:#b9c8df}
 .review-note::placeholder{color:#72839a}
 .review-note:focus{border-color:rgba(0,223,245,.6);box-shadow:0 0 0 3px rgba(0,223,245,.08)}
 .review-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}
+.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tablewrap{max-width:100%}
+@media(min-width:621px) and (max-width:980px){.tablewrap{overflow-x:auto}.tablewrap table{min-width:820px}}
+.user-more[open]>summary{border-color:rgba(0,223,245,.38);color:var(--ink)}
+.user-action-menu .button:focus-visible{background:rgba(0,223,245,.09)}
+
 .published-head a{display:inline-flex;align-items:center;gap:6px;color:var(--cyan);font-size:11px;font-weight:700;text-decoration:none}
 .published-head a:hover{text-decoration:underline}
 .empty{display:grid;justify-items:center;gap:6px;padding:42px 20px;border:1px dashed rgba(183,204,235,.17);border-radius:13px;background:rgba(255,255,255,.015);color:var(--muted);text-align:center;font-size:12px}
@@ -238,7 +244,6 @@ async function loadUsers(){
     if(u.role==='admin'&&u.status==='active')menu.append(button('Remove administrator','demote',u.id));
     menu.append(button('Reset password','reset_password',u.id),button('Remove account','delete',u.id,'danger'));
     more.append(summary,menu);group.append(more);actions.append(group);
-    tr.children.length=0;
     [[name,'Colleague'],[email,'Email'],[role,'Role'],[status,'Status'],[created,'Registered'],[actions,'Actions']].forEach(([cell,label])=>{cell.dataset.label=label;tr.append(cell);});
     tbody.append(tr);
   }
