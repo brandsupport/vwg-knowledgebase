@@ -1,5 +1,5 @@
 import{jsonResponse}from"../_lib/auth.js";
-import{normalizeArticle,categoryName}from"../_lib/content.js";
+import{normalizeArticle}from"../_lib/content.js";
 
 function safeEqual(a,b){
   const left=String(a||""),right=String(b||"");
@@ -41,7 +41,12 @@ function readFields(payload){
   for(const field of fields){
     if(!field||typeof field!=="object")continue;
     const labels=fieldLabel(field);
-    const value=field.value;
+    let value=field.value;
+    const options=Array.isArray(field.options)?field.options:[];
+    if(options.length){
+      const option=options.find(item=>item&&String(item.id)===String(value));
+      if(option)value=option.text??option.label??value;
+    }
     const find=names=>labels.some(label=>names.includes(label));
     if(find(["title","article title","tip title"]))values.title=textValue(value);
     else if(find(["category","article category"]))values.category=textValue(value);
@@ -55,11 +60,12 @@ function readFields(payload){
 function categoryId(value){
   const normalized=String(value||"").trim().toLowerCase();
   const map={
+    "16":16,"17":17,
     "announcements":16,"announcement":16,
     "hub articles":17,"hub article":17
   };
   if(map[normalized])return map[normalized];
-  const known={"vehicle transfers, tagging & de-tagging":1,"transfers":1,"stock":2,"stock types, mandatory stock & launch / mi vehicles":2,"order mods":3,"pricing":4,"demo funding":5,"registration":6,"delays":7,"adoption":8,"brand-specific":9,"procedures":10,"contacts":11,"call notes":12,"reference":13,"tools & links":14,"training":15};
+  const known={"vehicle transfers, tagging & de-tagging":1,"transfers":1,"stock":2,"stock types":2,"stock types, mandatory stock & launch / mi vehicles":2,"order mods":3,"order modifications, amendments & government grants":3,"pricing":4,"quotations, pricing, p.o. issues & re-pricing":4,"demo funding":5,"demo plans & demo funding":5,"registration":6,"registration, blocks, damage & compliance (v55 / rav / dvla / iva)":6,"delays":7,"vehicle delays, status codes, shipping & delivery times":7,"adoption":8,"adoption & un-adoption rules":8,"brand-specific":9,"brand-specific notes (audi, skoda, seat / cupra, vwcv, vw)":9,"procedures":10,"sli / gis / rav — step-by-step system procedures":10,"contacts":11,"contacts, escalation emails & phone numbers":11,"call notes":12,"team & conference call notes / product & supply updates":12,"reference":13,"reference info & terminology":13,"tools & links":14,"training":15,"training & product knowledge":15};
   return known[normalized]||0;
 }
 
