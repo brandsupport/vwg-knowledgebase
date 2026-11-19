@@ -287,6 +287,7 @@ function renderArticle(articleId){
           </div>
           <div class="article-body">${a.html}</div>
           ${a.images.map(src => `<img src="${src}" loading="lazy" alt="Reference screenshot for ${escapeHtml(a.title)}">`).join('')}
+          ${Array.isArray(a.attachments)&&a.attachments.length?`<div class="article-attachments"><h3>Supporting files</h3>${a.attachments.filter(item=>item&&typeof item.data==='string'&&item.data.startsWith('data:')&&!item.data.includes('"')&&!item.data.includes('<')).map(item=>`<a class="article-attachment-link" href="${escapeHtml(item.data)}" download="${escapeHtml(item.name||'attachment')}"><span>📎 ${escapeHtml(item.name||'Supporting file')}</span><small>${Math.max(1,Math.ceil((Number(item.size)||0)/1024))} KB · Download</small></a>`).join('')}</div>`:''}
           <div class="detail-tags">${a.tags.map(t=>renderTagChip(t,false,false)).join('')}</div>
           ${a.source_reference ? `<div class="article-source-note"><strong>Source / reference:</strong> ${escapeHtml(a.source_reference)}</div>` : ''}
           ${a.source_url ? `<div style="margin-top:10px;"><a class="back-link" href="${escapeHtml(a.source_url)}" target="_blank" rel="noopener" style="margin-bottom:0;">${a.source === 'notion' ? 'View original in Notion' : 'View source'} &#8599;</a></div>` : ''}
@@ -408,7 +409,7 @@ function renderArticleRequest(articleId){
             </div>
           </section>
           <section class="article-form-section">
-            <div class="article-form-section-head"><span class="article-form-step">03</span><div><h2>Images and references</h2><p>Add screenshots that make the instructions easier to understand.</p></div></div>
+            <div class="article-form-section-head"><span class="article-form-step">03</span><div><h2>Images, files and references</h2><p>Add screenshots or optional supporting documents to help colleagues follow the instructions.</p></div></div>
             <div class="article-form-fields">
               <label for="requestImageFiles">Screenshots and images <span class="form-optional">Optional</span></label>
               <div class="image-upload-field">
@@ -425,6 +426,19 @@ function renderArticleRequest(articleId){
                 <summary>Or add images using secure HTTPS links</summary>
                 <textarea class="kb-form-control" id="requestImageLinks" rows="2" placeholder="Paste one HTTPS image link per line"></textarea>
               </details>
+              <div class="article-file-upload-field">
+                <label for="requestAttachmentFiles">Supporting files <span class="form-optional">Optional</span></label>
+                <div class="article-file-upload-row">
+                  <input class="image-file-input" id="requestAttachmentFiles" type="file" accept=".pdf,.docx,.xlsx,.pptx,.txt,.csv,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation,text/plain,text/csv" multiple>
+                  <label class="image-upload-dropzone" id="attachmentUploadDropzone" for="requestAttachmentFiles">
+                    <span class="image-upload-icon" aria-hidden="true">📎</span>
+                    <span class="image-upload-copy"><strong>Choose supporting files</strong><small>PDF, DOCX, XLSX, PPTX, TXT or CSV · up to 4 files · 200 KB each</small></span>
+                    <span class="image-upload-browse">Browse files</span>
+                  </label>
+                  <div id="attachmentUploadStatus" class="image-upload-status" aria-live="polite">No supporting files selected.</div>
+                  <div id="attachmentPreviewList" class="attachment-preview-list"></div>
+                </div>
+              </div>
               <div class="form-helper">${editing?'Your existing article images are shown above. Remove any image you no longer need.':'Images are automatically resized and optimised before submission.'}</div>
               <div class="article-form-field source-field">
                 <label for="requestSource">Source / reference <span class="form-optional">Optional</span></label>
@@ -444,12 +458,21 @@ function renderArticleRequest(articleId){
   const imageState=(editing&&Array.isArray(article.images)?article.images:[])
     .filter(src=>typeof src==='string'&&(src.startsWith('https://')||/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/]+={0,2}$/.test(src)||(/^(?:article_images|agency_approval_images|stock_replacement_images)\/[A-Za-z0-9_-][A-Za-z0-9._/-]*$/.test(src)&&!src.includes('..'))))
     .map((src,index)=>({src,name:'Existing image '+(index+1)}));
+  const attachmentState=(editing&&Array.isArray(article.attachments)?article.attachments:[])
+    .filter(item=>item&&typeof item==='object'&&typeof item.name==='string'&&typeof item.data==='string'&&item.data.startsWith('data:')&&item.data.length<=500000)
+    .map(item=>({name:item.name,type:String(item.type||''),size:Number(item.size)||0,data:item.data}));
   const imageInput=document.getElementById('requestImageFiles');
   const imageDropzone=document.getElementById('imageUploadDropzone');
   const imageGrid=document.getElementById('imagePreviewGrid');
   const imageStatus=document.getElementById('imageUploadStatus');
   const imageLinks=document.getElementById('requestImageLinks');
   const MAX_IMAGES=8,MAX_IMAGE_TOTAL=900000;
+  const attachmentInput=document.getElementById('requestAttachmentFiles');
+  const attachmentDropzone=document.getElementById('attachmentUploadDropzone');
+  const attachmentList=document.getElementById('attachmentPreviewList');
+  const attachmentStatus=document.getElementById('attachmentUploadStatus');
+  const MAX_ATTACHMENTS=4,MAX_ATTACHMENT_TOTAL=500000,MAX_ATTACHMENT_SIZE=200*1024;
+  const ATTACHMENT_TYPES={pdf:'application/pdf',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',txt:'text/plain',csv:'text/csv'};
   function renderImagePreviews(){
     imageGrid.replaceChildren();
     imageState.forEach((item,index)=>{
@@ -508,7 +531,49 @@ function renderArticleRequest(articleId){
   ['dragenter','dragover'].forEach(type=>imageDropzone.addEventListener(type,event=>{event.preventDefault();imageDropzone.classList.add('is-dragging');}));
   ['dragleave','drop'].forEach(type=>imageDropzone.addEventListener(type,event=>{event.preventDefault();imageDropzone.classList.remove('is-dragging');}));
   imageDropzone.addEventListener('drop',event=>{event.preventDefault();addImageFiles(event.dataTransfer?.files||[]);});
+  function renderAttachmentPreviews(){
+    attachmentList.replaceChildren();
+    attachmentState.forEach((item,index)=>{
+      const row=document.createElement('div');row.className='attachment-preview-item';
+      const icon=document.createElement('span');icon.className='attachment-preview-icon';icon.textContent='📎';
+      const details=document.createElement('div');details.className='attachment-preview-details';
+      const name=document.createElement('strong');name.textContent=item.name;
+      const meta=document.createElement('small');meta.textContent=(item.size?Math.ceil(item.size/1024)+' KB':'Existing file')+' · '+String(item.type||'document').split('/').pop().toUpperCase();
+      details.append(name,meta);
+      const remove=document.createElement('button');remove.type='button';remove.className='image-remove-button';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name);
+      remove.addEventListener('click',()=>{attachmentState.splice(index,1);renderAttachmentPreviews();});
+      row.append(icon,details,remove);attachmentList.append(row);
+    });
+    attachmentStatus.textContent=attachmentState.length?attachmentState.length+' supporting file'+(attachmentState.length===1?'':'s')+' attached.':'No supporting files selected.';
+  }
+  function readFileAsDataUrl(file){
+    return new Promise((resolve,reject)=>{
+      const reader=new FileReader();reader.onload=()=>resolve(String(reader.result||''));reader.onerror=()=>reject(new Error(file.name+': could not read this file.'));reader.readAsDataURL(file);
+    });
+  }
+  async function addSupportingFiles(files){
+    for(const file of Array.from(files||[])){
+      if(attachmentState.length>=MAX_ATTACHMENTS){attachmentStatus.textContent='Maximum of 4 supporting files reached.';break;}
+      const ext=(file.name.split('.').pop()||'').toLowerCase(),mime=ATTACHMENT_TYPES[ext];
+      if(!mime){attachmentStatus.textContent=file.name+': allowed formats are PDF, DOCX, XLSX, PPTX, TXT and CSV.';continue;}
+      if(file.size<=0||file.size>MAX_ATTACHMENT_SIZE){attachmentStatus.textContent=file.name+': each supporting file must be 200 KB or smaller.';continue;}
+      attachmentStatus.textContent='Reading '+file.name+'…';
+      try{
+        const data=await readFileAsDataUrl(file);
+        if(!data.startsWith('data:'+mime+';base64,')){attachmentStatus.textContent=file.name+': file type could not be verified by the browser.';continue;}
+        const used=attachmentState.reduce((sum,item)=>sum+item.data.length,0);
+        if(used+data.length>MAX_ATTACHMENT_TOTAL){attachmentStatus.textContent='Supporting files exceed the combined upload limit. Remove a file or choose smaller files.';break;}
+        attachmentState.push({name:file.name,type:mime,size:file.size,data});renderAttachmentPreviews();
+      }catch(error){attachmentStatus.textContent=error.message||'Could not add this file.';}
+    }
+    if(attachmentState.length)attachmentStatus.textContent=attachmentState.length+' supporting file'+(attachmentState.length===1?'':'s')+' ready. (Optional)';
+  }
+  attachmentInput.addEventListener('change',async()=>{const chosen=Array.from(attachmentInput.files||[]);attachmentInput.value='';await addSupportingFiles(chosen);});
+  ['dragenter','dragover'].forEach(type=>attachmentDropzone.addEventListener(type,event=>{event.preventDefault();attachmentDropzone.classList.add('is-dragging');}));
+  ['dragleave','drop'].forEach(type=>attachmentDropzone.addEventListener(type,event=>{event.preventDefault();attachmentDropzone.classList.remove('is-dragging');}));
+  attachmentDropzone.addEventListener('drop',event=>{event.preventDefault();addSupportingFiles(event.dataTransfer?.files||[]);});
   renderImagePreviews();
+  renderAttachmentPreviews();
 
   document.getElementById('articleRequestForm').addEventListener('submit',async event=>{
     event.preventDefault();
@@ -522,12 +587,13 @@ function renderArticleRequest(articleId){
       categoryId:Number(document.getElementById('requestCategory').value),
       tags:document.getElementById('requestTags').value,
       body:document.getElementById('requestBody').value,
-      images:[...imageState.map(item=>item.src),...linkedImages],
+      images:[...imageState.map(item=>item.src),...linkedImages],\n      attachments:attachmentState,
       sourceReference:document.getElementById('requestSource').value,
       originalArticle:editing?{id:article.id,title:article.title,cat:article.cat,tags:article.tags,html:article.html,source_url:article.source_url,source_reference:article.source_reference}:undefined
     };
     if(imageState.length+linkedImages.length>MAX_IMAGES){message.textContent='You can attach up to 8 images in total.';return;}
     if(imageState.reduce((sum,item)=>sum+(item.src.startsWith('data:image/')?item.src.length:0),0)>MAX_IMAGE_TOTAL){message.textContent='The uploaded images exceed the combined size limit.';return;}
+    if(attachmentState.length>MAX_ATTACHMENTS||attachmentState.reduce((sum,item)=>sum+item.data.length,0)>MAX_ATTACHMENT_TOTAL){message.textContent='Supporting files exceed the upload limit. Remove a file or choose a smaller one.';return;}
     submit.disabled=true;message.textContent='Sending your request for review…';
     try{
       const response=await fetch('/api/content',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
