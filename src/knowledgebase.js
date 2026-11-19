@@ -337,8 +337,9 @@ function renderCategorySection(categoryId,heading,description){
 }
 function htmlToEditorText(value){
   const holder=document.createElement('div');
-  holder.innerHTML=String(value||'').replace(/<\\/(p|h3|h4|li|div|ul|ol)>/gi,'function renderFavorites(){\\n');
-  return (holder.innerText||holder.textContent||'').replace(/\\n{3,}/g,'\\n\\n').trim();
+  const normalized=String(value||'').replace(new RegExp("</(p|h3|h4|li|div|ul|ol)>","gi"),"\n");
+  holder.innerHTML=normalized;
+  return (holder.innerText||holder.textContent||'').replace(new RegExp("\\n{3,}","g"),"\n\n").trim();
 }
 function renderArticleRequest(articleId){
   const el=document.getElementById('content');
@@ -441,7 +442,7 @@ function parseHash(){
   if(h==='favorites') return {route:'favorites'};
   if(h==='announcements') return {route:'announcements'};
   if(h==='hub-articles') return {route:'hub'};
-  if(h==='submit'){
+  if(h.split('?')[0]==='submit'){
     const queryString=h.includes('?')?h.slice(h.indexOf('?')+1):'';
     const edit=new URLSearchParams(queryString).get('edit');
     return {route:'submit',articleId:edit||null};
