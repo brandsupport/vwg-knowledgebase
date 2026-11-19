@@ -1,26 +1,8 @@
 name: Build and deploy knowledgebase
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "data/**"
-      - "src/**"
-      - "functions/**"
-      - "auth-ui/**"
-      - "migrations/**"
-      - "cloudflare/**"
-      - "game.html"
-      - "knowledge-crush.html"
-      - "knowledge-games.html"
-      - "support-solitaire.html"
-      - "knowledge-rush-prototype/**"
-      - "Knowledge_rush_assets/**"
-      - ".github/workflows/deploy.yml"
-      - "import_excel.py"
-      - "import_tally.py"
-      - "article_formatting.py"
-      - "build.py"
+  # GitHub Pages is intentionally paused for automatic publishing.
+  # Start this workflow manually when a GitHub Pages release is needed.
   workflow_dispatch: {}
 permissions:
   contents: read
