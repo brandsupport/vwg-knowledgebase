@@ -18,7 +18,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .admin-topbar{position:sticky;top:0;z-index:20;background:rgba(9,12,22,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
 .topbar-inner{max-width:1480px;margin:auto;padding:13px 30px;display:flex;align-items:center;justify-content:space-between;gap:18px}
 .brand-lockup{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
-.brand-mark{width:42px;height:42px;display:grid;place-items:center;flex:0 0 auto;border:1px solid rgba(0,223,245,.36);border-radius:13px;background:linear-gradient(145deg,rgba(0,223,245,.14),rgba(182,92,255,.12));box-shadow:0 0 24px rgba(0,223,245,.10);font:700 18px 'Space Grotesk',sans-serif;color:var(--cyan)}
+.brand-mark{position:relative;width:46px;height:46px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 22px -6px var(--cyan);transition:box-shadow .25s ease,transform .25s ease,border-color .25s ease}
+.brand-lockup:hover .brand-mark{transform:translateY(-1px) scale(1.04);border-color:var(--cyan);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 26px -2px var(--cyan),0 0 40px -10px var(--purple)}
+@property --spin{syntax:"<angle>";initial-value:0deg;inherits:false}
+.brand-mark:after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;background:conic-gradient(from var(--spin),transparent 0 72%,var(--cyan) 88%,var(--purple) 96%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);padding:1.5px;opacity:.9;animation:markspin 5s linear infinite}
+@keyframes markspin{to{--spin:360deg}}
+.logo-glow{display:block;width:30px;height:30px;filter:drop-shadow(0 0 5px var(--cyan)) drop-shadow(0 0 12px rgba(182,92,255,.45))}
+.logo-glyph{display:block;width:100%;height:100%;background:linear-gradient(135deg,var(--cyan) 10%,var(--purple) 95%);-webkit-mask:var(--vw-logo) center/contain no-repeat;mask:var(--vw-logo) center/contain no-repeat}
 .brand-copy{display:grid;line-height:1.2}
 .brand-title{font:700 14px 'Space Grotesk',sans-serif;letter-spacing:.01em}
 .brand-subtitle{margin-top:4px;color:var(--muted-2);font:10px 'JetBrains Mono',monospace;letter-spacing:.17em;text-transform:uppercase}
@@ -153,7 +159,7 @@ td[data-label="Role"]{text-transform:capitalize;color:#b9c8df}
 <header class="admin-topbar">
   <div class="topbar-inner">
     <a class="brand-lockup" href="/" aria-label="VWG Brand Support Knowledge Base">
-      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-mark" aria-hidden="true"><span class="logo-glow"><span class="logo-glyph"></span></span></span>
       <span class="brand-copy"><span class="brand-title">VWG Brand Support</span><span class="brand-subtitle">Knowledge Base · Admin</span></span>
     </a>
     <div class="topbar-actions">
