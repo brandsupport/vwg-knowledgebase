@@ -33,7 +33,7 @@ export async function onRequest(ctx){
     title:String(body.originalArticle.title||"").slice(0,180),
     cat:Number(body.originalArticle.cat)||article.cat,
     tags:Array.isArray(body.originalArticle.tags)?body.originalArticle.tags.slice(0,8):[],
-    html:String(body.originalArticle.html||"").slice(0,30000),
+    text:String(body.originalArticle.html||"").replace(/<[^>]*>/g," ").replace(/\\s+/g," ").trim().slice(0,30000),
     source_url:String(body.originalArticle.source_url||"").slice(0,2000)
   }:null;
   await env.DB.prepare("INSERT INTO content_requests(id,request_type,article_id,submitted_by,submitter_name,submitter_email,payload_json,original_json,status,created_at) VALUES(?,?,?,?,?,?,?,?, 'pending',?)")
