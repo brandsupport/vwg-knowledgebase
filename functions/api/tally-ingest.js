@@ -1,5 +1,6 @@
 import{jsonResponse}from"../_lib/auth.js";
 import{normalizeArticle}from"../_lib/content.js";
+import{notifyAdmins}from"../_lib/notifications.js";
 
 function safeEqual(a,b){
   const left=String(a||""),right=String(b||"");
@@ -93,6 +94,7 @@ export async function onRequest(ctx){
     const id=crypto.randomUUID();
     await env.DB.prepare("INSERT INTO content_requests(id,request_type,submitted_by,submitter_name,submitter_email,payload_json,status,created_at,external_source,external_response_id) VALUES(?,'new',NULL,'Tally submission',NULL,?,'pending',?,'tally',?)")
       .bind(id,JSON.stringify(article),Date.now(),responseId).run();
+    try{await notifyAdmins(env.DB,{type:"article-submission",title:"New Tally article awaiting review",message:"A Tally submission titled “"+article.title+"” has entered the review queue.",targetUrl:"/admin#submissions"});}catch(e){}
     return jsonResponse({ok:true,requestId:id,status:"pending"},202);
   }catch(error){
     return jsonResponse({error:error.message||"Tally submission could not be added to the review queue."},400);
