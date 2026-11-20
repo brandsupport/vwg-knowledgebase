@@ -898,7 +898,7 @@ applyStoredTheme();
       }
     } catch (error) {
       if (CHAT_API_URL) {
-        waiting.textContent = 'The AI assistant is unavailable right now. Please try the local site search.';
+        waiting.textContent = 'The AI assistant is unavailable: ' + (error && error.message ? error.message : 'connection failed') + ' Please use local search for now.';
         const fallback = document.createElement('button');
         fallback.type = 'button';
         fallback.className = 'kb-chat-result';
