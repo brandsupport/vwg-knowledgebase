@@ -60,33 +60,31 @@ function folderAssignedTotals() {
     assigned: scaled(ASSIGNMENT_MATRIX.reduce((sum, row) => sum + row[index], 0))
   }));
 }
-function brandRows() {
-  if (state.folder === "all") {
-    return BRANDS.map(brand => ({ ...brand, value: scaled(brand.count) }));
-  }
-  const folderIndex = FOLDERS.findIndex(folder => folder.id === state.folder);
-  const folder = FOLDERS[folderIndex];
-  const total = scaled(folder.received);
-  const weights = FOLDER_BRAND_MIX[folder.id];
-  const values = weights.map(weight => Math.floor(total * weight / 100));
+function allocateByWeights(total, weights) {
+  const denominator = weights.reduce((sum, weight) => sum + weight, 0) || 1;
+  const values = weights.map(weight => Math.floor(total * weight / denominator));
   let remaining = total - values.reduce((sum, value) => sum + value, 0);
-  const order = weights.map((weight, index) => ({ index, remainder: (total * weight / 100) - values[index] }))
-    .sort((a, b) => b.remainder - a.remainder);
+  const order = weights.map((weight, index) => ({ index, remainder: total * weight / denominator - values[index] })).sort((a, b) => b.remainder - a.remainder);
   for (let i = 0; i < remaining; i++) values[order[i % order.length].index] += 1;
+  return values;
+}
+function brandRows() {
+  const targetTotal = state.folder === "all" ? scaled(1194) : scaled(FOLDERS.find(folder => folder.id === state.folder).received);
+  const weights = state.folder === "all" ? BRANDS.map(brand => brand.count) : FOLDER_BRAND_MIX[state.folder];
+  const values = allocateByWeights(targetTotal, weights);
   return BRANDS.map((brand, index) => ({ ...brand, value: values[index] }));
 }
 function matrixRows() {
-  return AGENT_NAMES.map((name, index) => ({
-    name,
-    cells: ASSIGNMENT_MATRIX[index].map(value => scaled(value)),
-    total: scaled(ASSIGNMENT_MATRIX[index].reduce((sum, value) => sum + value, 0))
-  }));
+  return AGENT_NAMES.map((name, index) => {
+    const cells = ASSIGNMENT_MATRIX[index].map(value => scaled(value));
+    const total = cells.reduce((sum, value) => sum + value, 0);
+    const selectedIndex = FOLDERS.findIndex(folder => folder.id === state.folder);
+    return { name, cells, total, visibleTotal: state.folder === "all" ? total : cells[selectedIndex] };
+  });
 }
 function totals() {
   const received = state.folder === "all" ? scaled(1194) : scaled(FOLDERS.find(folder => folder.id === state.folder).received);
-  const assigned = state.folder === "all"
-    ? scaled(ASSIGNMENT_MATRIX.flat().reduce((sum, value) => sum + value, 0))
-    : folderAssignedTotals().find(folder => folder.id === state.folder).assigned;
+  const assigned = folderAssignedTotals().filter(folder => state.folder === "all" || folder.id === state.folder).reduce((sum, folder) => sum + folder.assigned, 0);
   const resolved = state.folder === "all" ? scaled(812) : Math.round(received * 0.68);
   const outstanding = state.folder === "all" ? scaled(382) : scaled(FOLDERS.find(folder => folder.id === state.folder).outstanding);
   return { received, assigned, resolved, outstanding };
@@ -105,10 +103,11 @@ function brandBars(rows, compact) {
   }).join("") + '</div>';
 }
 function folderRows() {
-  const rows = folderAssignedTotals();
+  const rows = folderAssignedTotals().filter(folder => state.folder === "all" || folder.id === state.folder);
+  const visibleAssigned = rows.reduce((sum, row) => sum + row.assigned, 0);
   return '<div class="folder-list">' +
     '<div class="folder-row"><div></div><div class="folder-metric">RECEIVED</div><div class="folder-metric">ASSIGNED</div><div class="folder-metric">OPEN</div></div>' +
-    rows.map(folder => '<div class="folder-row"><div class="folder-name">' + folder.name + '<span class="folder-sub">' + (folder.assigned ? (folder.assigned / Math.max(1, rows.reduce((sum, row) => sum + row.assigned, 0)) * 100).toFixed(1) : "0.0") + '% of allocations</span></div><div class="folder-metric">' + number(scaled(folder.received)) + '</div><div class="folder-metric">' + number(folder.assigned) + '</div><div class="folder-metric">' + number(scaled(folder.outstanding)) + '</div></div>').join("") +
+    rows.map(folder => '<div class="folder-row"><div class="folder-name">' + folder.name + '<span class="folder-sub">' + (folder.assigned ? (folder.assigned / Math.max(1, visibleAssigned) * 100).toFixed(1) : "0.0") + '% of visible allocations</span></div><div class="folder-metric">' + number(scaled(folder.received)) + '</div><div class="folder-metric">' + number(folder.assigned) + '</div><div class="folder-metric">' + number(scaled(folder.outstanding)) + '</div></div>').join("") +
     '</div>';
 }
 function memberCell(name) {
@@ -117,25 +116,25 @@ function memberCell(name) {
 }
 function shareTable(rows, full) {
   const selectedFolders = state.folder === "all" ? FOLDERS : FOLDERS.filter(folder => folder.id === state.folder);
+  const allRows = matrixRows();
   const totalsByFolder = selectedFolders.map(folder => {
     const index = FOLDERS.findIndex(item => item.id === folder.id);
-    return rows.reduce((sum, row) => sum + row.cells[index], 0);
+    return allRows.reduce((sum, row) => sum + row.cells[index], 0);
   });
+  const totalVisibleAssignments = allRows.reduce((sum, row) => sum + selectedFolders.reduce((part, folder) => part + row.cells[FOLDERS.findIndex(item => item.id === folder.id)], 0), 0);
   const shown = rows.filter(row => row.name.toLowerCase().includes(state.memberSearch.toLowerCase()));
   if (!shown.length) return '<div class="empty-state">No team members match your search.</div>';
-  const head = '<thead><tr><th>Team member</th>' +
-    selectedFolders.map(folder => '<th>' + folder.short + ' · share</th>').join("") +
-    (full ? '<th>Total allocated</th><th>Overall share</th>' : '<th>Total</th>') + '</tr></thead>';
+  const head = '<thead><tr><th>Team member</th>' + selectedFolders.map(folder => '<th>' + folder.short + ' · share</th>').join("") + (full ? '<th>Total allocated</th><th>Overall share</th>' : '<th>Total</th>') + '</tr></thead>';
   const body = '<tbody>' + shown.map(row => {
-    const cells = selectedFolders.map(folder => {
+    const cells = selectedFolders.map((folder, folderPosition) => {
       const index = FOLDERS.findIndex(item => item.id === folder.id);
       const value = row.cells[index];
-      const share = totalsByFolder[index] ? value / totalsByFolder[index] * 100 : 0;
+      const share = totalsByFolder[folderPosition] ? value / totalsByFolder[folderPosition] * 100 : 0;
       return '<td class="share-cell"><div class="share-line"><span>' + number(value) + '</span><span class="share-mini-track"><span class="share-mini-fill" style="display:block;width:' + share + '%"></span></span><span class="share-percent">' + share.toFixed(1) + '%</span></div></td>';
     }).join("");
-    const overallShare = row.total / Math.max(1, rows.reduce((sum, item) => sum + item.total, 0)) * 100;
-    return '<tr><td>' + memberCell(row.name) + '</td>' + cells + '<td class="total-cell">' + number(row.total) + '</td>' +
-      (full ? '<td class="total-cell">' + overallShare.toFixed(1) + '%</td>' : '') + '</tr>';
+    const visibleTotal = selectedFolders.reduce((sum, folder) => sum + row.cells[FOLDERS.findIndex(item => item.id === folder.id)], 0);
+    const overallShare = visibleTotal / Math.max(1, totalVisibleAssignments) * 100;
+    return '<tr><td>' + memberCell(row.name) + '</td>' + cells + '<td class="total-cell">' + number(visibleTotal) + '</td>' + (full ? '<td class="total-cell">' + overallShare.toFixed(1) + '%</td>' : '') + '</tr>';
   }).join("") + '</tbody>';
   return '<div class="table-wrap"><table class="data-table">' + head + body + '</table></div>';
 }
@@ -173,7 +172,7 @@ function renderOverview() {
       '</section>' +
     '</div>' +
     '<section class="panel"><div class="panel-heading"><div><h2 class="panel-title">Member share by folder</h2><p class="panel-subtitle">Each member’s share of assigned tickets within the selected inbox</p></div><button class="panel-action" type="button" data-go="folders">Open full matrix ↗</button></div>' +
-      shareTable(matrixRows().sort((a,b) => b.total-a.total).slice(0,6), false) +
+      shareTable(matrixRows().sort((a,b) => b.visibleTotal-a.visibleTotal).slice(0,6), false) +
     '</section>';
 }
 function renderBrands() {
