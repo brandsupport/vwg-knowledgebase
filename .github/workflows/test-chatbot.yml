@@ -17,7 +17,6 @@ on:
       - "knowledge-rush-prototype/**"
       - "Knowledge_rush_assets/**"
       - "knowledge-games.html"
-      - "dispatch/**"
       - ".github/workflows/test-chatbot.yml"
   push:
     branches: [main]
@@ -35,7 +34,6 @@ on:
       - "knowledge-rush-prototype/**"
       - "Knowledge_rush_assets/**"
       - "knowledge-games.html"
-      - "dispatch/**"
       - ".github/workflows/test-chatbot.yml"
 
 permissions:
@@ -69,7 +67,6 @@ jobs:
           node --check src/pages/detag-challenge.js
           node --check src/pages/knowledge-crush.js
           node --check src/pages/support-solitaire.js
-          node --check dispatch/dashboard.js
       - name: Check Knowledge Rush JavaScript syntax
         run: |
           node --input-type=module --check < knowledge-rush-prototype/knowledge-rush.js
