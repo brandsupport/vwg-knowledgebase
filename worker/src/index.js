@@ -75,16 +75,46 @@ export default {
     const allowedOrigin = normalizeOrigin(env.ALLOWED_ORIGIN || "");
     const headers = corsHeaders(origin, allowedOrigin);
     if (request.method === "GET") {
-      let indexHost = "";
-      try { indexHost = new URL(env.KB_INDEX_URL || "").host; } catch {}
-      return json({
-        ok: true,
-        worker: "vwg-knowledgebase-ai",
+      const checks = {
+        worker: true,
         aiBindingConfigured: Boolean(env.AI),
         indexConfigured: Boolean(env.KB_INDEX_URL),
-        indexHost,
         model: MODEL
-      }, 200, headers);
+      };
+      let index;
+      try {
+        if (!env.KB_INDEX_URL) throw new Error("KB_INDEX_URL is missing");
+        const indexResponse = await fetch(env.KB_INDEX_URL, { headers: { "Accept": "application/json" } });
+        checks.indexHttpStatus = indexResponse.status;
+        if (!indexResponse.ok) throw new Error("Index request returned HTTP " + indexResponse.status);
+        index = await indexResponse.json();
+        if (index?.version !== 1 || !Array.isArray(index.articles)) throw new Error("Index JSON has an unsupported format");
+        checks.indexOk = true;
+        checks.articleCount = index.articles.length;
+      } catch (error) {
+        checks.indexOk = false;
+        checks.indexError = String(error?.message || error).slice(0, 240);
+      }
+      if (new URL(request.url).searchParams.get("check") === "ai") {
+        try {
+          if (!env.AI) throw new Error("Workers AI binding is missing");
+          const result = await env.AI.run(MODEL, {
+            messages: [{ role: "user", content: "Reply with the single word OK." }],
+            max_tokens: 8,
+            temperature: 0
+          });
+          const reply = typeof result?.response === "string" ? result.response.trim() : "";
+          if (!reply) throw new Error("Workers AI returned an empty response");
+          checks.aiOk = true;
+          checks.aiReply = reply.slice(0, 40);
+        } catch (error) {
+          checks.aiOk = false;
+          checks.aiError = String(error?.message || error).slice(0, 300);
+        }
+      }
+      const ok = checks.worker && checks.aiBindingConfigured && checks.indexOk &&
+        (checks.aiOk !== false);
+      return json({ ok, checks }, 200, headers);
     }
     if (request.method === "OPTIONS") {
       if (origin !== allowedOrigin) return new Response(null, { status: 403, headers });
@@ -148,8 +178,13 @@ export default {
       console.error("Knowledgebase assistant failed at " + failureStage, error);
       const message = failureStage === "index"
         ? "The Knowledge Base article index could not be loaded."
-        : "The AI model request failed. Check the Workers AI binding and model availability.";
-      return json({ error: message, stage: failureStage, fallback: true }, 502, headers);
+        : "The AI model request failed.";
+      return json({
+        error: message,
+        stage: failureStage,
+        detail: String(error?.message || error).slice(0, 300),
+        fallback: true
+      }, 502, headers);
     }
   },
 };
