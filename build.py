@@ -322,6 +322,15 @@ def main():
         print("Copied Knowledge Rush sprite assets to dist/Knowledge_rush_assets")
     else:
         print("WARNING: Knowledge_rush_assets directory not found; Knowledge Rush sprites may not load")
+    # Publish the standalone, login-protected Dispatcher 2.0 web application.
+    dispatch_source = os.path.join(ROOT, "dispatch")
+    dispatch_index = os.path.join(dispatch_source, "index.html")
+    if not os.path.isfile(dispatch_index):
+        raise SystemExit(f"Missing Dispatcher dashboard: {dispatch_index}")
+    dispatch_output = os.path.join(OUT_DIR, "dispatch")
+    shutil.copytree(dispatch_source, dispatch_output, dirs_exist_ok=True)
+    print("Copied Dispatcher 2.0 dashboard to dist/dispatch")
+
     print(f"Built {OUT_PATH} ({os.path.getsize(OUT_PATH) / 1e6:.2f} MB, {len(data['articles'])} articles)")
     print(f"Built {CHATBOT_INDEX_PATH} (text-only chatbot retrieval index)")
 
