@@ -851,7 +851,8 @@ applyStoredTheme();
           body: JSON.stringify({question: query})
         });
         const data = await response.json();
-        if (!response.ok || data.error) throw new Error(data.error || 'Chat service unavailable');
+        const failureReason = [data.error, data.stage, data.detail].filter(Boolean).join(' · ');
+        if (!response.ok || data.error) throw new Error(failureReason || 'Chat service unavailable');
         // Always cross-check the AI response against the published article index.
         // This guarantees exact keyword/phrase matches remain visible even if AI retrieval misses them.
         let localMatches = [];
