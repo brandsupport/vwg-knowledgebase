@@ -1,5 +1,5 @@
 import{getSessionUser,jsonResponse}from"./_lib/auth.js";
-const PUBLIC=new Set(["/login","/login.html","/signup","/signup.html","/forgot-password","/forgot-password.html","/api/auth/login","/api/auth/register","/api/auth/forgot-password","/api/auth/logout","/api/auth/me","/api/tally-ingest"]);
+const PUBLIC=new Set(["/login","/login.html","/signup","/signup.html","/forgot-password","/forgot-password.html","/api/auth/login","/api/auth/register","/api/auth/forgot-password","/api/auth/logout","/api/auth/me","/api/tally-ingest","/chatbot-index.json"]);
 const PASSWORD_PATHS=new Set(["/change-password","/change-password.html","/api/auth/change-password","/api/auth/logout","/api/auth/me"]);
 export async function onRequest(ctx){const url=new URL(ctx.request.url),path=url.pathname.replace(/\/+$/,"")||"/";
 if(ctx.env.AUTH_ENABLED!=="true")return ctx.next();
