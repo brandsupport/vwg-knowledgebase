@@ -8,4 +8,4 @@ binding = "AI"
 # Replace both placeholders with the exact deployed site origin.
 [vars]
 ALLOWED_ORIGIN = "https://vwg-brandsupport-kb.pages.dev"
-KB_INDEX_URL = "https://brandsupport.github.io/vwg-knowledgebase/chatbot-index.json"
+KB_INDEX_URL = "https://vwg-brandsupport-kb.pages.dev/chatbot-index.json"
