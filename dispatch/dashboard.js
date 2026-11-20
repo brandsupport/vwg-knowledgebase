@@ -143,7 +143,7 @@ function summaryTiles() {
   const assignedShare = t.received ? (t.assigned / t.received * 100) : 0;
   return '<div class="share-summary">' +
     '<div class="summary-tile"><span>Assigned tickets</span><strong>' + number(t.assigned) + '</strong></div>' +
-    '<div class="summary-tile"><span>Inbox allocation share</span><strong>' + assignedShare.toFixed(1) + '%</strong></div>' +
+    '<div class="summary-tile"><span>Assignment coverage</span><strong>' + assignedShare.toFixed(1) + '%</strong></div>' +
     '<div class="summary-tile"><span>Open workload</span><strong>' + number(t.outstanding) + '</strong></div>' +
     '<div class="summary-tile"><span>Team members</span><strong>14</strong></div>' +
     '</div>';
@@ -231,17 +231,17 @@ function renderFolders() {
 }
 function renderTeam() {
   const rows = matrixRows();
-  const total = rows.reduce((sum, row) => sum + row.total, 0);
+  const scopedTotal = rows.reduce((sum, row) => sum + row.visibleTotal, 0);
   const filtered = rows.filter(row => state.folder === "all" || FOLDERS.some((folder, index) => folder.id === state.folder && row.cells[index] > 0));
   pageContent.innerHTML = pageHeading("TEAM PERFORMANCE", "Understand the workload behind the numbers.", "This preview focuses on allocation distribution. Response and resolution performance will be added when the event history can measure them reliably.") +
     '<div class="kpi-grid">' +
-      kpiCard("Team members", "14", "Illustrative roster size", "♧") +
-      kpiCard("Allocated tickets", number(total), selectedFolderName(), "↗") +
-      kpiCard("Average per member", number(total/Math.max(1,rows.length)), "Across the selected period", "◷") +
+      kpiCard("Team members", String(filtered.length), "Illustrative roster size", "♧") +
+      kpiCard("Allocated tickets", number(scopedTotal), selectedFolderName(), "↗") +
+      kpiCard("Average per member", number(scopedTotal/Math.max(1,filtered.length)), "Within the current filter", "◷") +
       kpiCard("Folders in scope", state.folder === "all" ? "4" : "1", selectedFolderName(), "▤") +
     '</div>' +
     '<section class="panel"><div class="panel-heading"><div><h2 class="panel-title">Member allocation profiles</h2><p class="panel-subtitle">Sample allocation totals and folder mix</p></div></div>' +
-      '<div class="agent-grid">' + filtered.map(row => '<article class="agent-card"><div class="agent-card-head"><span class="member-avatar">' + row.name.replace("Agent ","A") + '</span><span class="member-name">' + row.name + '</span></div><div class="agent-card-total">' + number(row.total) + '</div><div class="agent-card-caption">Assigned tickets · all folders</div><div class="agent-folder-tags">' + FOLDERS.map((folder,index) => '<span>' + folder.short + ': ' + number(row.cells[index]) + '</span>').join("") + '</div></article>').join("") + '</div>' +
+      '<div class="agent-grid">' + filtered.map(row => '<article class="agent-card"><div class="agent-card-head"><span class="member-avatar">' + row.name.replace("Agent ","A") + '</span><span class="member-name">' + row.name + '</span></div><div class="agent-card-total">' + number(row.visibleTotal) + '</div><div class="agent-card-caption">Assigned tickets · current filter</div><div class="agent-folder-tags">' + FOLDERS.filter(folder => state.folder === "all" || folder.id === state.folder).map(folder => '<span>' + folder.short + ': ' + number(row.cells[FOLDERS.findIndex(item => item.id === folder.id)]) + '</span>').join("") + '</div></article>').join("") + '</div>' +
     '</section>' +
     '<div class="info-strip" style="margin-top:15px"><span>ⓘ</span><span>Once the live event history is available, each profile can include resolution time, active handling time, first response, handovers, flags, reopened tickets and workload adjusted by scheduled working hours. Member visibility will be enforced by account permissions, not by hiding elements in the browser.</span></div>';
 }
