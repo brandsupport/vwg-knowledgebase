@@ -84,9 +84,19 @@ export default {
       let index;
       try {
         if (!env.KB_INDEX_URL) throw new Error("KB_INDEX_URL is missing");
-        const indexResponse = await fetch(env.KB_INDEX_URL, { headers: { "Accept": "application/json" } });
+        const indexResponse = await fetch(env.KB_INDEX_URL, {
+          headers: { "Accept": "application/json" },
+          redirect: "manual"
+        });
         checks.indexHttpStatus = indexResponse.status;
+        checks.indexContentType = indexResponse.headers.get("content-type") || "unknown";
+        if (indexResponse.status >= 300 && indexResponse.status < 400) {
+          throw new Error("Index request was redirected to " + (indexResponse.headers.get("location") || "another page") + ". Check the Pages access middleware.");
+        }
         if (!indexResponse.ok) throw new Error("Index request returned HTTP " + indexResponse.status);
+        if (!checks.indexContentType.toLowerCase().includes("application/json")) {
+          throw new Error("Expected JSON but received " + checks.indexContentType + " from " + indexResponse.url);
+        }
         index = await indexResponse.json();
         if (index?.version !== 1 || !Array.isArray(index.articles)) throw new Error("Index JSON has an unsupported format");
         checks.indexOk = true;
@@ -142,8 +152,18 @@ export default {
 
     let failureStage = "index";
     try {
-      const indexResponse = await fetch(env.KB_INDEX_URL, { headers: { "Accept": "application/json" } });
-      if (!indexResponse.ok) throw new Error("Knowledgebase index unavailable");
+      const indexResponse = await fetch(env.KB_INDEX_URL, {
+        headers: { "Accept": "application/json" },
+        redirect: "manual"
+      });
+      if (indexResponse.status >= 300 && indexResponse.status < 400) {
+        throw new Error("Knowledgebase index request was redirected; check the Pages access middleware.");
+      }
+      if (!indexResponse.ok) throw new Error("Knowledgebase index returned HTTP " + indexResponse.status);
+      const indexContentType = indexResponse.headers.get("content-type") || "";
+      if (!indexContentType.toLowerCase().includes("application/json")) {
+        throw new Error("Knowledgebase index did not return JSON (received " + indexContentType + ").");
+      }
       const index = await indexResponse.json();
       if (index?.version !== 1 || !Array.isArray(index.articles)) throw new Error("Invalid index");
       const matches = retrieve(index.articles, question);
